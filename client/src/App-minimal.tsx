@@ -6,6 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 // Import only essential pages
+import Home from "@/pages/Home";
+import About from "@/pages/About";
 import NotFound from "@/pages/not-found";
 
 function SimpleHome() {
@@ -37,6 +39,7 @@ function AppRouter(): React.JSX.Element {
   return (
     <Switch>
       <Route path="/" component={SimpleHome} />
+      <Route path="/about" component={About} />
       <Route component={NotFound} />
     </Switch>
   );
