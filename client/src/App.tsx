@@ -1,57 +1,78 @@
-function SimpleHome() {
+import { Switch, Route, useLocation, Router } from "wouter";
+import { queryClient } from "./lib/queryClient";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import { useScrollToTop } from "@/hooks/use-scroll-to-top";
+import { useEffect } from "react";
+import NotFound from "@/pages/not-found";
+import Home from "@/pages/Home";
+import About from "@/pages/About";
+import Blog from "@/pages/Blog";
+import Join from "@/pages/Join";
+import Contact from "@/pages/Contact";
+import Terms from "@/pages/Terms";
+import Privacy from "@/pages/Privacy";
+import AuthPage from "@/pages/AuthPage";
+import Dashboard from "@/pages/Dashboard";
+import { AuthProvider, useAuth } from "@/hooks/use-auth";
+import { PWAProvider } from "@/hooks/use-pwa";
+import { AMChatProvider } from "@/contexts/UnifiedAMChatContext";
+
+function AppRouter(): React.JSX.Element {
+  const { user } = useAuth();
+  
+  // Enable scroll to top for all page navigations
+  useScrollToTop();
+  
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      <div style={{ textAlign: 'center', maxWidth: '800px', padding: '2rem' }}>
-        <h1 style={{ 
-          fontSize: '4rem', 
-          fontWeight: 'bold', 
-          color: '#1f2937', 
-          marginBottom: '1.5rem' 
-        }}>
-          The AM Project
-        </h1>
-        <p style={{ 
-          fontSize: '1.25rem', 
-          color: '#374151', 
-          marginBottom: '2rem' 
-        }}>
-          Redefining what it means to be a man in the modern world.
-        </p>
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-          <button style={{
-            backgroundColor: '#d97706',
-            color: 'white',
-            padding: '0.75rem 2rem',
-            borderRadius: '0.5rem',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: '1rem'
-          }}>
-            Get Started
-          </button>
-          <button style={{
-            border: '2px solid #d97706',
-            color: '#d97706',
-            backgroundColor: 'transparent',
-            padding: '0.75rem 2rem',
-            borderRadius: '0.5rem',
-            cursor: 'pointer',
-            fontSize: '1rem'
-          }}>
-            Learn More
-          </button>
-        </div>
-      </div>
-    </div>
+    <Switch>
+      <Route path="/" component={Home} />
+      <Route path="/about" component={About} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/join" component={Join} />
+      <Route path="/contact" component={Contact} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/auth" component={AuthPage} />
+      <Route path="/dashboard">{() => user ? <Dashboard /> : <AuthPage />}</Route>
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
+function AppContent() {
+  const [location] = useLocation();
+  
+  return (
+    <TooltipProvider>
+      <Header />
+      <main>
+        <AppRouter />
+      </main>
+      <Footer />
+      <Toaster />
+    </TooltipProvider>
   );
 }
 
 export default function App() {
-  return <SimpleHome />;
+  return (
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <PWAProvider>
+          <AuthProvider>
+            <AMChatProvider>
+              <Router>
+                <AppContent />
+              </Router>
+            </AMChatProvider>
+          </AuthProvider>
+        </PWAProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
+  );
 }
