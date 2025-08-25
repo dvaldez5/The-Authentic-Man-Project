@@ -15,11 +15,28 @@ interface PWAContextType {
 const PWAContext = createContext<PWAContextType | undefined>(undefined);
 
 export function PWAProvider({ children }: { children: ReactNode }) {
+  // Check if React hooks are ready before using them
+  const [isReactReady, setIsReactReady] = useState(() => {
+    try {
+      // Test if React's hook dispatcher is available
+      const testState = useState(true);
+      return true;
+    } catch {
+      return false;
+    }
+  });
+
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
+    // Ensure React is ready
+    if (!isReactReady) {
+      const timer = setTimeout(() => setIsReactReady(true), 10);
+      return () => clearTimeout(timer);
+    }
+
     // Check if already installed
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
     setIsInstalled(isStandalone);
@@ -50,7 +67,12 @@ export function PWAProvider({ children }: { children: ReactNode }) {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
     };
-  }, []);
+  }, [isReactReady]);
+
+  // Return children immediately if React isn't ready yet
+  if (!isReactReady) {
+    return <>{children}</>;
+  }
 
   const installApp = async () => {
     if (!deferredPrompt) {
