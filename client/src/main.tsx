@@ -57,7 +57,11 @@ try {
 try {
   const rootElement = document.getElementById("root");
   if (rootElement && typeof createRoot !== 'undefined') {
-    createRoot(rootElement).render(<App />);
+    createRoot(rootElement).render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
   }
 } catch (error) {
   console.error('Failed to render React app:', error);
