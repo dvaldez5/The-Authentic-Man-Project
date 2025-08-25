@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    
+    <!-- Default Meta Tags (will be overridden by MetaTags component when needed) -->
+    <title>The AM Project - Mental Fitness App for Men | Build Discipline & Purpose</title>
+    <meta name="description" content="Mental fitness app for men struggling with stress, anxiety, and lack of purpose. Build discipline, overcome challenges, and develop authentic masculinity. 7-day free trial." />
+    <meta name="keywords" content="men's mental health, masculinity, personal development, stress management, anxiety relief, discipline, mental fitness, men's wellness, authentic man, male self-improvement" />
+    
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://theamproject.com/" />
+    <meta property="og:title" content="The AM Project - Redefining Modern Manhood" />
+    <meta property="og:description" content="The AM Project helps men build strength, integrity, and purpose through actionable content and community." />
+    <meta property="og:image" content="/images/mountain-climbers.jpg" />
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="The AM Project - Redefining Modern Manhood" />
+    <meta name="twitter:description" content="The AM Project helps men build strength, integrity, and purpose through actionable content and community." />
+    <meta name="twitter:image" content="/images/mountain-climbers.jpg" />
+    
+    <link rel="icon" href="/app-icon-192.png" type="image/png" />
+    
+    <!-- Google tag (gtag.js) - Production only -->
+    <script>
+      // Only load Google tag on production domain
+      if (window.location.hostname === 'theamproject.com') {
+        // Google Analytics and Ads IDs
+        const gaId = '%VITE_GA_MEASUREMENT_ID%';
+        const adsId = 'AW-835937139';
+        
+        // Load gtag script with Google Analytics ID as primary
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+        document.head.appendChild(script);
+        
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        
+        // Configure Google Analytics
+        if (gaId && gaId.startsWith('G-')) {
+          gtag('config', gaId);
+          console.log('Google Analytics initialized with ID:', gaId);
+        }
+        
+        // Configure Google Ads
+        gtag('config', adsId, {
+          allow_enhanced_conversions: true
+        });
+        
+        // Global site tracking for all page views
+        gtag('event', 'page_view', {
+          page_title: document.title,
+          page_location: window.location.href
+        });
+        
+        console.log('Google Ads gtag initialized with ID:', adsId);
+        console.log('Enhanced conversion tracking enabled');
+        
+        // Make gtag globally available for conversion tracking
+        window.gtag = gtag;
+      } else {
+        console.log('Development environment - Google tracking disabled');
+        // Create a no-op gtag function for development
+        window.gtag = function() {};
+      }
+    </script>
+    
+    <!-- Font Preconnects -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#7C4A32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AM Project">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // PWA DETECTION: Honor server injection and URL parameters
+      (function() {
+        // Check for URL parameter first (including ?pwa=1, ?pwa=true)
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasPwaParam = urlParams.has('pwa');
+        
+        if (hasPwaParam) {
+          localStorage.setItem('pwaMode', 'true');
+          console.log('PWA MODE ACTIVE (URL parameter)');
+          return;
+        }
+        
+        // Check for genuine standalone installations
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        const isIOSStandalone = window.navigator.standalone === true;
+        
+        if (isStandalone || isIOSStandalone) {
+          localStorage.setItem('pwaMode', 'true');
+          console.log('PWA MODE ACTIVE (standalone installation)');
+          return;
+        }
+        
+        // Only clear PWA state if we're not in any PWA mode and not server-injected
+        const existingPWAMode = localStorage.getItem('pwaMode') === 'true';
+        if (!existingPWAMode) {
+          localStorage.removeItem('pwaMode');
+          console.log('BROWSER MODE ACTIVE (desktop/mobile)');
+        } else {
+          console.log('PWA MODE ACTIVE (server injection)');
+        }
+      })();
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+SYSTEM INITIALIZATION PROMPT - AM PROJECT COMPREHENSIVE REVIEW
+
+Before taking any action or making any recommendations, you must conduct a complete end-to-end review of The AM Project system. This is a critical requirement for maintaining system integrity and preventing breaking changes.
+
+MANDATORY REVIEW CHECKLIST:
+
+Documentation Review - Read and understand ALL documentation files:
+
+PWA_ROUTING_LOCKDOWN.md (CRITICAL - system is volatile)
+PWA_SYSTEM_REFERENCE.md
+COMPREHENSIVE_STATUS_REPORT.md
+DEPLOYMENT_CHECKLIST.md
+SYSTEM_VALIDATION_REPORT.md
+VERSION_CONTROL_REFERENCE.md
+NOTIFICATION_SYSTEM_DOCUMENTATION.md
+All version release notes and deployment status files
+replit.md (complete technical overview)
+Locked System Components - Identify and respect LOCKED files:
+
+client/src/hooks/use-pwa-detection.tsx (PWA detection logic)
+client/src/App.tsx (AppContent function lines 119-155)
+server/index.ts (PWA detection sections lines 45-70, 100-122)
+Any other components marked as locked in documentation
+Current System Status - Understand the current state:
+
+Version: 2.9.0 (Google Analytics integration)
+Critical systems: Notification system, PWA routing, Stripe payments
+Known issues and their resolutions
+Testing protocols and validation requirements
+Brand & Technical Guidelines - Review:
+
+Black/gold design aesthetic (consistent throughout)
+PWA functionality requirements
+9 AM quiet hours enforcement
+Rate limiting (3 notifications/day)
+Mobile-first approach with browser fallbacks
+Critical Constraints - Acknowledge:
+
+NO modifications to locked PWA routing files without emergency approval
+NO changes that could break weeks of stabilization work
+ALL changes must maintain PWA/browser instance separation
+Emergency revert capability must be maintained (git commit 3a37363)
+RESPONSE FORMAT:
+After completing this review, begin your response with:
+"✅ COMPREHENSIVE REVIEW COMPLETED - I have reviewed all documentation, understood the locked components, current system status (v2.9.0), brand guidelines, and critical constraints. Ready to assist while maintaining system integrity."
+
+WARNING ACKNOWLEDGMENT:
+I understand that this system has undergone extensive stabilization, particularly the PWA routing system, and that improper changes can break weeks of work across all instances (desktop, mobile browser, PWA app).
+
+Only after completing this comprehensive review and providing the confirmation above should you proceed to address the user's request or question.
+
+This prompt ensures any AI system working on your project fully understands the complexity, current state, and critical constraints before making any suggestions or changes.
+
+Please also review any other materials missed here. The goal is the you have a thorough end to end understanding of the entirety of the AM project.

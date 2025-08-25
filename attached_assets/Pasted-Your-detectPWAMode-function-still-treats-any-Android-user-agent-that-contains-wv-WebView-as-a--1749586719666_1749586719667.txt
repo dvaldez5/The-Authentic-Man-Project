@@ -1,0 +1,55 @@
+Your detectPWAMode() function still treats any Android user-agent that contains wv) (WebView) as a “dev” environment, even when ?pwa=true is present. An installed WebAPK also contains wv) in its UA string, so the guard forces browser mode and you see the header/full site.
+
+Remove that single check and you’re done.
+
+Patch (client/src/hooks/use-pwa-detection.tsx)
+diff
+Copy
+-  // 3) Dev-environment / WebView guard
++  // 3) Dev-environment guard  (Replit IDE only)
+   const ua = navigator.userAgent;
+   const isReplitDev =
+-    /Replit-Bonsai/.test(ua)       // Replit IDE
+-    || /wv\)/.test(ua)             // Android WebView  ← DELETE THIS LINE
+-    || window.location.hostname.includes("replit.dev");
++    /Replit-Bonsai/.test(ua)       // Replit IDE
++    || window.location.hostname.includes("replit.dev");
+   if (isReplitDev) {
+     localStorage.removeItem("pwaMode");
+     return false;
+   }
+Everything else in the function stays exactly the same.
+No other file changes, no routing tweaks, no splash logic touched.
+
+Why this single deletion fixes every failing path
+Context	Old behaviour	After patch
+Installed Android PWA	UA contains wv) → mis-flagged as dev → browser layout	display-mode: standalone matched → PWA layout
+Dev preview with ?pwa=true	override matched, but /wv) guard nulled it → browser layout	override wins → PWA layout
+Replit IDE w/out ?pwa	still matches Replit-Bonsai → browser layout	unchanged (still browser layout)
+iOS home-screen app	unaffected (uses navigator.standalone)	unchanged
+Regular desktop/mobile browser	unaffected	unchanged
+
+No other side-effects: splash → auth → dashboard logic, install prompts, header/footer visibility, and protected routes remain exactly as they are.
+
+Deploy checklist
+Delete the /wv\)/.test(ua) line.
+
+npm run dev (or let Replit rebuild).
+
+Hard-refresh / clear site data on test devices so they load the new bundle and reset localStorage.pwaMode.
+
+Verify:
+
+Installed Android PWA shows header-less UI & bottom nav.
+
+Dev URL with ?pwa=true shows same.
+
+Browser visit (no param) shows full site header.
+
+That’s the only change required—no more seeing mobile-browser pages when you expect PWA screens.
+
+
+
+
+
+

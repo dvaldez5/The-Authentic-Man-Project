@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="600px" viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>Man Rock Climbing</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="mountainGradient">
+            <stop stop-color="#333333" offset="0%"></stop>
+            <stop stop-color="#111111" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <!-- Mountain/Rock Face -->
+        <path d="M50,550 L250,150 L350,300 L450,100 L650,400 L750,200 L750,550 Z" fill="url(#mountainGradient)"></path>
+        
+        <!-- Small ledges and cracks -->
+        <path d="M200,400 L250,390 L240,410 Z" fill="#444444"></path>
+        <path d="M350,350 L370,340 L380,355 Z" fill="#444444"></path>
+        <path d="M500,300 L520,290 L530,310 Z" fill="#444444"></path>
+        <path d="M600,250 L630,240 L620,260 Z" fill="#444444"></path>
+        
+        <!-- Climber - Head -->
+        <circle cx="400" cy="330" r="15" fill="#7C4A32"></circle>
+        
+        <!-- Climber - Body -->
+        <path d="M400,345 L395,380 L405,380 Z" fill="#333333"></path>
+        <rect x="385" y="380" width="30" height="40" rx="5" fill="#444444"></rect>
+        
+        <!-- Climber - Arms -->
+        <path d="M385,360 L355,340" stroke="#333333" stroke-width="5" stroke-linecap="round"></path>
+        <path d="M415,360 L450,330" stroke="#333333" stroke-width="5" stroke-linecap="round"></path>
+        
+        <!-- Climber - Legs -->
+        <path d="M395,420 L375,460" stroke="#333333" stroke-width="6" stroke-linecap="round"></path>
+        <path d="M405,420 L435,450" stroke="#333333" stroke-width="6" stroke-linecap="round"></path>
+        
+        <!-- Climbing Rope -->
+        <path d="M400,330 C380,250 450,200 500,150 L520,120" stroke="#ff5555" stroke-width="2" stroke-dasharray="5,2" fill="none"></path>
+        
+        <!-- Gear on harness -->
+        <circle cx="395" cy="400" r="3" fill="#cccccc"></circle>
+        <circle cx="405" cy="400" r="3" fill="#cccccc"></circle>
+        
+        <!-- Climbing holds -->
+        <circle cx="355" cy="340" r="5" fill="#777777"></circle>
+        <circle cx="450" cy="330" r="5" fill="#777777"></circle>
+        <circle cx="375" cy="460" r="5" fill="#777777"></circle>
+        <circle cx="435" cy="450" r="5" fill="#777777"></circle>
+    </g>
+</svg>

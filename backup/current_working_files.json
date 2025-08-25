@@ -1,0 +1,16 @@
+{
+  "backup_date": "2025-06-19T19:17:00Z",
+  "status": "LESSON_TO_JOURNAL_WORKING_DO_NOT_BREAK",
+  "working_functionality": [
+    "Lesson completion → Write About It → Journal with LessonReflectionForm",
+    "URL parameter parsing for lesson reflections",
+    "LessonReflectionForm structured submission",
+    "Navigation back to dashboard after lesson reflection"
+  ],
+  "issue_to_fix": "ScenarioPlayer Choice Impact: Tap for insights redirects to journal instead of expanding content",
+  "files_verified_working": {
+    "Journal.tsx": "URL parameter handling working correctly",
+    "LessonReflectionForm.tsx": "Structured lesson reflections working",
+    "ScenarioPlayer.tsx": "Reflect on This Moment button working - DO NOT MODIFY openJournalWithPrompt function"
+  }
+}

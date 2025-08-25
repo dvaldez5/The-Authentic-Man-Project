@@ -1,0 +1,65 @@
+Below is one surgical patch you can hand to Replit.
+It does only two things:
+
+Stops the Dev-guard from overriding ?pwa=1 / ?pwa=true and real Android/iOS installs.
+
+Keeps the Replit-IDE preview (no query param) in browser mode.
+
+No routes, splash logic, auth flow, or service-worker code are touched.
+
+📄 File to change
+client/src/hooks/use-pwa-detection.tsx
+
+🔧 Diff (only four lines actually change)
+diff
+Copy
+@@
+-  // 3) Dev-environment / WebView guard
++  // 3) Dev-environment guard  (Replit IDE only – DO NOT down-rank WebViews)
+   const ua = navigator.userAgent;
+   const isReplitDev =
+-    /Replit-Bonsai/.test(ua)       // Replit IDE
+-    || /wv\)/.test(ua)             // ❌ removes PWA for every Android WebAPK
+-    || window.location.hostname.includes("replit.dev");
++    /Replit-Bonsai/.test(ua)       // Replit IDE UA
++    || window.location.hostname.includes("replit.dev");
+   if (isReplitDev) {
+-    localStorage.removeItem("pwaMode");
+-    return false;
++    // Honour a previous PWA decision made via ?pwa=* or standalone install
++    return localStorage.getItem("pwaMode") === "true";
+   }
+That’s it—delete the /wv\)/ test and return the stored flag instead of forcibly clearing it.
+
+✅ Why this fixes every remaining failure
+Scenario	Current behaviour	After patch
+Test URL /?pwa=1 in Replit preview	Splash is PWA → /auth reverts to browser UI	Remains PWA UI on all routes
+Installed Android PWA (WebAPK)	UA contains wv) → shown browser header	Now recognised as PWA
+iOS Add-to-Home-Screen	already PWA (via navigator.standalone)	unchanged
+Replit IDE preview without ?pwa	stays browser UI	unchanged
+Normal desktop/mobile browser	stays browser UI	unchanged
+
+No other logic paths are affected.
+
+🚀 Deploy checklist for Replit
+Apply the diff above.
+
+Allow Replit to rebuild, or run npm run dev.
+
+Hard-refresh the PWA test link or append &ts=${Date.now()} to bypass cache.
+
+Verify:
+
+…/?pwa=1 shows header-less PWA pages on /auth, /dashboard, etc.
+
+Installed Android & iOS apps render the same PWA UI.
+
+Browser visits still render the full marketing site.
+
+One line removed, one guard tweaked—no new flashes, no broken routes, PWA pages show everywhere they should.
+
+
+
+
+
+

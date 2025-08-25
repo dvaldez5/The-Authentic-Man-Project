@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#222222;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
+    </linearGradient>
+    <clipPath id="circleClip">
+      <circle cx="150" cy="150" r="150" />
+    </clipPath>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="150" cy="150" r="150" fill="url(#bgGradient)" />
+  
+  <!-- Leadership & family representation -->
+  <g clip-path="url(#circleClip)">
+    <!-- Father figure -->
+    <g transform="translate(150, 130)">
+      <!-- Head -->
+      <circle cx="0" cy="-35" r="20" fill="#ffffff" />
+      
+      <!-- Body -->
+      <path d="M0,-15 L0,30" stroke="#ffffff" stroke-width="12" stroke-linecap="round" />
+      
+      <!-- Arms -->
+      <path d="M0,0 L-25,15" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
+      <path d="M0,0 L25,15" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
+      
+      <!-- Legs -->
+      <path d="M0,30 L-15,60" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
+      <path d="M0,30 L15,60" stroke="#ffffff" stroke-width="10" stroke-linecap="round" />
+    </g>
+    
+    <!-- Child figures -->
+    <g transform="translate(110, 140)">
+      <!-- Head -->
+      <circle cx="0" cy="-20" r="12" fill="#ffffff" />
+      
+      <!-- Body -->
+      <path d="M0,-8 L0,15" stroke="#ffffff" stroke-width="7" stroke-linecap="round" />
+      
+      <!-- Arms -->
+      <path d="M0,0 L-12,8" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+      <path d="M0,0 L12,8" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+      
+      <!-- Legs -->
+      <path d="M0,15 L-8,35" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+      <path d="M0,15 L8,35" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+    </g>
+    
+    <g transform="translate(190, 140)">
+      <!-- Head -->
+      <circle cx="0" cy="-20" r="12" fill="#ffffff" />
+      
+      <!-- Body -->
+      <path d="M0,-8 L0,15" stroke="#ffffff" stroke-width="7" stroke-linecap="round" />
+      
+      <!-- Arms -->
+      <path d="M0,0 L-12,8" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+      <path d="M0,0 L12,8" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+      
+      <!-- Legs -->
+      <path d="M0,15 L-8,35" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+      <path d="M0,15 L8,35" stroke="#ffffff" stroke-width="6" stroke-linecap="round" />
+    </g>
+    
+    <!-- Foundation/Home -->
+    <path d="M50,200 L250,200 L250,230 L50,230 Z" fill="#795548" />
+    <path d="M75,230 L225,230 L225,250 L75,250 Z" fill="#5d4037" />
+  </g>
+  
+  <!-- Border -->
+  <circle cx="150" cy="150" r="147" fill="none" stroke="#795548" stroke-width="3" />
+</svg>

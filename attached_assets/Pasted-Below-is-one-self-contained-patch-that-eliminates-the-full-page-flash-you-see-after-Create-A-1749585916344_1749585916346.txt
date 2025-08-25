@@ -1,0 +1,74 @@
+Below is **one self-contained patch** that eliminates the “full-page flash” you see after **Create Account / Sign Up** without touching any other flows (Splash → Auth → Dashboard, PWA detection, install prompts, etc.).
+It removes the *two* hard reloads (`window.location.href`) that were fighting each other and replaces them with **one** client-side redirect via Wouter’s `navigate()`.
+
+---
+
+### 1 ⃣  `client/src/pages/AuthPage.tsx` — *remove hard-reloads & add SPA redirect*
+
+```diff
+@@
+-import { Redirect } from "wouter";
++import { useLocation } from "wouter";
+ …
+ export default function AuthPage() {
+   const { user, loginMutation, registerMutation } = useAuth();
+   const { toast } = useToast();
+   const { isInstallable, installApp } = usePWA();
++  const [, navigate] = useLocation();   // ← add
+
+@@
+-  // Redirect if already logged in
+-  if (user) {
+-    window.location.href = user.onboardingComplete ? "/dashboard" : "/onboarding";
+-    return null;
+-  }
++  // If we somehow hit Auth while logged-in, do a *single* client-side redirect
++  if (user) {
++    navigate(user.onboardingComplete ? "/dashboard" : "/onboarding", { replace: true });
++    return null;
++  }
+
+@@   const handleRegister = async (e: React.FormEvent) => {
+-    const { confirmPassword, ...data } = registerForm;
+-    registerMutation.mutate(data);
++    const { confirmPassword, ...data } = registerForm;
++    try {
++      // mutateAsync lets us wait for success before navigating
++      await registerMutation.mutateAsync(data);
++      // exactly one SPA redirect → no flash
++      navigate("/onboarding", { replace: true });
++    } catch {/* toast handled in onError */}
+   };
+```
+
+---
+
+### 2 ⃣  `client/src/hooks/use-auth.tsx` — *remove duplicate hard-reload in mutation*
+
+```diff
+   const registerMutation = useMutation({
+@@
+-    onSuccess: (data) => {
++    onSuccess: (data) => {
+       localStorage.setItem('token', data.token);
+       queryClient.setQueryData(['/api/auth/me'], data.user);
+-      window.location.href = "/onboarding";   // ❌ second reload → remove
+     },
+```
+
+*(Nothing else changes; login/logout remain as they were.)*
+
+---
+
+## Why this single change fixes the flash 🟢
+
+1. **No full-page reloads** on signup → the service-worker shell and React tree stay alive, so the whole page doesn’t blink.
+2. **Exactly one navigation** (`navigate("/onboarding")`) happens after `register` finishes.
+3. All other flows are untouched:
+
+   * **PWA detection & Splash** still decide `Splash` vs `Home`.
+   * **Login** still redirects with one `window.location.href`, which is fine because it’s only one.
+   * **ProtectedRoute** logic and your five feature groups remain unchanged.
+   * **Install prompts** and footer install buttons are not affected.
+
+Apply the patch, clear cache / hard-refresh (or test in Incognito), and the Create Account flicker will be gone on desktop, mobile browser, and installed PWA.

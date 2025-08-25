@@ -1,0 +1,121 @@
+What’s happening right now:
+
+detectPWAMode() looked correct in the file you edited, but the bundle Replit ships is still pulling in a second, older copy of the same helper that does contain the || /wv\)/ line.
+
+When the app navigates from / to /auth, the old copy runs, flags the Replit preview as “dev,” and the UI switches back to the header/full-site layout.
+
+We don’t need more theory—we just have to make sure there is exactly one detectPWAMode() definition in the repo and every import points to it.
+
+🚒 3-minute “no-surprises” fix you can hand to Replit
+Goal: keep only one source of truth & guarantee the right code is bundled.
+
+1 Delete stray duplicates
+Add this one-liner to package.json → scripts so devs can run it any time:
+
+json
+Copy
+"pwa:dupcheck": "grep -R \"function detectPWAMode\" client/src | cut -d: -f1"
+Run:
+
+bash
+Copy
+npm run pwa:dupcheck
+Expected output:
+
+bash
+Copy
+client/src/hooks/use-pwa-detection.tsx
+If you see any additional paths (old copies in components/, utils/, etc.), delete or rename them.
+
+2 Make the path explicit in every import
+Search:
+
+bash
+Copy
+grep -R \"use-pwa-detection\" client/src | cut -d: -f1
+You should see lines like:
+
+ts
+Copy
+import { detectPWAMode } from "@/hooks/use-pwa-detection";
+If you find an import that uses a relative path to a duplicate (../utils/use-pwa-detection etc.), change it to:
+
+ts
+Copy
+import { detectPWAMode } from "@/hooks/use-pwa-detection";
+3 Final authoritative detection (paste verbatim)
+Replace the contents of that single file with this exact code — no WebView check, respects ?pwa=*, respects previous choice, still hides UI in the IDE preview.
+
+ts
+Copy
+// client/src/hooks/use-pwa-detection.tsx
+export function detectPWAMode(): boolean {
+  if (typeof window === "undefined") return false;
+
+  const qs     = window.location.search;
+  const params = new URLSearchParams(qs);
+  const ua     = navigator.userAgent;
+
+  // 1️⃣ URL override (?pwa, ?pwa=true, ?pwa=1)
+  if (params.has("pwa")) {
+    localStorage.setItem("pwaMode", "true");
+    return true;
+  }
+
+  // 2️⃣ Stand-alone install (Android & iOS)
+  if (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    (window.navigator as any).standalone === true
+  ) {
+    localStorage.setItem("pwaMode", "true");
+    return true;
+  }
+
+  // 3️⃣ Replit IDE guard **only**
+  const isReplitIDE =
+    /Replit-Bonsai/.test(ua) ||
+    window.location.hostname.includes("replit.dev");
+  if (isReplitIDE) {
+    // Honor earlier choice if we explicitly said PWA
+    return localStorage.getItem("pwaMode") === "true";
+  }
+
+  // 4️⃣ Fallback to stored value
+  return localStorage.getItem("pwaMode") === "true";
+}
+4 Nuke every cached bundle before retest
+bash
+Copy
+# stop Replit preview if running
+npm run dev
+# then
+rm -rf node_modules/.vite   # wipe Vite cache
+In the browser:
+
+Chrome DevTools ▸ Application ▸ Service Workers → Unregister
+
+Application ▸ Clear Storage → tick all → Clear site data
+
+OR open the URL in a fresh Incognito tab with &ts= timestamp
+
+Quick acceptance test
+URL / Action	What you should see
+…/?pwa=1 (Replit preview)	header-less Splash → header-less /auth
+Install on Android/iOS	header-less everywhere
+Browse …/ with no param	full site header
+
+If any route still has the header, open DevTools console and run:
+
+js
+Copy
+localStorage.getItem("pwaMode")
+It must print "true" on the PWA test URL. If it flips to null or "false", a duplicate detection file or the old SW bundle is still active.
+
+Hand this to the Replit dev
+Run npm run pwa:dupcheck; keep only one file.
+
+Replace that file’s contents with the authoritative function above.
+
+Clear Vite & SW caches, rebuild, retest.
+
+No other code, routes, or UI touched—just one file, one import path, guaranteed result.

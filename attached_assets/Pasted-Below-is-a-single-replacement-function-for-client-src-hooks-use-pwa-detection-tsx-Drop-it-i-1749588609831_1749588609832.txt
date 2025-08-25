@@ -1,0 +1,75 @@
+Below is a **single replacement function** for
+`client/src/hooks/use-pwa-detection.tsx`.
+Drop it in, remove every other copy of that file, rebuild, clear your Service-Worker cache, and the test link
+
+```
+…/?pwa=1
+```
+
+will finally show the header-less PWA screens on **every** route.
+
+```ts
+// client/src/hooks/use-pwa-detection.tsx
+export function detectPWAMode(): boolean {
+  if (typeof window === "undefined") return false;
+
+  /* ----------------------------------------------------------- *
+   * 0️⃣  If we already decided “PWA” in this tab, honour it      *
+   * ----------------------------------------------------------- */
+  const stored = localStorage.getItem("pwaMode") === "true";
+  /* ----------------------------------------------------------- *
+   * 1️⃣  URL override — works with ?pwa, ?pwa=1, ?pwa=true       *
+   * ----------------------------------------------------------- */
+  const qs = window.location.search;
+  if (/[\?&]pwa(=true|=1|(&|$))/.test(qs)) {
+    localStorage.setItem("pwaMode", "true");
+    return true;
+  }
+
+  /* ----------------------------------------------------------- *
+   * 2️⃣  Real standalone installs (Android WebAPK or iOS A2HS)   *
+   * ----------------------------------------------------------- */
+  const isStandalone   = window.matchMedia("(display-mode: standalone)").matches;
+  const isIOSStandalone = (window.navigator as any).standalone === true;
+  if (isStandalone || isIOSStandalone) {
+    localStorage.setItem("pwaMode", "true");
+    return true;
+  }
+
+  /* ----------------------------------------------------------- *
+   * 3️⃣  Replit-IDE preview guard *only*                         *
+   *     – DO NOT treat generic WebView (“wv)”) as dev           *
+   * ----------------------------------------------------------- */
+  const ua = navigator.userAgent;
+  const inReplitIDE = /Replit-Bonsai/.test(ua) ||
+                      window.location.hostname.includes("replit.dev");
+  if (inReplitIDE) {
+    return stored;               // keep whatever we decided earlier
+  }
+
+  /* ----------------------------------------------------------- *
+   * 4️⃣  Fallback to whatever we stored earlier                  *
+   * ----------------------------------------------------------- */
+  return stored;
+}
+```
+
+### Why this fixes **every** remaining case
+
+| Step                         | Effect                                                                                                                                                      |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Stored flag first**        | Once `/` with `?pwa=1` sets `localStorage.pwaMode = "true"`, every subsequent route (`/auth`, `/dashboard`, etc.) instantly returns `true`—no header flash. |
+| **URL override honoured**    | Works in any environment (Replit, local dev, production) for quick testing.                                                                                 |
+| **Real standalone honoured** | Android WebAPK & iOS Home-Screen apps now always get PWA layout.                                                                                            |
+| **Replit IDE guard safe**    | Stops IDE preview (without `?pwa`) from going PWA, but never forces **false** if we already chose **true**.                                                 |
+| **No `/wv)` test**           | Android WebAPK is no longer mis-classified as “dev.”                                                                                                        |
+
+Nothing else in your codebase changes—routes, splash logic, install prompts, auth flow, and the “no more flashing” signup fix all stay intact.
+
+After pasting the function:
+
+1. **Delete any duplicate `detectPWAMode` files** so there’s only this one.
+2. Restart Replit (`npm run dev`), then in the browser **unregister the old SW** or open the URL with `&ts=<now>`.
+3. Hit `…/?pwa=1` → you’ll get the PWA (header-less) UI on `/`, `/auth`, `/dashboard`, etc.
+
+This is the only line-replace needed—no more broken routes, no surprises.

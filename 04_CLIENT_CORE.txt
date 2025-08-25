@@ -1,0 +1,422 @@
+=================================================================
+THE AM PROJECT - PART 4: CLIENT CORE FILES
+=================================================================
+
+=================================================================
+FILE: client/src/main.tsx
+=================================================================
+
+import { createRoot } from "react-dom/client";
+import App from "./App";
+import "./index.css";
+
+// PWA meta tags and fonts are handled by index.html for better performance
+
+// Register PWA Service Worker with forced updates
+try {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
+      .then(async (registration) => {
+        // Force immediate update for downloaded PWAs
+        if (registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
+        
+        // Listen for updates and reload when new version available
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                window.location.reload();
+              }
+            });
+          }
+        });
+        
+        console.log('PWA Service Worker registered');
+      })
+      .catch(err => console.log('PWA Service Worker registration failed:', err));
+  }
+} catch (error) {
+  console.warn('Failed to register service worker:', error);
+}
+
+// Safely render React app
+try {
+  const rootElement = document.getElementById("root");
+  if (rootElement && typeof createRoot !== 'undefined') {
+    createRoot(rootElement).render(<App />);
+  }
+} catch (error) {
+  console.error('Failed to render React app:', error);
+}
+
+=================================================================
+FILE: client/src/App.tsx
+=================================================================
+
+import { Switch, Route, useLocation } from "wouter";
+import { queryClient } from "./lib/queryClient";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import NotFound from "@/pages/not-found";
+import Home from "@/pages/Home";
+import About from "@/pages/About";
+import AMStandard from "@/pages/AMStandard";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
+import Join from "@/pages/Join";
+import Contact from "@/pages/Contact";
+import Terms from "@/pages/Terms";
+import Privacy from "@/pages/Privacy";
+import TestForm from "@/pages/TestForm";
+import AuthPage from "@/pages/AuthPage";
+import Dashboard from "@/pages/Dashboard";
+import Onboarding from "@/pages/Onboarding";
+import Splash from "@/pages/Splash";
+
+import Journal from "@/pages/Journal";
+import Community from "@/pages/Community";
+import Pod from "@/pages/Pod";
+import LearningCourses from "@/pages/learning/LearningCourses";
+import LearningCourseDetail from "@/pages/learning/LearningCourseDetail";
+import LearningLessonDetail from "@/pages/learning/LearningLessonDetail";
+import Challenges from "@/pages/Challenges";
+import WeeklyReflections from "@/pages/weekly/WeeklyReflections";
+import PWADiagnostic from "@/pages/PWADiagnostic";
+import { AuthProvider, useAuth } from "@/hooks/use-auth";
+import { PWAProvider } from "@/hooks/use-pwa";
+import { usePWADetection, detectPWAMode } from "@/hooks/use-pwa-detection";
+import { PWANavigationProvider } from "@/contexts/PWANavigationContext";
+import { ProtectedRoute } from "@/lib/protected-route";
+import AMChat from "@/components/AMChat";
+import WeeklyReflectionPrompt from "@/components/weekly/WeeklyReflectionPrompt";
+import PWANavigation from "@/components/PWANavigation";
+
+function AppRouter() {
+  const { user } = useAuth();
+  
+  // USE CENTRALIZED PWA DETECTION
+  const shouldUsePWA = detectPWAMode();
+
+  console.log('FORCED ROUTING DECISION:', {
+    shouldUsePWA,
+    component: shouldUsePWA ? 'Splash' : 'Home',
+    urlSearch: window.location.search,
+    userAgent: navigator.userAgent.substring(0, 80)
+  });
+
+  // CRITICAL DEBUG: Log every route decision
+  console.log('ROUTE RENDER:', {
+    path: '/',
+    shouldUsePWA,
+    componentChoice: shouldUsePWA ? 'Splash' : 'Home',
+    timestamp: Date.now()
+  });
+
+  // DIRECT COMPONENT OVERRIDE: Force component rendering regardless of router state
+  const ForceCorrectComponent = () => {
+    if (shouldUsePWA) {
+      console.log('FORCE OVERRIDE: Rendering Splash for PWA');
+      return <Splash />;
+    }
+    console.log('FORCE OVERRIDE: Rendering Home for non-PWA');
+    return <Home />;
+  };
+
+  return (
+    <Switch>
+      <Route path="/">{() => <ForceCorrectComponent />}</Route>
+      <Route path="/splash" component={Splash} />
+      <Route path="/about" component={About} />
+      <Route path="/standard" component={AMStandard} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
+      <Route path="/join" component={Join} />
+      <Route path="/contact" component={Contact} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/test-form" component={TestForm} />
+      <Route path="/auth" component={AuthPage} />
+      <Route path="/onboarding" component={Onboarding} />
+      <ProtectedRoute path="/dashboard" component={Dashboard} />
+      
+      {/* Unified Learning System - Replaces old courses */}
+      <Route path="/learning" component={LearningCourses} />
+      <Route path="/learning/courses" component={LearningCourses} />
+      <Route path="/learning/courses/:courseId" component={LearningCourseDetail} />
+      <Route path="/learning/lessons/:lessonId" component={LearningLessonDetail} />
+      
+      <ProtectedRoute path="/challenges" component={Challenges} />
+      <ProtectedRoute path="/journal" component={Journal} />
+      <ProtectedRoute path="/community" component={Community} />
+      <ProtectedRoute path="/pod" component={Pod} />
+      <ProtectedRoute path="/weekly-reflections" component={WeeklyReflections} />
+      <Route path="/pwa-diagnostic" component={PWADiagnostic} />
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
+function AppContent() {
+  const [location] = useLocation();
+  const { user } = useAuth();
+  
+  // USE CENTRALIZED PWA DETECTION
+  const shouldUsePWA = detectPWAMode();
+  
+  // Show PWA navigation when in PWA mode and user is authenticated (not on splash/auth pages)
+  const showPWANav = shouldUsePWA && user && location !== "/" && location !== "/splash" && location !== "/auth";
+  
+  // Hide header/footer in PWA mode completely - PWA should never show browser header/footer
+  const showHeaderFooter = !shouldUsePWA;
+  
+  // Hide AMChat on splash screen (both explicit /splash route and PWA root showing splash)
+  const isOnSplashScreen = location === "/splash" || (shouldUsePWA && location === "/");
+  const showAMChat = !isOnSplashScreen;
+  
+  // Apply PWA padding when in PWA mode and authenticated (not on splash/auth pages)
+  const pwaMainClass = showPWANav ? "pb-20" : "";
+  
+  return (
+    <TooltipProvider>
+      {showHeaderFooter && <Header />}
+      {showPWANav && <PWANavigation />}
+      <main className={pwaMainClass}>
+        <AppRouter />
+      </main>
+      {showHeaderFooter && <Footer />}
+      <Toaster />
+      {showAMChat && <AMChat />}
+      <WeeklyReflectionPrompt />
+    </TooltipProvider>
+  );
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <PWAProvider>
+          <AuthProvider>
+            <PWANavigationProvider>
+              <AppContent />
+            </PWANavigationProvider>
+          </AuthProvider>
+        </PWAProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
+  );
+}
+
+export default App;
+
+=================================================================
+FILE: client/src/index.css
+=================================================================
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 24 74% 33%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 24 74% 33%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 24 74% 33%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 24 74% 45%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 24 74% 45%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 24 74% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* AM Project Brand Styles */
+@layer components {
+  .challenge-header {
+    @apply text-primary font-bold tracking-tight;
+  }
+  
+  .challenge-body {
+    @apply text-muted-foreground leading-relaxed;
+  }
+  
+  .am-first-element {
+    @apply border-l-4 border-primary pl-4 bg-primary/5 rounded-r;
+  }
+  
+  .brand-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:scale-[1.02];
+  }
+}
+
+/* PWA specific styles */
+@layer utilities {
+  .pwa-safe-area {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .pwa-navigation-height {
+    height: calc(4rem + env(safe-area-inset-bottom));
+  }
+  
+  .pwa-content-spacing {
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Animation utilities */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-in-out;
+}
+
+/* Responsive text utilities */
+@layer utilities {
+  .text-responsive-xs {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+  
+  .text-responsive-base {
+    @apply text-base sm:text-lg;
+  }
+  
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl md:text-3xl;
+  }
+  
+  .text-responsive-2xl {
+    @apply text-2xl sm:text-3xl md:text-4xl;
+  }
+}
+
+/* Enhanced focus styles for accessibility */
+@layer utilities {
+  .focus-brand {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  }
+}
+
+/* Scrollbar styling for webkit browsers */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted)) transparent;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted));
+    border-radius: 3px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground));
+  }
+}
+
+/* Mobile-first responsive containers */
+@layer utilities {
+  .container-mobile {
+    @apply max-w-sm mx-auto px-4;
+  }
+  
+  .container-tablet {
+    @apply max-w-2xl mx-auto px-6;
+  }
+  
+  .container-desktop {
+    @apply max-w-6xl mx-auto px-8;
+  }
+}

@@ -1,0 +1,451 @@
+import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import { PageContainer } from "@/components/PageContainer";
+import { ArrowLeft, PenTool, Pin, PinOff, Plus, BookOpen, Target, Play, MessageCircle, Heart, Lightbulb } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+
+export default function Journal() {
+  const [, setLocation] = useLocation();
+  const [content, setContent] = useState("");
+  const [prePopulatedPrompt, setPrePopulatedPrompt] = useState("");
+  const [showNewEntry, setShowNewEntry] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  // Extract prompt and metadata from URL parameters
+  const [scenarioMetadata, setScenarioMetadata] = useState<{
+    scenarioId?: string;
+    selectedOptionIndex?: string;
+  }>({});
+
+  // Fetch journal entries
+  const { data: journalData } = useQuery({
+    queryKey: ["/api/journal"],
+  });
+
+  // Fetch pinned entry
+  const { data: pinnedData } = useQuery({
+    queryKey: ["/api/journal/pinned"],
+  });
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const prompt = urlParams.get('prompt');
+    const scenarioId = urlParams.get('scenarioId');
+    const selectedOptionIndex = urlParams.get('selectedOptionIndex');
+    
+    console.log('Journal URL params:', { prompt, scenarioId, selectedOptionIndex });
+    console.log('Full URL:', window.location.href);
+    
+    if (prompt && prompt.trim()) {
+      const decodedPrompt = decodeURIComponent(prompt);
+      console.log('Decoded prompt:', decodedPrompt);
+      setPrePopulatedPrompt(decodedPrompt);
+      setContent(""); // Keep textarea empty for user input
+      setShowNewEntry(true); // Show the entry form for scenario reflections
+    } else {
+      console.log('No prompt found or prompt is empty');
+    }
+    
+    if (scenarioId || selectedOptionIndex) {
+      setScenarioMetadata({ 
+        scenarioId: scenarioId || undefined, 
+        selectedOptionIndex: selectedOptionIndex || undefined 
+      });
+    }
+  }, []);
+
+  const createEntryMutation = useMutation({
+    mutationFn: async (entryData: { content: string; scenarioId?: number; selectedOptionIndex?: number }) => {
+      const response = await apiRequest("POST", "/api/journal", entryData);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Entry Saved",
+        description: "Your journal entry has been saved successfully.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/journal"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/journal/pinned"] });
+      setContent("");
+      setPrePopulatedPrompt("");
+      setShowNewEntry(false);
+      // Clear URL parameters
+      window.history.replaceState({}, "", "/journal");
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to save your journal entry. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const pinMutation = useMutation({
+    mutationFn: async (entryId: number) => {
+      const response = await apiRequest("POST", `/api/journal/${entryId}/pin`);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Entry Pinned",
+        description: "This entry is now pinned to your dashboard.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/journal/pinned"] });
+    },
+  });
+
+  const unpinMutation = useMutation({
+    mutationFn: async (entryId: number) => {
+      const response = await apiRequest("POST", `/api/journal/${entryId}/unpin`);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Entry Unpinned",
+        description: "This entry has been unpinned from your dashboard.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/journal/pinned"] });
+    },
+  });
+
+  const handleSave = () => {
+    if (!content.trim()) {
+      toast({
+        title: "Empty Entry",
+        description: "Please write something before saving.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const entryData: { content: string; scenarioId?: number; selectedOptionIndex?: number } = {
+      content: content.trim()
+    };
+    
+    // Add scenario metadata if available
+    if (scenarioMetadata.scenarioId) {
+      entryData.scenarioId = parseInt(scenarioMetadata.scenarioId);
+    }
+    if (scenarioMetadata.selectedOptionIndex) {
+      entryData.selectedOptionIndex = parseInt(scenarioMetadata.selectedOptionIndex);
+    }
+
+    createEntryMutation.mutate(entryData);
+  };
+
+  const entries = journalData || [];
+  const pinnedEntry = pinnedData?.pinnedEntry;
+
+  const getEntryIcon = (entry: any) => {
+    if (entry.lessonId) return <BookOpen className="h-4 w-4" />;
+    if (entry.challengeId) return <Target className="h-4 w-4" />;
+    if (entry.scenarioId) return <Play className="h-4 w-4" />;
+    return <MessageCircle className="h-4 w-4" />;
+  };
+
+  const getEntryType = (entry: any) => {
+    if (entry.lessonId) return "Lesson Reflection";
+    if (entry.challengeId) return "Challenge Reflection";
+    if (entry.scenarioId) return "Scenario Reflection";
+    return "Personal Reflection";
+  };
+
+  const getEntryTypeColor = (entry: any) => {
+    if (entry.lessonId) return "border-[#333333] bg-[#333333]/80";
+    if (entry.challengeId) return "border-[#7C4A32] bg-[#7C4A32]/80";
+    if (entry.scenarioId) return "border-[#E4B768] bg-[#E4B768]/80";
+    return "border-[#7C4A32] bg-[#7C4A32]/80";
+  };
+
+  return (
+    <PageContainer>
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Navigation */}
+        <div className="mb-6">
+          <Button 
+            variant="ghost" 
+            className="text-white hover:text-[#E4B768] hover:bg-[#7C4A32]/20"
+            onClick={() => setLocation("/dashboard")}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Dashboard
+          </Button>
+        </div>
+
+        {/* Header */}
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-bold font-['Playfair_Display'] text-white">
+            Journal
+          </h1>
+          <p className="text-[#E4B768] font-['Montserrat']">
+            Your private space for reflection and growth
+          </p>
+        </div>
+
+        {/* Scenario Reflection Form - Only show when coming from scenario */}
+        {prePopulatedPrompt && showNewEntry && (
+          <Card className="bg-white border border-[#7C4A32] shadow-lg rounded-xl mb-8">
+            <CardHeader className="p-8">
+              <div className="h-1 bg-[#E4B768] rounded-t-xl -mx-8 -mt-8 mb-6"></div>
+              <CardTitle className="text-2xl font-bold font-['Playfair_Display'] text-[#7C4A32] flex items-center">
+                <Play className="w-6 h-6 mr-3 text-[#7C4A32]" />
+                Scenario Reflection
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-8 pt-0">
+              <div className="space-y-6">
+                <div className="mb-6 p-6 bg-[#E4B768]/10 border border-[#E4B768]/30 rounded-lg">
+                  <h4 className="text-[#7C4A32] text-sm font-semibold font-['Montserrat'] mb-2">
+                    What did this surface for you?
+                  </h4>
+                  <p className="text-[#333333] text-sm font-['Montserrat'] mb-4">
+                    This is your space to process and reflect. No one else sees this. Write about your reaction—not just the choice, but what's underneath it.
+                  </p>
+                  
+                  {/* Display the scenario context */}
+                  <div className="bg-white/50 p-4 rounded border border-[#7C4A32]/20">
+                    <h5 className="text-[#7C4A32] text-xs font-semibold font-['Montserrat'] mb-2 uppercase tracking-wide">
+                      You reflected on:
+                    </h5>
+                    <pre className="text-[#333333] text-sm font-['Montserrat'] whitespace-pre-wrap leading-relaxed">
+                      {prePopulatedPrompt}
+                    </pre>
+                  </div>
+                </div>
+                
+                <Textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="Continue your reflection here..."
+                  className="min-h-[400px] text-white bg-black/90 font-['Montserrat'] text-base leading-relaxed border-[#7C4A32] focus:border-[#E4B768] focus:ring-[#E4B768] placeholder:text-white/60"
+                />
+                
+                <div className="flex gap-4 justify-end">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setShowNewEntry(false);
+                      setContent("");
+                      setPrePopulatedPrompt("");
+                      window.history.replaceState({}, "", "/journal");
+                    }}
+                    className="border-[#7C4A32] text-[#7C4A32] hover:bg-[#7C4A32] hover:text-white"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleSave}
+                    disabled={createEntryMutation.isPending}
+                    className="bg-[#7C4A32] hover:bg-[#E4B768] text-white"
+                  >
+                    {createEntryMutation.isPending ? "Saving..." : "Save Entry"}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* New Entry Button */}
+        {!showNewEntry && (
+          <div className="flex justify-center">
+            <Button
+              onClick={() => setShowNewEntry(true)}
+              className="bg-[#7C4A32] hover:bg-[#E4B768] text-white font-['Montserrat'] px-8 py-3"
+            >
+              <Plus className="w-5 h-5 mr-2" />
+              Write New Entry
+            </Button>
+          </div>
+        )}
+
+        {/* Journal Form - Show when creating new entry and not scenario reflection */}
+        {showNewEntry && !prePopulatedPrompt && (
+          <Card className="bg-white border border-[#7C4A32] shadow-lg rounded-xl">
+            <CardHeader className="p-8">
+              <div className="h-1 bg-[#E4B768] rounded-t-xl -mx-8 -mt-8 mb-6"></div>
+              <CardTitle className="text-2xl font-bold font-['Playfair_Display'] text-[#7C4A32] flex items-center">
+                <PenTool className="w-6 h-6 mr-3 text-[#7C4A32]" />
+                New Entry
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-8 pt-0">
+              <div className="space-y-6">
+                <Textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder="What's on your mind? Write about your thoughts, insights, or experiences..."
+                  className="min-h-[400px] text-white bg-black/90 font-['Montserrat'] text-base leading-relaxed border-[#7C4A32] focus:border-[#E4B768] focus:ring-[#E4B768] placeholder:text-white/60"
+                />
+                
+                <div className="flex gap-4 justify-end">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setShowNewEntry(false);
+                      setContent("");
+                    }}
+                    className="border-[#7C4A32] text-[#7C4A32] hover:bg-[#7C4A32] hover:text-white"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleSave}
+                    disabled={createEntryMutation.isPending}
+                    className="bg-[#7C4A32] hover:bg-[#E4B768] text-white"
+                  >
+                    {createEntryMutation.isPending ? "Saving..." : "Save Entry"}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Pinned Entry */}
+        {pinnedEntry && (
+          <Card className="bg-white border-2 border-[#E4B768] shadow-lg rounded-xl">
+            <CardHeader className="p-6">
+              <div className="h-1 bg-[#E4B768] rounded-t-xl -mx-6 -mt-6 mb-4"></div>
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-lg font-bold font-['Playfair_Display'] text-[#7C4A32] flex items-center">
+                  <Pin className="w-5 h-5 mr-2 text-[#E4B768]" />
+                  Pinned Entry
+                </CardTitle>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => unpinMutation.mutate(pinnedEntry.id)}
+                  className="text-[#7C4A32] hover:text-[#E4B768] hover:bg-[#E4B768]/10"
+                >
+                  <PinOff className="w-4 h-4" />
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent className="p-6 pt-0">
+              <div className="flex items-center gap-2 mb-4">
+                {getEntryIcon(pinnedEntry)}
+                <Badge variant="outline" className="border-[#7C4A32] text-[#7C4A32] text-xs">
+                  {getEntryType(pinnedEntry)}
+                </Badge>
+                <span className="text-sm text-[#7C4A32]/70">
+                  {formatDistanceToNow(new Date(pinnedEntry.createdAt), { addSuffix: true })}
+                </span>
+              </div>
+              <p className="text-[#333333] font-['Montserrat'] whitespace-pre-wrap leading-relaxed mb-4">
+                {pinnedEntry.content || pinnedEntry.text}
+              </p>
+              
+              {/* AI Reflection Preview */}
+              {pinnedEntry.aiReflection && (
+                <div className="bg-[#E4B768]/10 rounded-lg p-4 border border-[#E4B768]/30">
+                  <div className="flex items-start gap-3">
+                    <Lightbulb className="h-5 w-5 text-[#7C4A32] mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="font-semibold text-[#7C4A32] mb-1 text-sm">AM's Insight:</h4>
+                      <p className="text-[#333333] text-sm italic">
+                        {pinnedEntry.aiReflection.insight.length > 120
+                          ? `${pinnedEntry.aiReflection.insight.substring(0, 120)}...`
+                          : pinnedEntry.aiReflection.insight
+                        }
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Journal Entries */}
+        <div className="space-y-6">
+          <h2 className="text-2xl font-bold font-['Playfair_Display'] text-white">
+            Your Entries
+          </h2>
+          
+          {entries.length === 0 ? (
+            <Card className="bg-white/10 border border-white/20 shadow-lg rounded-xl">
+              <CardContent className="p-8 text-center">
+                <PenTool className="w-12 h-12 text-[#E4B768] mx-auto mb-4" />
+                <p className="text-white font-['Montserrat'] text-lg mb-2">
+                  No journal entries yet
+                </p>
+                <p className="text-[#E4B768] font-['Montserrat'] text-sm">
+                  Start writing to track your thoughts and reflections
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-4">
+              {entries.map((entry: any) => (
+                <Card key={entry.id} className={`bg-white border shadow-lg rounded-xl hover:border-[#E4B768] transition-colors ${getEntryTypeColor(entry)}`}>
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        {getEntryIcon(entry)}
+                        <Badge variant="outline" className="border-[#7C4A32] text-[#7C4A32] text-xs">
+                          {getEntryType(entry)}
+                        </Badge>
+                        <span className="text-sm text-[#7C4A32]/70">
+                          {formatDistanceToNow(new Date(entry.createdAt), { addSuffix: true })}
+                        </span>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => pinMutation.mutate(entry.id)}
+                        className="text-[#7C4A32] hover:text-[#E4B768] hover:bg-[#E4B768]/10"
+                      >
+                        <Pin className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    <p className="text-[#333333] font-['Montserrat'] whitespace-pre-wrap leading-relaxed mb-4">
+                      {entry.content || entry.text}
+                    </p>
+                    
+                    {/* AI Reflection Preview */}
+                    {entry.aiReflection && (
+                      <div className="bg-[#E4B768]/10 rounded-lg p-4 border border-[#E4B768]/30">
+                        <div className="flex items-start gap-3">
+                          <Lightbulb className="h-4 w-4 text-[#7C4A32] mt-0.5 flex-shrink-0" />
+                          <div>
+                            <h4 className="font-semibold text-[#7C4A32] mb-1 text-sm">AM's Insight:</h4>
+                            <p className="text-[#333333] text-sm italic">
+                              {entry.aiReflection.insight.length > 120
+                                ? `${entry.aiReflection.insight.substring(0, 120)}...`
+                                : entry.aiReflection.insight
+                              }
+                            </p>
+                          </div>
+                        </div>
+                        
+                        {/* Affirmation */}
+                        {entry.aiReflection.affirmation && (
+                          <div className="flex items-start gap-3 mt-3 pt-3 border-t border-[#E4B768]/20">
+                            <Heart className="h-4 w-4 text-[#7C4A32] mt-0.5 flex-shrink-0" />
+                            <p className="text-[#333333] text-sm italic">
+                              {entry.aiReflection.affirmation}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </PageContainer>
+  );
+}

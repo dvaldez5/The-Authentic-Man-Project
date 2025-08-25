@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exit Intent Modal Test</title>
+    <style>
+        body { 
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #0A0A0A;
+            color: white;
+            height: 200vh;
+        }
+        .test-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1a1a1a;
+            border: 2px solid #7C4A32;
+            padding: 15px;
+            border-radius: 8px;
+            z-index: 1000;
+        }
+        .test-controls button {
+            background: #7C4A32;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .test-controls button:hover {
+            opacity: 0.9;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            background: #333;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-controls">
+        <h3>Exit Intent Test</h3>
+        <button onclick="clearSession()">Clear Session</button>
+        <button onclick="checkSession()">Check Session</button>
+        <button onclick="triggerModal()">Test Modal</button>
+        <div class="status" id="status">Session Status: <span id="sessionStatus">Unknown</span></div>
+    </div>
+
+    <h1>Exit Intent Modal Test Page</h1>
+    <p>This page tests the exit intent modal behavior:</p>
+    
+    <h2>Test Instructions:</h2>
+    <ol>
+        <li>Wait 5 seconds after page load</li>
+        <li>Move mouse to the very top of the browser window</li>
+        <li>Modal should appear with brown/primary colors (not blue)</li>
+        <li>Close or submit the modal</li>
+        <li>Try triggering it again - it should NOT appear again</li>
+        <li>Click "Clear Session" and try again - it should appear</li>
+    </ol>
+
+    <h2>Mobile Test:</h2>
+    <ol>
+        <li>Wait 5 seconds after page load</li>
+        <li>Swipe up near the top of the screen</li>
+        <li>Or scroll up when near the top of the page</li>
+        <li>Modal should appear with proper brand colors</li>
+    </ol>
+
+    <div style="margin-top: 50px;">
+        <h2>Scroll Content</h2>
+        <p>This is some content to scroll through...</p>
+        <p>Keep scrolling to test scroll depth tracking...</p>
+        <p>The exit intent modal tracks how much of the page you've seen...</p>
+        <p>More content here...</p>
+        <p>And more...</p>
+        <p>Keep going...</p>
+        <p>Almost there...</p>
+        <p>You've reached the end!</p>
+    </div>
+
+    <script>
+        function clearSession() {
+            sessionStorage.removeItem('exitIntentModalShown');
+            document.getElementById('sessionStatus').textContent = 'Cleared';
+            alert('Session cleared! You can now trigger the modal again.');
+        }
+
+        function checkSession() {
+            const shown = sessionStorage.getItem('exitIntentModalShown');
+            document.getElementById('sessionStatus').textContent = shown ? 'Modal Shown' : 'Modal Not Shown';
+        }
+
+        function triggerModal() {
+            // This would normally be handled by the React component
+            alert('This would trigger the modal in the actual app. Use mouse movement to test.');
+        }
+
+        // Check session status on load
+        checkSession();
+    </script>
+</body>
+</html>

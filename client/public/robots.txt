@@ -1,0 +1,40 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://theamproject.com/sitemap.xml
+
+# Disallow authentication and member-only pages
+Disallow: /auth
+Disallow: /dashboard
+Disallow: /onboarding
+Disallow: /pwa-diagnostic
+Disallow: /test-form
+Disallow: /journal
+Disallow: /community
+Disallow: /pod
+Disallow: /challenges
+Disallow: /weekly-reflections
+Disallow: /learning
+Disallow: /learning/*
+
+# Allow all important public pages
+Allow: /
+Allow: /about
+Allow: /standard
+Allow: /blog
+Allow: /blog/*
+Allow: /join
+Allow: /contact
+Allow: /terms
+Allow: /privacy
+Allow: /reset-discipline
+
+# Mental health and men's wellness content
+Allow: /mens-mental-health
+Allow: /mental-wellness
+Allow: /emotional-intelligence
+Allow: /stress-management
+Allow: /anxiety-support
+Allow: /masculine-development
+Allow: /personal-growth

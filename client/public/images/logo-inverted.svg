@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background - transparent -->
+  <rect width="500" height="500" fill="none" />
+  
+  <!-- Outer circle - with gradient -->
+  <defs>
+    <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#eeeeee;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sunburst rays in brown - based on the logo from attached_assets/1-63.png -->
+  <g transform="translate(250, 250)">
+    <!-- Rays -->
+    <g>
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(0)" />
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(30)" />
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(60)" />
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(90)" />
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(120)" />
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(150)" />
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(180)" />
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(210)" />
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(240)" />
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(270)" />
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(300)" />
+      <path d="M0,0 L-30,-140 L-10,-140 Z" fill="#795548" transform="rotate(330)" />
+    </g>
+    
+    <!-- Central circle - white with subtle gradient -->
+    <circle cx="0" cy="0" r="80" fill="url(#circleGradient)" stroke="#795548" stroke-width="3" />
+    
+    <!-- AM text with shadow to make it pop -->
+    <text x="2" y="17" font-family="'Playfair Display', serif" font-size="75" font-weight="bold" text-anchor="middle" fill="#101010" opacity="0.3" style="filter: blur(3px);">AM</text>
+    <text x="0" y="15" font-family="'Playfair Display', serif" font-size="75" font-weight="bold" text-anchor="middle" fill="#101010">AM</text>
+  </g>
+  
+  <!-- Animated elements - subtle pulsing circles at ray ends -->
+  <style>
+    @keyframes pulse {
+      0% { opacity: 0.3; transform: scale(0.9); }
+      50% { opacity: 0.7; transform: scale(1.1); }
+      100% { opacity: 0.3; transform: scale(0.9); }
+    }
+    
+    .pulse-circle {
+      animation: pulse 3s infinite ease-in-out;
+    }
+    
+    .pulse-circle:nth-child(odd) {
+      animation-delay: 1.5s;
+    }
+  </style>
+  
+  <g transform="translate(250, 250)">
+    <circle class="pulse-circle" cx="0" cy="-160" r="8" fill="#795548" transform="rotate(0)" />
+    <circle class="pulse-circle" cx="0" cy="-160" r="8" fill="#795548" transform="rotate(60)" />
+    <circle class="pulse-circle" cx="0" cy="-160" r="8" fill="#795548" transform="rotate(120)" />
+    <circle class="pulse-circle" cx="0" cy="-160" r="8" fill="#795548" transform="rotate(180)" />
+    <circle class="pulse-circle" cx="0" cy="-160" r="8" fill="#795548" transform="rotate(240)" />
+    <circle class="pulse-circle" cx="0" cy="-160" r="8" fill="#795548" transform="rotate(300)" />
+  </g>
+</svg>

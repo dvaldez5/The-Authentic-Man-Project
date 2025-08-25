@@ -1,0 +1,235 @@
+=================================================================
+THE AM PROJECT - PART 3: SERVER FILES
+=================================================================
+
+=================================================================
+FILE: server/index.ts
+=================================================================
+
+import express, { type Request, Response, NextFunction } from "express";
+import compression from "compression";
+import path from "path";
+import { fileURLToPath } from "url";
+import { registerRoutes } from "./routes";
+import { setupVite, serveStatic, log } from "./vite";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+
+// Enable compression for better mobile performance
+app.use(compression());
+
+// Helper function to generate SEO-optimized static HTML for bots - simplified
+function generateStaticHTML(path: string, userAgent: string): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The AM Project - Men's Leadership & Personal Development</title>
+    <meta name="description" content="The AM Project helps men build strength, integrity, and purpose through actionable content and community." />
+  </head>
+  <body>
+    <h1>The AM Project</h1>
+    <p>Loading...</p>
+  </body>
+</html>`;
+}
+
+// PWA detection middleware - MUST be first to catch downloaded PWAs
+app.use((req, res, next) => {
+  const userAgent = req.get('User-Agent') || '';
+  const isBot = /bot|crawler|spider|archiver|facebook|twitter|linkedin|pinterest|whatsapp|chatgpt|openai|google|bing|yahoo|duckduckgo|facebookexternalhit/i.test(userAgent);
+  
+  // Log PWA detection for debugging without redirecting
+  const isRootRoute = req.path === '/' && req.method === 'GET';
+  const isDownloadedPWA = /Chrome\/\d+\.\d+\.\d+\.\d+ Mobile Safari\/\d+\.\d+/.test(userAgent) && 
+                         !/Replit-Bonsai/.test(userAgent) &&
+                         /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent);
+  
+  if (isRootRoute && isDownloadedPWA && !isBot) {
+    console.log(`📱 PWA DETECTED: Downloaded PWA accessing root route`);
+    console.log(`   User-Agent: ${userAgent.substring(0, 80)}...`);
+    console.log(`   URL: ${req.url}`);
+    console.log(`   Search: ${req.url.includes('?') ? req.url.split('?')[1] : 'none'}`);
+    // Don't redirect - let client-side routing handle PWA detection
+  }
+  
+  // Serve static HTML for all public routes when accessed by bots
+  if (isBot && !req.path.startsWith('/api') && !req.path.startsWith('/@') && !req.path.startsWith('/src')) {
+    try {
+      console.log(`🤖 Bot detected: ${userAgent} requesting ${req.path}`);
+      const staticHTML = generateStaticHTML(req.path, userAgent);
+      
+      if (!staticHTML || staticHTML.length === 0) {
+        console.error(`❌ Empty HTML generated for ${req.path}`);
+        return res.status(500).send('Error generating content');
+      }
+      
+      res.set('Content-Type', 'text/html; charset=utf-8');
+      res.set('Cache-Control', 'public, max-age=3600');
+      console.log(`✅ Serving ${staticHTML.length} chars of HTML to bot for ${req.path}`);
+      return res.send(staticHTML);
+    } catch (error) {
+      console.error(`❌ Error in bot middleware for ${req.path}:`, error);
+      // Return basic fallback to prevent 500 errors
+      const basicFallback = `<!DOCTYPE html><html><head><title>The AM Project</title></head><body><h1>The AM Project</h1><p>Loading...</p></body></html>`;
+      res.set('Content-Type', 'text/html; charset=utf-8');
+      return res.send(basicFallback);
+    }
+  }
+  
+  next();
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use((req, res, next) => {
+  const start = Date.now();
+  const path = req.path;
+  let capturedJsonResponse: Record<string, any> | undefined = undefined;
+
+  const originalResJson = res.json;
+  res.json = function (bodyJson, ...args) {
+    capturedJsonResponse = bodyJson;
+    return originalResJson.apply(res, [bodyJson, ...args]);
+  };
+
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    if (path.startsWith("/api")) {
+      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+      if (capturedJsonResponse) {
+        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+      }
+
+      if (logLine.length > 80) {
+        logLine = logLine.slice(0, 79) + "…";
+      }
+
+      log(logLine);
+    }
+  });
+
+  next();
+});
+
+(async () => {
+  const server = await registerRoutes(app);
+  
+
+  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
+    const status = err.status || err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    
+    console.error(`ERROR ${status}: ${message} for ${req.method} ${req.originalUrl}`);
+    
+    if (!res.headersSent) {
+      if (req.path.startsWith('/api') || req.headers.accept?.includes('application/json')) {
+        res.status(status).json({ message });
+      } else {
+        res.status(status).send(`<!DOCTYPE html><html><head><title>Error ${status}</title></head><body><h1>Error ${status}</h1><p>${message}</p></body></html>`);
+      }
+    }
+  });
+
+  // Setup Vite in development or static files in production
+  // IMPORTANT: This comes AFTER API routes but BEFORE catch-all
+  if (app.get("env") === "development") {
+    await setupVite(app, server);
+  } else {
+    serveStatic(app);
+  }
+
+  const port = parseInt(process.env.PORT || "5000");
+  server.listen({
+    port,
+    host: "0.0.0.0",
+    reusePort: true,
+  }, () => {
+    const networkInterface = process.env.REPLIT_DEV_DOMAIN ? 
+      `https://${process.env.REPLIT_DEV_DOMAIN}` : 
+      `http://0.0.0.0:${port}`;
+    log(`serving on port ${port}`);
+    log(`Mobile access: ${networkInterface}`);
+  });
+})();
+
+=================================================================
+FILE: server/db.ts
+=================================================================
+
+import { Pool } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-serverless";
+import * as schema from "@shared/schema";
+
+export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+export const db = drizzle(pool, { schema });
+
+=================================================================
+FILE: server/auth.ts
+=================================================================
+
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
+
+export interface AuthRequest extends Request {
+  userId?: number;
+  user?: any;
+}
+
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 12);
+}
+
+export async function comparePassword(password: string, hash: string): Promise<boolean> {
+  return bcrypt.compare(password, hash);
+}
+
+export function generateToken(userId: number): string {
+  return jwt.sign({ userId }, process.env.JWT_SECRET || 'fallback-secret', { expiresIn: '30d' });
+}
+
+export function verifyToken(token: string): { userId: number } | null {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret') as { userId: number };
+    return decoded;
+  } catch {
+    return null;
+  }
+}
+
+export async function authenticateToken(req: AuthRequest, res: Response, next: NextFunction) {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ message: 'Access token required' });
+  }
+
+  const decoded = verifyToken(token);
+  if (!decoded) {
+    return res.status(403).json({ message: 'Invalid or expired token' });
+  }
+
+  req.userId = decoded.userId;
+  next();
+}
+
+export async function optionalAuth(req: AuthRequest, res: Response, next: NextFunction) {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (token) {
+    const decoded = verifyToken(token);
+    if (decoded) {
+      req.userId = decoded.userId;
+    }
+  }
+
+  next();
+}

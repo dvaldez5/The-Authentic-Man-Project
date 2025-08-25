@@ -1,0 +1,497 @@
+=================================================================
+THE AM PROJECT - PART 5: PWA HOOKS AND FUNCTIONALITY
+=================================================================
+
+=================================================================
+FILE: client/src/hooks/use-pwa.tsx
+=================================================================
+
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+
+interface BeforeInstallPromptEvent extends Event {
+  prompt(): Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
+interface PWAContextType {
+  deferredPrompt: BeforeInstallPromptEvent | null;
+  isInstallable: boolean;
+  isInstalled: boolean;
+  installApp: () => Promise<void>;
+}
+
+const PWAContext = createContext<PWAContextType | undefined>(undefined);
+
+export function PWAProvider({ children }: { children: ReactNode }) {
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [isInstallable, setIsInstallable] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(false);
+
+  useEffect(() => {
+    // Check if already installed
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    setIsInstalled(isStandalone);
+
+    // Listen for install prompt
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      const prompt = e as BeforeInstallPromptEvent;
+      setDeferredPrompt(prompt);
+      setIsInstallable(true);
+      
+      // Make it globally available for click handlers
+      (window as any).deferredPrompt = prompt;
+    };
+
+    // Listen for app installed
+    const handleAppInstalled = () => {
+      setIsInstalled(true);
+      setIsInstallable(false);
+      setDeferredPrompt(null);
+      (window as any).deferredPrompt = null;
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+
+  const installApp = async () => {
+    if (!deferredPrompt) {
+      // Fallback for browsers without install prompt
+      throw new Error('Install prompt not available');
+    }
+
+    try {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        setIsInstalled(true);
+      }
+      
+      setDeferredPrompt(null);
+      setIsInstallable(false);
+      (window as any).deferredPrompt = null;
+    } catch (error) {
+      console.error('Install failed:', error);
+      throw error;
+    }
+  };
+
+  return (
+    <PWAContext.Provider value={{
+      deferredPrompt,
+      isInstallable,
+      isInstalled,
+      installApp
+    }}>
+      {children}
+    </PWAContext.Provider>
+  );
+}
+
+export function usePWA() {
+  const context = useContext(PWAContext);
+  if (context === undefined) {
+    throw new Error('usePWA must be used within a PWAProvider');
+  }
+  return context;
+}
+
+=================================================================
+FILE: client/src/hooks/use-pwa-detection.tsx
+=================================================================
+
+import { useState, useEffect } from 'react';
+
+// CENTRAL PWA DETECTION LOGIC
+export function detectPWAMode(): boolean {
+  if (typeof window === 'undefined') return false;
+  
+  const userAgent = navigator.userAgent;
+  
+  // Force reject for development environments
+  const isReplitDev = /Replit-Bonsai/i.test(userAgent);
+  if (isReplitDev) {
+    localStorage.removeItem('pwaMode');
+    return false;
+  }
+  
+  // Check for actual PWA installation modes
+  const isStandalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+  const isIOSStandalone = (window.navigator as any).standalone === true;
+  
+  // URL parameter override for testing
+  const isPWAParam = window.location.search.includes('pwa=true');
+  
+  // Check localStorage for persistent PWA state
+  const storedPWAMode = localStorage.getItem('pwaMode') === 'true';
+  
+  // Determine if we should use PWA mode
+  if (isStandalone || isIOSStandalone || isPWAParam) {
+    // Genuine PWA installation detected
+    localStorage.setItem('pwaMode', 'true');
+    return true;
+  } else if (storedPWAMode) {
+    // Check if stored state is still valid for mobile devices
+    const isMobileDevice = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(userAgent);
+    
+    if (isMobileDevice) {
+      // For mobile, check if it looks like a downloaded PWA user agent
+      const isPWAUserAgent = userAgent.includes('wv') || // WebView indicator
+                            (userAgent.includes('Chrome/') && userAgent.includes('Mobile') && !userAgent.includes('Version/'));
+      
+      if (isPWAUserAgent) {
+        return true;
+      } else {
+        // Clear invalid stored state for regular browsers
+        localStorage.removeItem('pwaMode');
+        return false;
+      }
+    }
+    
+    return true;
+  }
+  
+  // Default: Not a PWA
+  localStorage.removeItem('pwaMode');
+  return false;
+}
+
+export function usePWADetection() {
+  const [isPWA, setIsPWA] = useState(() => {
+    const detected = detectPWAMode();
+    
+    console.log('PWA DETECTION:', {
+      detected,
+      isReplitDev: /Replit-Bonsai/.test(navigator.userAgent),
+      userAgent: navigator.userAgent.substring(0, 80)
+    });
+    
+    return detected;
+  });
+  
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const handleDisplayModeChange = () => {
+      const newDetection = detectPWAMode();
+      if (newDetection !== isPWA) {
+        setIsPWA(newDetection);
+      }
+    };
+
+    // Listen for display mode changes
+    const mediaQuery = window.matchMedia('(display-mode: standalone)');
+    mediaQuery.addEventListener('change', handleDisplayModeChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleDisplayModeChange);
+    };
+  }, [isPWA]);
+
+  return { isPWA, isLoading };
+}
+
+=================================================================
+FILE: client/src/hooks/use-auth.tsx
+=================================================================
+
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import type { User } from "@shared/schema";
+
+interface AuthContextType {
+  user: User | null;
+  isLoading: boolean;
+  loginMutation: ReturnType<typeof useMutation>;
+  registerMutation: ReturnType<typeof useMutation>;
+  logoutMutation: ReturnType<typeof useMutation>;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const queryClient = useQueryClient();
+  
+  const { data: user, isLoading } = useQuery<User>({
+    queryKey: ['/api/auth/me'],
+    retry: false,
+  });
+
+  const loginMutation = useMutation({
+    mutationFn: async (credentials: { email: string; password: string }) => {
+      const response = await apiRequest('POST', '/api/auth/login', credentials);
+      return response;
+    },
+    onSuccess: (data) => {
+      localStorage.setItem('token', data.token);
+      queryClient.setQueryData(['/api/auth/me'], data.user);
+      window.location.href = data.user.onboardingComplete ? "/dashboard" : "/onboarding";
+    },
+    onError: (error: any) => {
+      console.error('Login failed:', error);
+    },
+  });
+
+  const registerMutation = useMutation({
+    mutationFn: async (userData: { email: string; password: string; fullName: string }) => {
+      const response = await apiRequest('POST', '/api/auth/register', userData);
+      return response;
+    },
+    onSuccess: (data) => {
+      localStorage.setItem('token', data.token);
+      queryClient.setQueryData(['/api/auth/me'], data.user);
+      window.location.href = "/onboarding";
+    },
+    onError: (error: any) => {
+      console.error('Registration failed:', error);
+    },
+  });
+
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest('POST', '/api/auth/logout');
+    },
+    onSuccess: () => {
+      localStorage.removeItem('token');
+      queryClient.setQueryData(['/api/auth/me'], null);
+      queryClient.clear();
+      window.location.href = "/";
+    },
+  });
+
+  return (
+    <AuthContext.Provider value={{
+      user: user || null,
+      isLoading,
+      loginMutation,
+      registerMutation,
+      logoutMutation,
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}
+
+=================================================================
+FILE: client/src/contexts/PWANavigationContext.tsx
+=================================================================
+
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { usePWADetection } from '@/hooks/use-pwa-detection';
+
+interface PWANavigationContextType {
+  isVisible: boolean;
+  showMore: boolean;
+  setShowMore: (show: boolean) => void;
+}
+
+const PWANavigationContext = createContext<PWANavigationContextType | undefined>(undefined);
+
+export function PWANavigationProvider({ children }: { children: ReactNode }) {
+  const { isPWA } = usePWADetection();
+  const [isVisible, setIsVisible] = useState(true);
+  const [showMore, setShowMore] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  // Scroll detection to auto-hide navigation
+  useEffect(() => {
+    if (!isPWA) return;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const scrollDifference = Math.abs(currentScrollY - lastScrollY);
+      
+      // Only process if scroll difference is significant enough
+      if (scrollDifference < 5) return;
+      
+      if (currentScrollY < lastScrollY || currentScrollY < 30) {
+        // Scrolling up or near top - show nav
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 60) {
+        // Scrolling down and past threshold - hide nav
+        setIsVisible(false);
+        setShowMore(false); // Close more menu when hiding
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY, isPWA]);
+
+  return (
+    <PWANavigationContext.Provider value={{ isVisible, showMore, setShowMore }}>
+      {children}
+    </PWANavigationContext.Provider>
+  );
+}
+
+export function usePWANavigation() {
+  const context = useContext(PWANavigationContext);
+  if (context === undefined) {
+    throw new Error('usePWANavigation must be used within a PWANavigationProvider');
+  }
+  return context;
+}
+
+=================================================================
+FILE: client/src/lib/queryClient.ts
+=================================================================
+
+import { QueryClient } from "@tanstack/react-query";
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      queryFn: async ({ queryKey }) => {
+        const url = queryKey[0] as string;
+        const token = localStorage.getItem('token');
+        
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json',
+        };
+        
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+
+        const response = await fetch(url, { headers });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ message: 'An error occurred' }));
+          throw new Error(errorData.message || `HTTP ${response.status}`);
+        }
+        
+        return response.json();
+      },
+      retry: (failureCount, error) => {
+        // Don't retry on authentication errors
+        if (error?.message?.includes('401') || error?.message?.includes('403')) {
+          return false;
+        }
+        return failureCount < 3;
+      },
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
+
+export async function apiRequest(
+  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
+  url: string,
+  data?: any
+) {
+  const token = localStorage.getItem('token');
+  
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+  
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const config: RequestInit = {
+    method,
+    headers,
+  };
+
+  if (data && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
+    config.body = JSON.stringify(data);
+  }
+
+  const response = await fetch(url, config);
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ message: 'An error occurred' }));
+    throw new Error(errorData.message || `HTTP ${response.status}`);
+  }
+  
+  return response.json();
+}
+
+=================================================================
+FILE: client/src/lib/utils.ts
+=================================================================
+
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+export function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+export function formatDate(date: Date | string): string {
+  const d = new Date(date);
+  return d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+export function truncateText(text: string, maxLength: number): string {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + '...';
+}
+
+// PWA utility functions
+export function getTopPadding(isPWA: boolean, isMobile: boolean, context: 'header' | 'main' = 'main'): string {
+  if (isPWA) {
+    // PWA mode - no browser chrome, just safe area
+    return context === 'header' ? 'pt-safe-area-top' : 'pt-4';
+  } else {
+    // Regular browser mode
+    return context === 'header' ? 'pt-16 md:pt-20' : 'pt-20 md:pt-24';
+  }
+}
+
+export function generateId(): string {
+  return Math.random().toString(36).substr(2, 9);
+}
+
+export function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout;
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+}
+
+export function throttle<T extends (...args: any[]) => any>(
+  func: T,
+  limit: number
+): (...args: Parameters<T>) => void {
+  let inThrottle: boolean;
+  return (...args: Parameters<T>) => {
+    if (!inThrottle) {
+      func(...args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  };
+}

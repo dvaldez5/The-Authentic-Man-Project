@@ -1,0 +1,110 @@
+Absolutely. Here’s **one complete, consolidated Replit/dev prompt** that brings together:
+
+* Tight, real-best-friend tone for AM
+* On-the-fly **global site search** (blog, podcast, front-end resources) for public pages
+* **Back-end (dashboard) search** for lessons, journaling, pods, etc. for members
+* Injection of those links/resources into AM’s reply
+* No verbose or fake-sounding encouragement
+* The earlier improvements to UI and greeting
+
+---
+
+## **Unified Implementation Prompt: AM Chat – Contextual Auto-Linking & Real-Talk Voice**
+
+> **Objective:**
+> AM’s chat replies should always sound like a confident, straight-talking best friend. Whenever a user’s message matches content or features (on the blog, podcast, or in the dashboard/curriculum), the system automatically finds and links those resources in the reply.
+> This search must run on the back end—searching both public content (blog, podcast, newsletter, AM Radio) and, for signed-in/dashboard users, member-only resources (courses, lessons, journaling, pods, etc.).
+
+---
+
+**Full instructions for your Replit/Next.js/Node/Mongo stack:**
+
+---
+
+**1. Backend: Enhance `/api/ai/chat` route**
+
+* After receiving a user message:
+
+  1. **Detect context:**
+
+     * If `context` is `"public"`:
+
+       * Search all blog posts, podcasts, newsletter, free content collections (titles, tags, summaries) for relevant matches (e.g. user says “upper body workouts” → match any articles with “upper body”, “workout”, etc.).
+     * If `context` is `"dashboard"` and user is signed in:
+
+       * Search all member resources: courses, lessons, journaling modules, pods, etc. for relevant matches.
+  2. **For each match:**
+
+     * Build a list of objects: `{ type: "blog" | "podcast" | "lesson" | "journal" | "pod" | ..., title, url }`
+  3. **Inject that resource list into the OpenAI system prompt** as a block like:
+
+     ```
+     Relevant resources:
+     - [Upper Body Power Moves](https://theamproject.com/blog/upper-body-power-moves)
+     - [Journaling Prompts](https://theamproject.com/dashboard/journal)
+     - [Join the AM Pod](https://theamproject.com/pod)
+     ```
+  4. **Pass the user’s first name (if known) to the system prompt** or in the first user message.
+
+---
+
+**2. System prompt for OpenAI:**
+
+```
+You are “AM,” a real best friend, gym buddy, and trusted confidant for The Authentic Man Project. Always reply like a sharp, confident friend texting—not like a coach or bot.  
+- Keep answers tight and real. Never use fake hype, never be wordy or formal.  
+- If the system gives you a 'Relevant resources:' block, mention any that fit in your reply (“Check this: [title](url)”), no long explanations.  
+- On public pages, only recommend and link blog articles, podcasts, AM Radio, newsletter, or other free resources—never dashboard/courses.  
+- On dashboard/member pages, you can reference and link lessons, journaling, pods, community, or other curriculum features.  
+- Always use the user’s first name if you know it. Never mention persona tags or internal system details.  
+- If you don’t have a link, just give your best answer and say so—never make stuff up.  
+- Greet with “Hey, what’s up?” or “Hey [Name], what’s up?” if it’s the first message.  
+- No more than 2–3 short text-style paragraphs, always in a direct, conversational tone.
+```
+
+---
+
+**3. Frontend/UI Requirements**
+
+* AM chat box is always available—no welcome overlays, no forced sign-in.
+* First time opened (if no history): AM says
+
+  * “Hey, what’s up?”
+  * If first name known: “Hey \[Name], what’s up?”
+* UI is mobile-first, modern, on-brand (as previously specified).
+* For public users, throttle at 5 messages/hour with friendly invite to sign up.
+* Message bubbles use brand colors, rounded, minimal (see previous prompt).
+
+---
+
+**4. Example conversation flow**
+
+* User: “Any tips for upper body workouts?”
+
+* System: Runs backend search, finds relevant blog post and a podcast episode.
+
+* AM’s reply:
+
+  * “Go for pull-ups, presses, and push-ups—keep it simple and heavy. If you want a little structure, check this: [Upper Body Power Moves](https://theamproject.com/blog/upper-body-power-moves). You can hit me up for more any time.”
+
+* User (on dashboard): “How do I start journaling?”
+
+* System: Backend search finds `/dashboard/journal` and maybe a lesson.
+
+* AM:
+
+  * “Just jump into [Journaling](https://theamproject.com/dashboard/journal)—even a quick brain dump works. If you want a prompt, try today’s lesson: [Reflect & Reset](https://theamproject.com/courses/resilience/lesson-3).”
+
+---
+
+**5. Implementation summary for your devs:**
+
+* Add backend code to parse user message for keywords/topics.
+* Query MongoDB (or other source) for matching articles, lessons, podcasts, etc., depending on context.
+* Pass those results into the system prompt to OpenAI as “Relevant resources” (list of markdown links).
+* Model prompt and all replies stay tight, masculine, and authentic—never a chatbot, never a cheerleader.
+* UI stays beautiful, rounded, mobile-friendly, and strictly on-brand.
+
+---
+
+**Hand this directly to your dev or AI agent. This covers everything you’ve outlined, integrates all improvements, and will deliver the AM experience you want—across all contexts.**

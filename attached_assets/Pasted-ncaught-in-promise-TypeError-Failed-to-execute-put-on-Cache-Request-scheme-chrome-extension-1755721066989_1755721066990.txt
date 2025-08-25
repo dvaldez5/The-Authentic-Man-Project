@@ -1,0 +1,470 @@
+ncaught (in promise) TypeError: Failed to execute 'put' on 'Cache': Request scheme 'chrome-extension' is unsupported
+    at sw.js:369:23Understand this error
+5The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.Understand this warning
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+ Development environment - Google tracking disabled
+ PWA MODE ACTIVE (server injection)
+client:536 WebSocket connection to 'wss://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/?token=kCHCj-p6qISd' failed: 
+setupWebSocket @ client:536Understand this error
+client:536 Uncaught (in promise) SyntaxError: Failed to construct 'WebSocket': The URL 'wss://localhost:undefined/?token=kCHCj-p6qISd' is invalid.
+    at setupWebSocket (client:536:19)
+    at fallback (client:509:16)
+    at WebSocket.<anonymous> (client:555:7)
+setupWebSocket @ client:536
+fallback @ client:509
+(anonymous) @ client:555Understand this error
+notification-service.ts:22 Notification support check: Object
+notification-service.ts:38 ServiceWorker initialized and ready for notifications
+main.tsx:29 PWA Service Worker registered
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:77 PWA DETECTION: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:81 FORCED ROUTING DECISION: Object
+App.tsx:89 ROUTE RENDER: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:77 PWA DETECTION: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:77 PWA DETECTION: Object
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: false
+use-notification-manager.tsx:71 - notificationSettings: false
+use-notification-manager.tsx:72 - userActivity: false
+use-notification-manager.tsx:75 No user - skipping notification initialization
+unified-tracking.ts:63 🎯 Unified Tracking Initialized: Object
+seo-utils.ts:356 ✅ SEO System Initialized
+programmatic-seo.ts:459 🎯 Programmatic SEO System Initialized
+programmatic-seo.ts:460 📊 Template Coverage: 4 content types
+programmatic-seo.ts:461 🔍 Keyword Targeting: 18 keywords
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:81 FORCED ROUTING DECISION: Object
+App.tsx:89 ROUTE RENDER: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:81 FORCED ROUTING DECISION: Object
+App.tsx:89 ROUTE RENDER: Object
+AuthPage.tsx:68 Warning: Cannot update a component (`Route`) while rendering a different component (`AuthPage`). To locate the bad setState() call inside `AuthPage`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
+    at AuthPage (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/pages/AuthPage.tsx:35:53)
+    at Route (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=84029157:206:16)
+    at Switch (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=84029157:262:17)
+    at AppRouter (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?t=1755720271523&v=Ou5fWJsIwIlgaC-_sk5oJ:80:20)
+    at main
+    at Provider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=84029157:38:15)
+    at TooltipProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=84029157:63:5)
+    at AppContent (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?t=1755720271523&v=Ou5fWJsIwIlgaC-_sk5oJ:531:22)
+    at Router (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=84029157:161:17)
+    at OnboardingTourProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/contexts/OnboardingTourContext.tsx:21:42)
+    at PWANavigationProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/contexts/PWANavigationContext.tsx:21:41)
+    at AuthProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/hooks/use-auth.tsx:26:32)
+    at PWAProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/hooks/use-pwa.tsx:20:31)
+    at QueryClientProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=84029157:2933:3)
+    at ErrorBoundary (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/components/ErrorBoundary.tsx:7:5)
+    at App (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?t=1755720271523&v=Ou5fWJsIwIlgaC-_sk5oJ:604:3)
+printWarning @ chunk-RPCDYKBN.js?v=84029157:521
+error @ chunk-RPCDYKBN.js?v=84029157:505
+warnAboutRenderPhaseUpdatesInDEV @ chunk-RPCDYKBN.js?v=84029157:19793
+scheduleUpdateOnFiber @ chunk-RPCDYKBN.js?v=84029157:18546
+forceStoreRerender @ chunk-RPCDYKBN.js?v=84029157:11999
+handleStoreChange @ chunk-RPCDYKBN.js?v=84029157:11981
+history.<computed> @ wouter.js?v=84029157:92
+navigate @ wouter.js?v=84029157:82
+(anonymous) @ wouter.js?v=84029157:135
+(anonymous) @ wouter.js?v=84029157:46
+AuthPage @ AuthPage.tsx:68
+renderWithHooks @ chunk-RPCDYKBN.js?v=84029157:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=84029157:14582
+beginWork @ chunk-RPCDYKBN.js?v=84029157:15924
+beginWork$1 @ chunk-RPCDYKBN.js?v=84029157:19753
+performUnitOfWork @ chunk-RPCDYKBN.js?v=84029157:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=84029157:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=84029157:19116
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=84029157:18874
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=84029157:9119
+(anonymous) @ chunk-RPCDYKBN.js?v=84029157:18627Understand this error
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: true
+use-notification-manager.tsx:71 - notificationSettings: false
+use-notification-manager.tsx:72 - userActivity: false
+use-notification-manager.tsx:80 Missing data - initializing with defaults for new users
+use-notification-manager.tsx:91 === NOTIFICATION MANAGER INITIALIZATION ===
+use-notification-manager.tsx:92 Settings available: false
+use-notification-manager.tsx:93 User activity available: false
+use-notification-manager.tsx:94 Browser notifications enabled: undefined
+notification-service.ts:127 Notification permission request started: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:81 FORCED ROUTING DECISION: Object
+App.tsx:89 ROUTE RENDER: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:77 PWA DETECTION: Object
+use-notification-manager.tsx:98 Permission status: granted
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:887 === NOTIFICATION SCHEDULER INITIALIZATION ===
+notification-scheduler.ts:888 Settings: undefined
+notification-scheduler.ts:889 User Activity: Object
+notification-scheduler.ts:905 Using notification time: 09:00, timezone: America/New_York
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:915 Scheduling daily challenge notifications for 09:00 America/New_York
+notification-scheduler.ts:429 🕐 Scheduling daily challenge for: 8/21/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-08-21T19:00:00.000Z
+notification-scheduler.ts:430 ⏱️  Delay: 1372 minutes from now
+notification-scheduler.ts:431 📍 Timezone debug: Object
+notification-scheduler.ts:926 Scheduling weekly reflection notifications for 09:00 America/New_York
+notification-scheduler.ts:478 Scheduling weekly reflection for: 8/24/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-08-24T19:00:00.000Z
+notification-scheduler.ts:516 Scheduling weekly reflection nudge for: 8/24/2025, 6:00:00 PM (America/New_York)
+notification-scheduler.ts:937 New user detected - scheduling welcome scenario reminder
+notification-scheduler.ts:568 🎯 Scheduling scenario reminder for: 8/21/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-08-21T19:00:00.000Z
+notification-scheduler.ts:569 ⏱️  Delay: 1372 minutes from now
+notification-scheduler.ts:969 New user detected - scheduling welcome habit nudge
+notification-scheduler.ts:607 Scheduling habit nudge check for: 8/21/2025, 10:30:00 AM (America/New_York) -> UTC: 2025-08-21T20:30:00.000Z
+notification-scheduler.ts:608 Delay: 1462 minutes from now
+notification-scheduler.ts:1031 Active notifications scheduled: 5
+notification-scheduler.ts:1032 Scheduled notification types: Array(5)
+notification-scheduler.ts:1033 === NOTIFICATION SCHEDULER INITIALIZATION COMPLETE ===
+use-notification-manager.tsx:120 ✅ Notification initialization completed successfully
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:81 FORCED ROUTING DECISION: Object
+App.tsx:89 ROUTE RENDER: Object
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: true
+use-notification-manager.tsx:71 - notificationSettings: false
+use-notification-manager.tsx:72 - userActivity: true
+use-notification-manager.tsx:80 Missing data - initializing with defaults for new users
+use-notification-manager.tsx:91 === NOTIFICATION MANAGER INITIALIZATION ===
+use-notification-manager.tsx:92 Settings available: false
+use-notification-manager.tsx:93 User activity available: true
+use-notification-manager.tsx:94 Browser notifications enabled: undefined
+notification-service.ts:127 Notification permission request started: Object
+use-notification-manager.tsx:98 Permission status: granted
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:887 === NOTIFICATION SCHEDULER INITIALIZATION ===
+notification-scheduler.ts:888 Settings: undefined
+notification-scheduler.ts:889 User Activity: Object
+notification-scheduler.ts:905 Using notification time: 09:00, timezone: America/New_York
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:918 Daily challenge already completed - notification suppressed
+notification-scheduler.ts:926 Scheduling weekly reflection notifications for 09:00 America/New_York
+notification-scheduler.ts:478 Scheduling weekly reflection for: 8/24/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-08-24T19:00:00.000Z
+notification-scheduler.ts:516 Scheduling weekly reflection nudge for: 8/24/2025, 6:00:00 PM (America/New_York)
+notification-scheduler.ts:952 Scenario reminder not needed - recent activity
+notification-scheduler.ts:972 Habit nudge not needed - no active streak or already completed
+notification-scheduler.ts:981 Scheduling course reminder for stalled course: Tempered Steel (20% complete, 62 days idle)
+notification-scheduler.ts:685 Scheduling course reminder for: 8/25/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-08-25T19:00:00.000Z
+notification-scheduler.ts:1031 Active notifications scheduled: 3
+notification-scheduler.ts:1032 Scheduled notification types: Array(3)
+notification-scheduler.ts:1033 === NOTIFICATION SCHEDULER INITIALIZATION COMPLETE ===
+use-notification-manager.tsx:120 ✅ Notification initialization completed successfully
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16
+(anonymous) @ sw.js:364Understand this error
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:81 FORCED ROUTING DECISION: Object
+App.tsx:89 ROUTE RENDER: Object
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: true
+use-notification-manager.tsx:71 - notificationSettings: true
+use-notification-manager.tsx:72 - userActivity: true
+use-notification-manager.tsx:86 All conditions met - initializing notifications
+use-notification-manager.tsx:91 === NOTIFICATION MANAGER INITIALIZATION ===
+use-notification-manager.tsx:92 Settings available: true
+use-notification-manager.tsx:93 User activity available: true
+use-notification-manager.tsx:94 Browser notifications enabled: true
+notification-service.ts:127 Notification permission request started: Object
+use-notification-manager.tsx:98 Permission status: granted
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:887 === NOTIFICATION SCHEDULER INITIALIZATION ===
+notification-scheduler.ts:888 Settings: Object
+notification-scheduler.ts:889 User Activity: Object
+notification-scheduler.ts:905 Using notification time: 09:00, timezone: America/Denver
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:918 Daily challenge already completed - notification suppressed
+notification-scheduler.ts:926 Scheduling weekly reflection notifications for 09:00 America/Denver
+notification-scheduler.ts:478 Scheduling weekly reflection for: 8/24/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-08-24T21:00:00.000Z
+notification-scheduler.ts:516 Scheduling weekly reflection nudge for: 8/24/2025, 6:00:00 PM (America/Denver)
+notification-scheduler.ts:952 Scenario reminder not needed - recent activity
+notification-scheduler.ts:972 Habit nudge not needed - no active streak or already completed
+notification-scheduler.ts:981 Scheduling course reminder for stalled course: Tempered Steel (20% complete, 62 days idle)
+notification-scheduler.ts:685 Scheduling course reminder for: 8/25/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-08-25T21:00:00.000Z
+notification-scheduler.ts:1031 Active notifications scheduled: 3
+notification-scheduler.ts:1032 Scheduled notification types: Array(3)
+notification-scheduler.ts:1033 === NOTIFICATION SCHEDULER INITIALIZATION COMPLETE ===
+use-notification-manager.tsx:120 ✅ Notification initialization completed successfully
+www.google.com/pagead/1p-user-list/835937139/?random=1755720472405&cv=11&fst=1755720000000&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be58j1h2v875747112za200xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~104527907~104528501~104684208~104684211~104948813~105102050&u_w=1024&u_h=1366&url=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2Fdashboard&ref=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2F&_ng=1&hn=www.googleadservices.com&frm=0&tiba=The%20AM%20Project%20-%20Mental%20Fitness%20App%20for%20Men%20%7C%20Build%20Discipline%20%26%20Purpose&npa=0&pscdl=noapi&auid=280054974.1755635515&uaa=&uab=&uafvl=&uamb=0&uam=&uap=&uapv=&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSjQEA2abss2Vicv8ntMMDW6B6bCUgiZwJr2Gs6kfaacVp9ND4JsPMPJhb-OSyTyFBXiOX8Dcs_JtY0WAPpE-aNb9JULcSzQ1FoJvWmMYjjc3vLjYGT-mbwGbE127hIcgVB6R2Y7_OKxUoJrond51kNfYiKZlWUWa9A6T9qN3lGeYFkszkIFFh19gpIx4BamQ&random=3529537193&rmt_tld=0&ipr=y:1  Failed to load resource: net::ERR_FAILEDUnderstand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+dashboard:1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">Understand this warning
+dashboard:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+ga4-bounce-analysis.ts:51 GA4 Bounce Analysis initialized
+www.googletagmanager.com/gtag/js?id=G-KGG3MDSXEC&cx=c&gtm=45je58j1h2za200:1  Failed to load resource: the server responded with a status of 404 ()Understand this error
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16
+(anonymous) @ sw.js:364Understand this error
+www.google.com/pagead/1p-user-list/835937139/?random=1755720494485&cv=11&fst=1755720000000&bg=ffffff&guid=ON&async=1&en=session_end&gtm=45be58j1h2v875747112za200xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~104527907~104528501~104684208~104684211~104948813~105102050&u_w=1024&u_h=655&url=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2Fdashboard&ref=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2F&_ng=1&hn=www.googleadservices.com&frm=0&tiba=The%20AM%20Project%20-%20Mental%20Fitness%20App%20for%20Men%20%7C%20Build%20Discipline%20%26%20Purpose&npa=0&pscdl=noapi&auid=280054974.1755635515&uaa=&uab=&uafvl=&uamb=0&uam=&uap=&uapv=&uaw=0&data=event%3Dsession_end%3Bevent_category%3Dengagement_analysis%3Bevent_label%3Dlow&rfmt=3&fmt=3&is_vtc=1&cid=CAQSjQEA2absszCVoloENTY8cjF4G189tXe8vBsLSTsy_8W-O-UHKqKYLAoElv1XoDNph2hnXuHIBX5K8c6eHvo1zJLmn3Gnh2g8dvyxsHW0sQcyYFXMwL528qYVrJEi_03_wXJO9bOKxdYUXglBFosSWeqKbXhW-6nqSbwOs7xqABCB2_k3KscpAKvyP08gCHo&random=2592754391&rmt_tld=0&ipr=y:1  Failed to load resource: net::ERR_FAILEDUnderstand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+queryClient.ts:61  GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=84029157:881
+run @ @tanstack_react-query.js?v=84029157:513
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313Understand this error
+5dashboard:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedUnderstand this error
+queryClient.ts:61  GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=84029157:881
+run @ @tanstack_react-query.js?v=84029157:513
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=84029157:2311
+updateTimers_fn @ @tanstack_react-query.js?v=84029157:2318
+onQueryUpdate @ @tanstack_react-query.js?v=84029157:2274
+(anonymous) @ @tanstack_react-query.js?v=84029157:1042
+(anonymous) @ @tanstack_react-query.js?v=84029157:1041
+batch @ @tanstack_react-query.js?v=84029157:603
+dispatch_fn @ @tanstack_react-query.js?v=84029157:1040
+onError @ @tanstack_react-query.js?v=84029157:904
+reject @ @tanstack_react-query.js?v=84029157:484
+(anonymous) @ @tanstack_react-query.js?v=84029157:527
+Promise.catch
+run @ @tanstack_react-query.js?v=84029157:517
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313Understand this error
+queryClient.ts:61  GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=84029157:881
+run @ @tanstack_react-query.js?v=84029157:513
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=84029157:2311
+updateTimers_fn @ @tanstack_react-query.js?v=84029157:2318
+onQueryUpdate @ @tanstack_react-query.js?v=84029157:2274
+(anonymous) @ @tanstack_react-query.js?v=84029157:1042
+(anonymous) @ @tanstack_react-query.js?v=84029157:1041
+batch @ @tanstack_react-query.js?v=84029157:603
+dispatch_fn @ @tanstack_react-query.js?v=84029157:1040
+onError @ @tanstack_react-query.js?v=84029157:904
+reject @ @tanstack_react-query.js?v=84029157:484
+(anonymous) @ @tanstack_react-query.js?v=84029157:527
+Promise.catch
+run @ @tanstack_react-query.js?v=84029157:517
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=84029157:2311
+updateTimers_fn @ @tanstack_react-query.js?v=84029157:2318
+onQueryUpdate @ @tanstack_react-query.js?v=84029157:2274
+(anonymous) @ @tanstack_react-query.js?v=84029157:1042
+(anonymous) @ @tanstack_react-query.js?v=84029157:1041
+batch @ @tanstack_react-query.js?v=84029157:603
+dispatch_fn @ @tanstack_react-query.js?v=84029157:1040
+onError @ @tanstack_react-query.js?v=84029157:904
+reject @ @tanstack_react-query.js?v=84029157:484
+(anonymous) @ @tanstack_react-query.js?v=84029157:527
+Promise.catch
+run @ @tanstack_react-query.js?v=84029157:517
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313Understand this error
+queryClient.ts:61  GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=84029157:881
+run @ @tanstack_react-query.js?v=84029157:513
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=84029157:2311
+updateTimers_fn @ @tanstack_react-query.js?v=84029157:2318
+onQueryUpdate @ @tanstack_react-query.js?v=84029157:2274
+(anonymous) @ @tanstack_react-query.js?v=84029157:1042
+(anonymous) @ @tanstack_react-query.js?v=84029157:1041
+batch @ @tanstack_react-query.js?v=84029157:603
+dispatch_fn @ @tanstack_react-query.js?v=84029157:1040
+onError @ @tanstack_react-query.js?v=84029157:904
+reject @ @tanstack_react-query.js?v=84029157:484
+(anonymous) @ @tanstack_react-query.js?v=84029157:527
+Promise.catch
+run @ @tanstack_react-query.js?v=84029157:517
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=84029157:2311
+updateTimers_fn @ @tanstack_react-query.js?v=84029157:2318
+onQueryUpdate @ @tanstack_react-query.js?v=84029157:2274
+(anonymous) @ @tanstack_react-query.js?v=84029157:1042
+(anonymous) @ @tanstack_react-query.js?v=84029157:1041
+batch @ @tanstack_react-query.js?v=84029157:603
+dispatch_fn @ @tanstack_react-query.js?v=84029157:1040
+onError @ @tanstack_react-query.js?v=84029157:904
+reject @ @tanstack_react-query.js?v=84029157:484
+(anonymous) @ @tanstack_react-query.js?v=84029157:527
+Promise.catch
+run @ @tanstack_react-query.js?v=84029157:517
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=84029157:2311
+updateTimers_fn @ @tanstack_react-query.js?v=84029157:2318
+onQueryUpdate @ @tanstack_react-query.js?v=84029157:2274
+(anonymous) @ @tanstack_react-query.js?v=84029157:1042
+(anonymous) @ @tanstack_react-query.js?v=84029157:1041
+batch @ @tanstack_react-query.js?v=84029157:603
+dispatch_fn @ @tanstack_react-query.js?v=84029157:1040
+onError @ @tanstack_react-query.js?v=84029157:904
+reject @ @tanstack_react-query.js?v=84029157:484
+(anonymous) @ @tanstack_react-query.js?v=84029157:527
+Promise.catch
+run @ @tanstack_react-query.js?v=84029157:517
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313Understand this error
+queryClient.ts:61  GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=84029157:881
+run @ @tanstack_react-query.js?v=84029157:513
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=84029157:2311
+updateTimers_fn @ @tanstack_react-query.js?v=84029157:2318
+onQueryUpdate @ @tanstack_react-query.js?v=84029157:2274
+(anonymous) @ @tanstack_react-query.js?v=84029157:1042
+(anonymous) @ @tanstack_react-query.js?v=84029157:1041
+batch @ @tanstack_react-query.js?v=84029157:603
+dispatch_fn @ @tanstack_react-query.js?v=84029157:1040
+onError @ @tanstack_react-query.js?v=84029157:904
+reject @ @tanstack_react-query.js?v=84029157:484
+(anonymous) @ @tanstack_react-query.js?v=84029157:527
+Promise.catch
+run @ @tanstack_react-query.js?v=84029157:517
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=84029157:2311
+updateTimers_fn @ @tanstack_react-query.js?v=84029157:2318
+onQueryUpdate @ @tanstack_react-query.js?v=84029157:2274
+(anonymous) @ @tanstack_react-query.js?v=84029157:1042
+(anonymous) @ @tanstack_react-query.js?v=84029157:1041
+batch @ @tanstack_react-query.js?v=84029157:603
+dispatch_fn @ @tanstack_react-query.js?v=84029157:1040
+onError @ @tanstack_react-query.js?v=84029157:904
+reject @ @tanstack_react-query.js?v=84029157:484
+(anonymous) @ @tanstack_react-query.js?v=84029157:527
+Promise.catch
+run @ @tanstack_react-query.js?v=84029157:517
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=84029157:2311
+updateTimers_fn @ @tanstack_react-query.js?v=84029157:2318
+onQueryUpdate @ @tanstack_react-query.js?v=84029157:2274
+(anonymous) @ @tanstack_react-query.js?v=84029157:1042
+(anonymous) @ @tanstack_react-query.js?v=84029157:1041
+batch @ @tanstack_react-query.js?v=84029157:603
+dispatch_fn @ @tanstack_react-query.js?v=84029157:1040
+onError @ @tanstack_react-query.js?v=84029157:904
+reject @ @tanstack_react-query.js?v=84029157:484
+(anonymous) @ @tanstack_react-query.js?v=84029157:527
+Promise.catch
+run @ @tanstack_react-query.js?v=84029157:517
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=84029157:2311
+updateTimers_fn @ @tanstack_react-query.js?v=84029157:2318
+onQueryUpdate @ @tanstack_react-query.js?v=84029157:2274
+(anonymous) @ @tanstack_react-query.js?v=84029157:1042
+(anonymous) @ @tanstack_react-query.js?v=84029157:1041
+batch @ @tanstack_react-query.js?v=84029157:603
+dispatch_fn @ @tanstack_react-query.js?v=84029157:1040
+onError @ @tanstack_react-query.js?v=84029157:904
+reject @ @tanstack_react-query.js?v=84029157:484
+(anonymous) @ @tanstack_react-query.js?v=84029157:527
+Promise.catch
+run @ @tanstack_react-query.js?v=84029157:517
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313Understand this error
+queryClient.ts:61  GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=84029157:881
+run @ @tanstack_react-query.js?v=84029157:513
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+fetch @ @tanstack_react-query.js?v=84029157:2090
+refetch @ @tanstack_react-query.js?v=84029157:2080
+onFocus @ @tanstack_react-query.js?v=84029157:785
+(anonymous) @ @tanstack_react-query.js?v=84029157:1156
+(anonymous) @ @tanstack_react-query.js?v=84029157:1155
+batch @ @tanstack_react-query.js?v=84029157:603
+onFocus @ @tanstack_react-query.js?v=84029157:1154
+(anonymous) @ @tanstack_react-query.js?v=84029157:1675
+await in (anonymous)
+(anonymous) @ @tanstack_react-query.js?v=84029157:320
+onFocus @ @tanstack_react-query.js?v=84029157:319
+(anonymous) @ @tanstack_react-query.js?v=84029157:306
+listener @ @tanstack_react-query.js?v=84029157:277Understand this error

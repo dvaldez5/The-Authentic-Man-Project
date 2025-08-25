@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #000; color: #0f0; }
+        .result { margin: 10px 0; padding: 10px; border: 1px solid #0f0; }
+    </style>
+</head>
+<body>
+    <h1>PWA Detection Test</h1>
+    <div id="results"></div>
+    
+    <script>
+        // Simulate downloaded PWA user agent
+        Object.defineProperty(navigator, 'userAgent', {
+            value: 'Mozilla/5.0 (Linux; Android 15; Pixel 9 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Mobile Safari/537.36',
+            writable: false
+        });
+
+        function testPWADetection() {
+            const results = [];
+            
+            // Test URL parameter detection
+            window.location.search = '?pwa=true';
+            const urlParams = new URLSearchParams(window.location.search);
+            const hasPWAParam = urlParams.has('pwa') || window.location.search.includes('pwa=true');
+            results.push(`hasPWAParam: ${hasPWAParam}`);
+            
+            // Test user agent detection
+            const isReplitDev = /Replit-Bonsai/.test(navigator.userAgent);
+            const isMobileDevice = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(navigator.userAgent);
+            const isDownloadedPWA = /Chrome\/\d+\.\d+\.\d+\.\d+ Mobile Safari\/\d+\.\d+/.test(navigator.userAgent) && !isReplitDev;
+            
+            results.push(`isReplitDev: ${isReplitDev}`);
+            results.push(`isMobileDevice: ${isMobileDevice}`);
+            results.push(`isDownloadedPWA: ${isDownloadedPWA}`);
+            
+            // Test localStorage
+            localStorage.setItem('pwaMode', 'true');
+            const storedPWAMode = localStorage.getItem('pwaMode') === 'true';
+            results.push(`storedPWAMode: ${storedPWAMode}`);
+            
+            // Test final decision
+            const shouldUsePWA = hasPWAParam || storedPWAMode || isDownloadedPWA || (isMobileDevice && !isReplitDev);
+            results.push(`shouldUsePWA: ${shouldUsePWA}`);
+            results.push(`component: ${shouldUsePWA ? 'Splash' : 'Home'}`);
+            results.push(`userAgent: ${navigator.userAgent}`);
+            
+            // Display results
+            const resultsDiv = document.getElementById('results');
+            results.forEach(result => {
+                const div = document.createElement('div');
+                div.className = 'result';
+                div.textContent = result;
+                resultsDiv.appendChild(div);
+            });
+        }
+        
+        testPWADetection();
+    </script>
+</body>
+</html>

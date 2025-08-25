@@ -1,0 +1,226 @@
+2sw.js:369 Uncaught (in promise) TypeError: Failed to execute 'put' on 'Cache': Request scheme 'chrome-extension' is unsupported
+    at sw.js:369:23Understand this error
+8The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.Understand this warning
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+dashboard:99 Development environment - Google tracking disabled
+dashboard:239 PWA MODE ACTIVE (server injection)
+chunk-RPCDYKBN.js?v=84029157:21551 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+notification-service.ts:22 Notification support check: Object
+notification-service.ts:38 ServiceWorker initialized and ready for notifications
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:77 PWA DETECTION: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:82 FORCED ROUTING DECISION: Object
+App.tsx:90 ROUTE RENDER: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:77 PWA DETECTION: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:77 PWA DETECTION: Object
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: false
+use-notification-manager.tsx:71 - notificationSettings: false
+use-notification-manager.tsx:72 - userActivity: false
+use-notification-manager.tsx:75 No user - skipping notification initialization
+unified-tracking.ts:63 🎯 Unified Tracking Initialized: Object
+seo-utils.ts:356 ✅ SEO System Initialized
+programmatic-seo.ts:459 🎯 Programmatic SEO System Initialized
+programmatic-seo.ts:460 📊 Template Coverage: 4 content types
+programmatic-seo.ts:461 🔍 Keyword Targeting: 18 keywords
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:82 FORCED ROUTING DECISION: Object
+App.tsx:90 ROUTE RENDER: Object
+main.tsx:29 PWA Service Worker registered
+client:536 WebSocket connection to 'wss://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/?token=kCHCj-p6qISd' failed: 
+setupWebSocket @ client:536Understand this error
+client:536 Uncaught (in promise) SyntaxError: Failed to construct 'WebSocket': The URL 'wss://localhost:undefined/?token=kCHCj-p6qISd' is invalid.
+    at setupWebSocket (client:536:19)
+    at fallback (client:509:16)
+    at WebSocket.<anonymous> (client:555:7)Understand this error
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:82 FORCED ROUTING DECISION: Object
+App.tsx:90 ROUTE RENDER: Object
+chunk-RPCDYKBN.js?v=84029157:521 Warning: Cannot update a component (`Route`) while rendering a different component (`AuthPage`). To locate the bad setState() call inside `AuthPage`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
+    at AuthPage (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/pages/AuthPage.tsx:35:53)
+    at Route (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=84029157:206:16)
+    at Switch (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=84029157:262:17)
+    at AppRouter (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?v=BoXdY_cLAguylGPVY96PG:81:20)
+    at main
+    at Provider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=84029157:38:15)
+    at TooltipProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=84029157:63:5)
+    at AppContent (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?v=BoXdY_cLAguylGPVY96PG:536:22)
+    at Router (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=84029157:161:17)
+    at OnboardingTourProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/contexts/OnboardingTourContext.tsx:21:42)
+    at PWANavigationProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/contexts/PWANavigationContext.tsx:21:41)
+    at AMChatProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/contexts/AMChatContext.tsx:21:34)
+    at AuthProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/hooks/use-auth.tsx:26:32)
+    at PWAProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/hooks/use-pwa.tsx:20:31)
+    at QueryClientProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=84029157:2933:3)
+    at ErrorBoundary (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/components/ErrorBoundary.tsx:7:5)
+    at App (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?v=BoXdY_cLAguylGPVY96PG:609:3)
+printWarning @ chunk-RPCDYKBN.js?v=84029157:521Understand this error
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: true
+use-notification-manager.tsx:71 - notificationSettings: false
+use-notification-manager.tsx:72 - userActivity: false
+use-notification-manager.tsx:80 Missing data - initializing with defaults for new users
+use-notification-manager.tsx:91 === NOTIFICATION MANAGER INITIALIZATION ===
+use-notification-manager.tsx:92 Settings available: false
+use-notification-manager.tsx:93 User activity available: false
+use-notification-manager.tsx:94 Browser notifications enabled: undefined
+notification-service.ts:127 Notification permission request started: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:82 FORCED ROUTING DECISION: Object
+App.tsx:90 ROUTE RENDER: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:77 PWA DETECTION: Object
+use-notification-manager.tsx:98 Permission status: granted
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:887 === NOTIFICATION SCHEDULER INITIALIZATION ===
+notification-scheduler.ts:888 Settings: undefined
+notification-scheduler.ts:889 User Activity: Object
+notification-scheduler.ts:905 Using notification time: 09:00, timezone: America/New_York
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:915 Scheduling daily challenge notifications for 09:00 America/New_York
+notification-scheduler.ts:429 🕐 Scheduling daily challenge for: 8/22/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-08-22T19:00:00.000Z
+notification-scheduler.ts:430 ⏱️  Delay: 1444 minutes from now
+notification-scheduler.ts:431 📍 Timezone debug: Object
+notification-scheduler.ts:926 Scheduling weekly reflection notifications for 09:00 America/New_York
+notification-scheduler.ts:478 Scheduling weekly reflection for: 8/24/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-08-24T19:00:00.000Z
+notification-scheduler.ts:516 Scheduling weekly reflection nudge for: 8/24/2025, 6:00:00 PM (America/New_York)
+notification-scheduler.ts:937 New user detected - scheduling welcome scenario reminder
+notification-scheduler.ts:568 🎯 Scheduling scenario reminder for: 8/22/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-08-22T19:00:00.000Z
+notification-scheduler.ts:569 ⏱️  Delay: 1444 minutes from now
+notification-scheduler.ts:969 New user detected - scheduling welcome habit nudge
+notification-scheduler.ts:607 Scheduling habit nudge check for: 8/22/2025, 10:30:00 AM (America/New_York) -> UTC: 2025-08-22T20:30:00.000Z
+notification-scheduler.ts:608 Delay: 1534 minutes from now
+notification-scheduler.ts:1031 Active notifications scheduled: 5
+notification-scheduler.ts:1032 Scheduled notification types: Array(5)
+notification-scheduler.ts:1033 === NOTIFICATION SCHEDULER INITIALIZATION COMPLETE ===
+use-notification-manager.tsx:120 ✅ Notification initialization completed successfully
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:82 FORCED ROUTING DECISION: Object
+App.tsx:90 ROUTE RENDER: Object
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: true
+use-notification-manager.tsx:71 - notificationSettings: false
+use-notification-manager.tsx:72 - userActivity: true
+use-notification-manager.tsx:80 Missing data - initializing with defaults for new users
+use-notification-manager.tsx:91 === NOTIFICATION MANAGER INITIALIZATION ===
+use-notification-manager.tsx:92 Settings available: false
+use-notification-manager.tsx:93 User activity available: true
+use-notification-manager.tsx:94 Browser notifications enabled: undefined
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+notification-service.ts:127 Notification permission request started: Object
+use-notification-manager.tsx:98 Permission status: granted
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:887 === NOTIFICATION SCHEDULER INITIALIZATION ===
+notification-scheduler.ts:888 Settings: undefined
+notification-scheduler.ts:889 User Activity: Object
+notification-scheduler.ts:905 Using notification time: 09:00, timezone: America/New_York
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:915 Scheduling daily challenge notifications for 09:00 America/New_York
+notification-scheduler.ts:429 🕐 Scheduling daily challenge for: 8/22/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-08-22T19:00:00.000Z
+notification-scheduler.ts:430 ⏱️  Delay: 1444 minutes from now
+notification-scheduler.ts:431 📍 Timezone debug: Object
+notification-scheduler.ts:926 Scheduling weekly reflection notifications for 09:00 America/New_York
+notification-scheduler.ts:478 Scheduling weekly reflection for: 8/24/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-08-24T19:00:00.000Z
+notification-scheduler.ts:516 Scheduling weekly reflection nudge for: 8/24/2025, 6:00:00 PM (America/New_York)
+notification-scheduler.ts:952 Scenario reminder not needed - recent activity
+notification-scheduler.ts:972 Habit nudge not needed - no active streak or already completed
+notification-scheduler.ts:981 Scheduling course reminder for stalled course: Tempered Steel (20% complete, 63 days idle)
+notification-scheduler.ts:685 Scheduling course reminder for: 8/25/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-08-25T19:00:00.000Z
+notification-scheduler.ts:1031 Active notifications scheduled: 4
+notification-scheduler.ts:1032 Scheduled notification types: Array(4)
+notification-scheduler.ts:1033 === NOTIFICATION SCHEDULER INITIALIZATION COMPLETE ===
+use-notification-manager.tsx:120 ✅ Notification initialization completed successfully
+www.google.com/pagead/1p-user-list/835937139/?random=1755802575046&cv=11&fst=1755799200000&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be58k0v875747112za200xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~104527907~104528501~104684208~104684211~104948811~104948813~105399921~105399923&u_w=1537&u_h=864&url=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2Fauth&ref=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2F&_ng=1&hn=www.googleadservices.com&frm=0&tiba=The%20AM%20Project%20-%20Mental%20Fitness%20App%20for%20Men%20%7C%20Build%20Discipline%20%26%20Purpose&npa=0&pscdl=noapi&auid=280054974.1755635515&uaa=x86&uab=64&uafvl=Not%253BA%253DBrand%3B99.0.0.0%7CGoogle%2520Chrome%3B139.0.7258.128%7CChromium%3B139.0.7258.128&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSjQEA2abss4XNB5kE-GuAa2hy0d_52Egz0i-TShVD1MbFJUwilDYOUIGqN8sY4cJS-n8oOdKaMRXZJRyHECDI0EdtO7e2oWYd1B0Gwjd-jBp6VucIS0uBT7OfU14wR040HyMtHUtxik6VKX3uWBylWNyXpJgNTGvkFOlZ-DPJf94079WmGx7cRZPnbKINOc8&random=655175006&rmt_tld=0&ipr=y:1  Failed to load resource: net::ERR_FAILEDUnderstand this error
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:82 FORCED ROUTING DECISION: Object
+App.tsx:90 ROUTE RENDER: Object
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: true
+use-notification-manager.tsx:71 - notificationSettings: true
+use-notification-manager.tsx:72 - userActivity: true
+use-notification-manager.tsx:86 All conditions met - initializing notifications
+use-notification-manager.tsx:91 === NOTIFICATION MANAGER INITIALIZATION ===
+use-notification-manager.tsx:92 Settings available: true
+use-notification-manager.tsx:93 User activity available: true
+use-notification-manager.tsx:94 Browser notifications enabled: true
+notification-service.ts:127 Notification permission request started: Object
+use-notification-manager.tsx:98 Permission status: granted
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:887 === NOTIFICATION SCHEDULER INITIALIZATION ===
+notification-scheduler.ts:888 Settings: Object
+notification-scheduler.ts:889 User Activity: Object
+notification-scheduler.ts:905 Using notification time: 09:00, timezone: America/Denver
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:915 Scheduling daily challenge notifications for 09:00 America/Denver
+notification-scheduler.ts:429 🕐 Scheduling daily challenge for: 8/22/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-08-22T21:00:00.000Z
+notification-scheduler.ts:430 ⏱️  Delay: 1564 minutes from now
+notification-scheduler.ts:431 📍 Timezone debug: Object
+notification-scheduler.ts:926 Scheduling weekly reflection notifications for 09:00 America/Denver
+notification-scheduler.ts:478 Scheduling weekly reflection for: 8/24/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-08-24T21:00:00.000Z
+notification-scheduler.ts:516 Scheduling weekly reflection nudge for: 8/24/2025, 6:00:00 PM (America/Denver)
+notification-scheduler.ts:952 Scenario reminder not needed - recent activity
+notification-scheduler.ts:972 Habit nudge not needed - no active streak or already completed
+notification-scheduler.ts:981 Scheduling course reminder for stalled course: Tempered Steel (20% complete, 63 days idle)
+notification-scheduler.ts:685 Scheduling course reminder for: 8/25/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-08-25T21:00:00.000Z
+notification-scheduler.ts:1031 Active notifications scheduled: 4
+notification-scheduler.ts:1032 Scheduled notification types: Array(4)
+notification-scheduler.ts:1033 === NOTIFICATION SCHEDULER INITIALIZATION COMPLETE ===
+use-notification-manager.tsx:120 ✅ Notification initialization completed successfully
+dashboard:1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">Understand this warning
+dashboard:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+ga4-bounce-analysis.ts:51 GA4 Bounce Analysis initialized
+www.googletagmanager.com/gtag/js?id=G-KGG3MDSXEC&cx=c&gtm=4e58k0:1  Failed to load resource: the server responded with a status of 404 ()Understand this error
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+www.google.com/pagead/1p-user-list/835937139/?random=1755802576085&cv=11&fst=1755799200000&bg=ffffff&guid=ON&async=1&en=page_view&gtm=45be58k0v875747112za200xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~104527907~104528501~104684208~104684211~104948811~104948813~105399921~105399923&u_w=1537&u_h=864&url=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2Fdashboard&ref=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2Fauth&_ng=1&hn=www.googleadservices.com&frm=0&tiba=The%20AM%20Project%20-%20Mental%20Fitness%20App%20for%20Men%20%7C%20Build%20Discipline%20%26%20Purpose&npa=0&pscdl=noapi&auid=280054974.1755635515&uaa=x86&uab=64&uafvl=Not%253BA%253DBrand%3B99.0.0.0%7CGoogle%2520Chrome%3B139.0.7258.128%7CChromium%3B139.0.7258.128&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dpage_view&rfmt=3&fmt=3&is_vtc=1&cid=CAQSjQEA2abss74S6jFkVzK_87GOGcP_nS-x4p-04og9FL4E_TO0Zn-VLsiqnQz2HemVfEqgNFJ7wkeWFC-XH5Gj6uu7Hn-mnIcgBPjzgxsgD8BbDGP5Fpy81l2IK8LG1Y36vGTNVBysqCS_vKEyoXZnB4rWQa2ONuJ82uUfAedd6JtrObBinIudvRKtcdVpaZ8&random=3666060014&rmt_tld=0&ipr=y:1  Failed to load resource: net::ERR_FAILEDUnderstand this error
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+835937139/?random=1755802602613&cv=11&fst=1755799200000&bg=ffffff&guid=ON&async=1&en=interaction_cl…:1  Failed to load resource: net::ERR_FAILEDUnderstand this error
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+835937139/?random=1755802605301&cv=11&fst=1755799200000&bg=ffffff&guid=ON&async=1&en=form_engagemen…:1  Failed to load resource: net::ERR_FAILEDUnderstand this error
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+835937139/?random=1755802605314&cv=11&fst=1755799200000&bg=ffffff&guid=ON&async=1&en=interaction_cl…:1  Failed to load resource: net::ERR_FAILEDUnderstand this error
+api/gamification/daily-prompt:1  Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+835937139/?random=1755802607145&cv=11&fst=1755799200000&bg=ffffff&guid=ON&async=1&en=interaction_cl…:1  Failed to load resource: net::ERR_FAILEDUnderstand this error
+queryClient.ts:61  GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=84029157:881
+run @ @tanstack_react-query.js?v=84029157:513
+start @ @tanstack_react-query.js?v=84029157:555
+fetch @ @tanstack_react-query.js?v=84029157:969
+executeFetch_fn @ @tanstack_react-query.js?v=84029157:2279
+(anonymous) @ @tanstack_react-query.js?v=84029157:2313Understand this error

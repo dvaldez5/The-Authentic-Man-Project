@@ -1,0 +1,183 @@
+18The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.Understand this warning
+36sw.js:1 Uncaught (in promise) TypeError: Failed to convert value to 'Response'.Understand this error
+dashboard:76 Development environment - Google Ads tracking disabled
+dashboard:203 PWA MODE ACTIVE (server injection)
+chunk-RPCDYKBN.js?v=972dd720:21551 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+notification-service.ts:22 Notification support check: Object
+notification-service.ts:38 ServiceWorker initialized and ready for notifications
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:77 PWA DETECTION: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:68 FORCED ROUTING DECISION: Object
+App.tsx:76 ROUTE RENDER: Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:77 PWA DETECTION: Object
+TourManager.tsx:12 TourManager: Component rendered - User: false Location: /dashboard IsActive: false
+TourManager.tsx:15 🔥 TourManager Effect Running - User: false IsActive: false Location: /dashboard
+TourManager.tsx:18 TourManager: No user, skipping
+main.tsx:29 PWA Service Worker registered
+TourManager.tsx:12 TourManager: Component rendered - User: false Location: /dashboard IsActive: false
+TourManager.tsx:15 🔥 TourManager Effect Running - User: false IsActive: false Location: /dashboard
+TourManager.tsx:18 TourManager: No user, skipping
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:68 FORCED ROUTING DECISION: Object
+App.tsx:76 ROUTE RENDER: Object
+TourManager.tsx:12 TourManager: Component rendered - User: true Location: /dashboard IsActive: false
+TourManager.tsx:15 🔥 TourManager Effect Running - User: true IsActive: false Location: /dashboard
+TourManager.tsx:32 TourManager: Processing location: /dashboard
+TourManager.tsx:60 TourManager: Pending transition: null
+TourManager.tsx:70 TourManager: Checking page-specific tours for: /dashboard
+TourManager.tsx:73 🎯 TourManager: Dashboard detected, calling autoStartTour for dashboard-intro
+TourManager.tsx:36 🚀 autoStartTour called for dashboard-intro with 3000ms delay
+OnboardingTourContext.tsx:132 OnboardingTourContext: Checking if tour completed Object
+TourManager.tsx:37 🔍 Checking if dashboard-intro is completed: true
+OnboardingTourContext.tsx:132 OnboardingTourContext: Checking if tour completed Object
+TourManager.tsx:40 ❌ dashboard-intro already completed, skipping
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:77 PWA DETECTION: Object
+OnboardingTourContext.tsx:132 OnboardingTourContext: Checking if tour completed Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:68 FORCED ROUTING DECISION: Object
+App.tsx:76 ROUTE RENDER: Object
+TourManager.tsx:12 TourManager: Component rendered - User: true Location: /dashboard IsActive: false
+OnboardingTourContext.tsx:132 OnboardingTourContext: Checking if tour completed Object
+dashboard:1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">Understand this warning
+api/gamification/daily-prompt:1 
+            
+            
+           Failed to load resource: the server responded with a status of 404 (Not Found)Understand this error
+OnboardingTourContext.tsx:132 OnboardingTourContext: Checking if tour completed Object
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: Object
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:68 FORCED ROUTING DECISION: Object
+App.tsx:76 ROUTE RENDER: Object
+TourManager.tsx:12 TourManager: Component rendered - User: true Location: /dashboard IsActive: false
+OnboardingTourContext.tsx:132 OnboardingTourContext: Checking if tour completed Object
+use-notification-manager.tsx:76 === NOTIFICATION MANAGER INITIALIZATION ===
+use-notification-manager.tsx:77 Settings available: true
+use-notification-manager.tsx:78 User activity available: true
+use-notification-manager.tsx:79 Browser notifications enabled: true
+use-notification-manager.tsx:82 🔔 Initializing notifications for user
+notification-service.ts:127 Notification permission request started: Object
+use-notification-manager.tsx:90 Permission status: granted
+notification-scheduler.ts:597 All notifications canceled
+notification-scheduler.ts:744 === NOTIFICATION SCHEDULER INITIALIZATION ===
+notification-scheduler.ts:745 Settings: Object
+notification-scheduler.ts:746 User Activity: Object
+notification-scheduler.ts:761 Using notification time: 09:00, timezone: America/Denver
+notification-scheduler.ts:597 All notifications canceled
+notification-scheduler.ts:768 ✅ Scheduling daily challenge notifications for 09:00 America/Denver
+notification-scheduler.ts:402 🕐 Scheduling daily challenge for: 6/23/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-06-23T09:00:00.000Z
+notification-scheduler.ts:403 ⏱️  Delay: 589 minutes from now
+notification-scheduler.ts:404 📍 Timezone debug: Object
+notification-scheduler.ts:776 ✅ Scheduling weekly reflection notifications for 09:00 America/Denver
+notification-scheduler.ts:469 Scheduling weekly reflection for: 6/29/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-06-29T09:00:00.000Z
+notification-scheduler.ts:816 ✅ Scheduling course reminder for stalled course: Tempered Steel (20% complete, 3 days idle)
+notification-scheduler.ts:580 Scheduling course reminder for: 6/23/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-06-23T09:00:00.000Z
+notification-scheduler.ts:831 Active notifications scheduled: 3
+notification-scheduler.ts:832 === NOTIFICATION SCHEDULER INITIALIZATION COMPLETE ===
+use-notification-manager.tsx:106 ✅ Notification initialization completed successfully
+OnboardingTourContext.tsx:132 OnboardingTourContext: Checking if tour completed Object
+OnboardingTourContext.tsx:132 OnboardingTourContext: Checking if tour completed Object
+queryClient.ts:61 
+            
+            
+           GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=972dd720:850
+run @ @tanstack_react-query.js?v=972dd720:500
+start @ @tanstack_react-query.js?v=972dd720:542
+fetch @ @tanstack_react-query.js?v=972dd720:937
+executeFetch_fn @ @tanstack_react-query.js?v=972dd720:2244
+(anonymous) @ @tanstack_react-query.js?v=972dd720:2278Understand this error
+queryClient.ts:61 
+            
+            
+           GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=972dd720:850
+run @ @tanstack_react-query.js?v=972dd720:500
+start @ @tanstack_react-query.js?v=972dd720:542
+fetch @ @tanstack_react-query.js?v=972dd720:937
+executeFetch_fn @ @tanstack_react-query.js?v=972dd720:2244
+(anonymous) @ @tanstack_react-query.js?v=972dd720:2278
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=972dd720:2276
+updateTimers_fn @ @tanstack_react-query.js?v=972dd720:2283
+onQueryUpdate @ @tanstack_react-query.js?v=972dd720:2239
+(anonymous) @ @tanstack_react-query.js?v=972dd720:1009
+(anonymous) @ @tanstack_react-query.js?v=972dd720:1008
+batch @ @tanstack_react-query.js?v=972dd720:590
+dispatch_fn @ @tanstack_react-query.js?v=972dd720:1007
+onError @ @tanstack_react-query.js?v=972dd720:872
+reject @ @tanstack_react-query.js?v=972dd720:471
+(anonymous) @ @tanstack_react-query.js?v=972dd720:514
+Promise.catch
+run @ @tanstack_react-query.js?v=972dd720:504
+start @ @tanstack_react-query.js?v=972dd720:542
+fetch @ @tanstack_react-query.js?v=972dd720:937
+executeFetch_fn @ @tanstack_react-query.js?v=972dd720:2244
+(anonymous) @ @tanstack_react-query.js?v=972dd720:2278Understand this error
+queryClient.ts:61 
+            
+            
+           GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=972dd720:850
+run @ @tanstack_react-query.js?v=972dd720:500
+start @ @tanstack_react-query.js?v=972dd720:542
+fetch @ @tanstack_react-query.js?v=972dd720:937
+executeFetch_fn @ @tanstack_react-query.js?v=972dd720:2244
+(anonymous) @ @tanstack_react-query.js?v=972dd720:2278
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=972dd720:2276
+updateTimers_fn @ @tanstack_react-query.js?v=972dd720:2283
+onQueryUpdate @ @tanstack_react-query.js?v=972dd720:2239
+(anonymous) @ @tanstack_react-query.js?v=972dd720:1009
+(anonymous) @ @tanstack_react-query.js?v=972dd720:1008
+batch @ @tanstack_react-query.js?v=972dd720:590
+dispatch_fn @ @tanstack_react-query.js?v=972dd720:1007
+onError @ @tanstack_react-query.js?v=972dd720:872
+reject @ @tanstack_react-query.js?v=972dd720:471
+(anonymous) @ @tanstack_react-query.js?v=972dd720:514
+Promise.catch
+run @ @tanstack_react-query.js?v=972dd720:504
+start @ @tanstack_react-query.js?v=972dd720:542
+fetch @ @tanstack_react-query.js?v=972dd720:937
+executeFetch_fn @ @tanstack_react-query.js?v=972dd720:2244
+(anonymous) @ @tanstack_react-query.js?v=972dd720:2278
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=972dd720:2276
+updateTimers_fn @ @tanstack_react-query.js?v=972dd720:2283
+onQueryUpdate @ @tanstack_react-query.js?v=972dd720:2239
+(anonymous) @ @tanstack_react-query.js?v=972dd720:1009
+(anonymous) @ @tanstack_react-query.js?v=972dd720:1008
+batch @ @tanstack_react-query.js?v=972dd720:590
+dispatch_fn @ @tanstack_react-query.js?v=972dd720:1007
+onError @ @tanstack_react-query.js?v=972dd720:872
+reject @ @tanstack_react-query.js?v=972dd720:471
+(anonymous) @ @tanstack_react-query.js?v=972dd720:514
+Promise.catch
+run @ @tanstack_react-query.js?v=972dd720:504
+start @ @tanstack_react-query.js?v=972dd720:542
+fetch @ @tanstack_react-query.js?v=972dd720:937
+executeFetch_fn @ @tanstack_react-query.js?v=972dd720:2244
+(anonymous) @ @tanstack_react-query.js?v=972dd720:2278Understand this error
+queryClient.ts:61 
+            
+            
+           GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)

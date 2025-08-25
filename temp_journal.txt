@@ -1,0 +1,413 @@
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { apiRequest } from "@/lib/queryClient";
+import { format } from "date-fns";
+import { Link } from "wouter";
+import { useAuth } from "@/hooks/use-auth";
+import {
+  MessageCircle,
+  Plus,
+  Pin,
+  PinOff,
+  Calendar,
+  BookOpen,
+  Target,
+  Users,
+  Lightbulb,
+  Heart,
+  HelpCircle,
+  LogOut
+} from "lucide-react";
+import { JournalPrompt } from "@/components/JournalPrompt";
+import { PageContainer } from "@/components/PageContainer";
+
+interface AIReflection {
+  questions: string[];
+  affirmation: string;
+  insight: string;
+}
+
+interface JournalEntry {
+  id: number;
+  content?: string;
+  text?: string;
+  aiReflection: AIReflection | null;
+  pinned: boolean;
+  lessonId: number | null;
+  challengeId: number | null;
+  scenarioId: number | null;
+  createdAt: string;
+}
+
+export default function Journal() {
+  const [showNewEntry, setShowNewEntry] = useState(false);
+  const [expandedEntry, setExpandedEntry] = useState<number | null>(null);
+  const queryClient = useQueryClient();
+  const { user, logoutMutation } = useAuth();
+
+  const { data: entries = [], isLoading } = useQuery<JournalEntry[]>({
+    queryKey: ['/api/journal']
+  });
+
+  const pinMutation = useMutation({
+    mutationFn: async ({ id, pinned }: { id: number; pinned: boolean }) => {
+      const endpoint = pinned ? `/api/journal/${id}/unpin` : `/api/journal/${id}/pin`;
+      await apiRequest('POST', endpoint);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/journal'] });
+    }
+  });
+
+  const handlePin = (id: number, currentlyPinned: boolean) => {
+    pinMutation.mutate({ id, pinned: currentlyPinned });
+  };
+
+  const handleLogout = () => {
+    logoutMutation.mutate();
+  };
+
+  const getEntryIcon = (entry: JournalEntry) => {
+    if (entry.lessonId) return <BookOpen className="h-4 w-4 text-blue-600" />;
+    if (entry.challengeId) return <Target className="h-4 w-4 text-green-600" />;
+    if (entry.scenarioId) return <Users className="h-4 w-4 text-purple-600" />;
+    return <MessageCircle className="h-4 w-4 text-primary" />;
+  };
+
+  const getEntryType = (entry: JournalEntry) => {
+    if (entry.lessonId) return "Lesson Reflection";
+    if (entry.challengeId) return "Challenge Entry";
+    if (entry.scenarioId) return "Scenario Response";
+    return "Personal Entry";
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-muted-foreground">Loading journal...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="bg-card border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <h1 className="text-xl font-bold text-foreground">The AM Project</h1>
+            </div>
+            <nav className="hidden md:flex space-x-8">
+              <Link href="/dashboard" className="text-muted-foreground hover:text-foreground px-3 py-2 text-sm font-medium">
+                Dashboard
+              </Link>
+              <Link href="/learning" className="text-muted-foreground hover:text-foreground px-3 py-2 text-sm font-medium">
+                Courses
+              </Link>
+              <Link href="/community" className="text-muted-foreground hover:text-foreground px-3 py-2 text-sm font-medium">
+                Community
+              </Link>
+              <Link href="/pod" className="text-muted-foreground hover:text-foreground px-3 py-2 text-sm font-medium">
+                My Pod
+              </Link>
+              <Link href="/journal" className="text-primary hover:text-accent px-3 py-2 text-sm font-medium">
+                Journal
+              </Link>
+            </nav>
+            <div className="flex items-center space-x-4">
+              <span className="text-muted-foreground text-sm">Welcome, {user?.fullName}</span>
+              <Button 
+                onClick={handleLogout}
+                variant="outline"
+                size="sm"
+                className="border-border text-muted-foreground hover:bg-muted"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <PageContainer>
+        {/* Page Header */}
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-foreground mb-2">Your Journal</h2>
+          <p className="text-muted-foreground text-lg mb-6">
+            A space for reflection, insights, and personal development guided by AI-powered wisdom.
+          </p>
+          
+          {/* Journal Benefits Section */}
+          <Card className="border-border bg-gradient-to-r from-primary/5 to-accent/5 mb-6">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                <Lightbulb className="h-5 w-5 text-primary" />
+                Why Journaling Transforms Your Growth
+              </h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div className="flex gap-3">
+                    <div className="bg-primary/10 rounded-full p-2 flex-shrink-0">
+                      <MessageCircle className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-foreground mb-1">Process Experiences</h4>
+                      <p className="text-sm text-muted-foreground">Transform daily events into meaningful insights through structured reflection.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="bg-primary/10 rounded-full p-2 flex-shrink-0">
+                      <Target className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-foreground mb-1">Track Progress</h4>
+                      <p className="text-sm text-muted-foreground">Document your journey and celebrate growth milestones along the way.</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex gap-3">
+                    <div className="bg-primary/10 rounded-full p-2 flex-shrink-0">
+                      <Heart className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-foreground mb-1">Build Self-Awareness</h4>
+                      <p className="text-sm text-muted-foreground">Develop deeper understanding of your patterns, triggers, and strengths.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="bg-primary/10 rounded-full p-2 flex-shrink-0">
+                      <Users className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-foreground mb-1">AI-Guided Reflection</h4>
+                      <p className="text-sm text-muted-foreground">Receive personalized insights and thought-provoking questions from AM.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* How to Use Section */}
+          <Card className="border-border mb-6">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                <BookOpen className="h-5 w-5 text-primary" />
+                How to Use Your Journal Effectively
+              </h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="bg-primary/10 rounded-full p-3 w-12 h-12 mx-auto mb-3 flex items-center justify-center">
+                    <span className="text-primary font-bold">1</span>
+                  </div>
+                  <h4 className="font-medium text-foreground mb-2">Daily Reflection</h4>
+                  <p className="text-sm text-muted-foreground">Write about your experiences, challenges, and victories. Be honest and detailed.</p>
+                </div>
+                <div className="text-center">
+                  <div className="bg-primary/10 rounded-full p-3 w-12 h-12 mx-auto mb-3 flex items-center justify-center">
+                    <span className="text-primary font-bold">2</span>
+                  </div>
+                  <h4 className="font-medium text-foreground mb-2">AI Insights</h4>
+                  <p className="text-sm text-muted-foreground">Receive personalized reflections, affirmations, and questions to deepen your understanding.</p>
+                </div>
+                <div className="text-center">
+                  <div className="bg-primary/10 rounded-full p-3 w-12 h-12 mx-auto mb-3 flex items-center justify-center">
+                    <span className="text-primary font-bold">3</span>
+                  </div>
+                  <h4 className="font-medium text-foreground mb-2">Review & Growth</h4>
+                  <p className="text-sm text-muted-foreground">Pin important entries and review them regularly to track your personal evolution.</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Journal Types */}
+          <Card className="border-border">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold text-foreground mb-4">Types of Journal Entries</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="flex items-center gap-3 p-4 border border-muted bg-muted/20 rounded-lg">
+                  <BookOpen className="h-5 w-5 text-primary" />
+                  <div>
+                    <h4 className="font-medium text-foreground text-sm">Lesson Reflections</h4>
+                    <p className="text-xs text-muted-foreground">Auto-generated from course completions</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 border border-primary/30 bg-primary/10 rounded-lg">
+                  <Target className="h-5 w-5 text-primary" />
+                  <div>
+                    <h4 className="font-medium text-foreground text-sm">Challenge Entries</h4>
+                    <p className="text-xs text-muted-foreground">Document your challenge experiences</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 border border-primary/30 bg-primary/5 rounded-lg">
+                  <Users className="h-5 w-5 text-primary" />
+                  <div>
+                    <h4 className="font-medium text-foreground text-sm">Scenario Responses</h4>
+                    <p className="text-xs text-muted-foreground">Reflect on social scenarios</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-4 border border-muted bg-muted/10 rounded-lg">
+                  <MessageCircle className="h-5 w-5 text-primary" />
+                  <div>
+                    <h4 className="font-medium text-foreground text-sm">Personal Entries</h4>
+                    <p className="text-xs text-muted-foreground">Your daily thoughts and reflections</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* New Entry Button */}
+        <div className="mb-8">
+          <Button
+            onClick={() => setShowNewEntry(!showNewEntry)}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground"
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            {showNewEntry ? 'Cancel' : 'New Journal Entry'}
+          </Button>
+        </div>
+
+        {/* New Entry Form */}
+        {showNewEntry && (
+          <div className="mb-8">
+            <JournalPrompt onComplete={() => setShowNewEntry(false)} />
+          </div>
+        )}
+
+        {/* Journal Entries */}
+        <div className="space-y-6">
+          {entries.length === 0 ? (
+            <Card className="border-border">
+              <CardContent className="flex flex-col items-center justify-center py-12">
+                <MessageCircle className="h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="text-lg font-semibold text-foreground mb-2">No journal entries yet</h3>
+                <p className="text-muted-foreground text-center mb-4">
+                  Start your reflection journey by creating your first journal entry.
+                </p>
+                <Button
+                  onClick={() => setShowNewEntry(true)}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Create First Entry
+                </Button>
+              </CardContent>
+            </Card>
+          ) : (
+            entries.map((entry: JournalEntry) => (
+              <Card key={entry.id} className={`border-border ${entry.pinned ? 'ring-2 ring-primary' : ''}`}>
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        {getEntryIcon(entry)}
+                        <Badge variant="secondary" className="text-xs">
+                          {getEntryType(entry)}
+                        </Badge>
+                        {entry.pinned && (
+                          <Badge className="bg-primary text-primary-foreground text-xs">
+                            Pinned
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Calendar className="h-3 w-3" />
+                        {format(new Date(entry.createdAt), 'MMMM d, yyyy at h:mm a')}
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handlePin(entry.id, entry.pinned)}
+                      disabled={pinMutation.isPending}
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      {entry.pinned ? <PinOff className="h-4 w-4" /> : <Pin className="h-4 w-4" />}
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {/* Entry Content */}
+                  <div className="mb-4">
+                    <p className="text-foreground leading-relaxed">
+                      {(entry.content || entry.text || '').length > 200 && expandedEntry !== entry.id
+                        ? `${(entry.content || entry.text || '').substring(0, 200)}...`
+                        : (entry.content || entry.text || 'No content available')
+                      }
+                    </p>
+                    {(entry.content || entry.text || '').length > 200 && (
+                      <Button
+                        variant="link"
+                        size="sm"
+                        onClick={() => setExpandedEntry(expandedEntry === entry.id ? null : entry.id)}
+                        className="text-primary hover:text-primary/80 p-0 h-auto"
+                      >
+                        {expandedEntry === entry.id ? 'Show less' : 'Read more'}
+                      </Button>
+                    )}
+                  </div>
+
+                  {/* AI Reflection */}
+                  {entry.aiReflection && (
+                    <Card className="border-border bg-muted/50">
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-base font-semibold text-foreground flex items-center gap-2">
+                          <MessageCircle className="h-4 w-4" />
+                          AM's Reflection
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4 pt-0">
+                        {/* Insight */}
+                        <div className="flex gap-2">
+                          <Lightbulb className="h-4 w-4 text-primary mt-1 flex-shrink-0" />
+                          <div>
+                            <h5 className="font-medium text-foreground text-sm mb-1">Insight</h5>
+                            <p className="text-muted-foreground text-sm leading-relaxed">{entry.aiReflection.insight}</p>
+                          </div>
+                        </div>
+
+                        {/* Affirmation */}
+                        <div className="flex gap-2">
+                          <Heart className="h-4 w-4 text-primary mt-1 flex-shrink-0" />
+                          <div>
+                            <h5 className="font-medium text-foreground text-sm mb-1">Affirmation</h5>
+                            <p className="text-muted-foreground text-sm leading-relaxed italic">"{entry.aiReflection.affirmation}"</p>
+                          </div>
+                        </div>
+
+                        {/* Questions */}
+                        <div className="flex gap-2">
+                          <HelpCircle className="h-4 w-4 text-primary mt-1 flex-shrink-0" />
+                          <div>
+                            <h5 className="font-medium text-foreground text-sm mb-2">Reflection Questions</h5>
+                            <ul className="space-y-1">
+                              {entry.aiReflection.questions.map((question, idx) => (
+                                <li key={idx} className="text-muted-foreground text-sm leading-relaxed">
+                                  • {question}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
+      </PageContainer>
+    </div>
+  );
+}

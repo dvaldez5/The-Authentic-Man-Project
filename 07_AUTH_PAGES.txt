@@ -1,0 +1,620 @@
+=================================================================
+THE AM PROJECT - PART 7: AUTHENTICATION AND MAIN PAGES
+=================================================================
+
+=================================================================
+FILE: client/src/pages/AuthPage.tsx
+=================================================================
+
+import { useState } from "react";
+import { useAuth } from "@/hooks/use-auth";
+import { Redirect } from "wouter";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
+import { usePWA } from "@/hooks/use-pwa";
+import { Loader2, Shield, Users, Trophy, Target } from "lucide-react";
+import PWAInstallationGuide from "@/components/PWAInstallationGuide";
+
+export default function AuthPage() {
+  const { user, loginMutation, registerMutation } = useAuth();
+  const { toast } = useToast();
+  const { isInstallable, installApp } = usePWA();
+  const [loginForm, setLoginForm] = useState({ email: "", password: "" });
+  const [registerForm, setRegisterForm] = useState({ 
+    email: "", 
+    password: "", 
+    fullName: "",
+    confirmPassword: ""
+  });
+
+  // Redirect if already logged in
+  if (user) {
+    window.location.href = user.onboardingComplete ? "/dashboard" : "/onboarding";
+    return null;
+  }
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!loginForm.email || !loginForm.password) {
+      toast({
+        title: "Missing information",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+    loginMutation.mutate(loginForm);
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!registerForm.email || !registerForm.password || !registerForm.fullName) {
+      toast({
+        title: "Missing information",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (registerForm.password !== registerForm.confirmPassword) {
+      toast({
+        title: "Password mismatch",
+        description: "Passwords do not match",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (registerForm.password.length < 6) {
+      toast({
+        title: "Password too short",
+        description: "Password must be at least 6 characters",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    const { confirmPassword, ...data } = registerForm;
+    registerMutation.mutate(data);
+  };
+
+  return (
+    <div className="min-h-screen bg-black flex">
+      {/* Left side - Authentication Forms */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 overflow-y-auto">
+        <div className="w-full max-w-md space-y-8 py-12">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-white mb-2">Welcome to The AM Project</h1>
+            <p className="text-gray-300">Your journey to authentic leadership starts here</p>
+          </div>
+
+          <Tabs defaultValue="login" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 bg-muted border-border">
+              <TabsTrigger 
+                value="login" 
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                Sign In
+              </TabsTrigger>
+              <TabsTrigger 
+                value="register"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                Sign Up
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="login">
+              <Card className="bg-card border-border">
+                <CardHeader>
+                  <CardTitle className="text-foreground">Sign In</CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    Access your learning dashboard
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleLogin} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="login-email" className="text-foreground">Email</Label>
+                      <Input
+                        id="login-email"
+                        type="email"
+                        placeholder="your@email.com"
+                        value={loginForm.email}
+                        onChange={(e) => setLoginForm(prev => ({ ...prev, email: e.target.value }))}
+                        className="bg-input border-border text-foreground placeholder-muted-foreground"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="login-password" className="text-foreground">Password</Label>
+                      <Input
+                        id="login-password"
+                        type="password"
+                        placeholder="Enter your password"
+                        value={loginForm.password}
+                        onChange={(e) => setLoginForm(prev => ({ ...prev, password: e.target.value }))}
+                        className="bg-input border-border text-foreground placeholder-muted-foreground"
+                        required
+                      />
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+                      disabled={loginMutation.isPending}
+                    >
+                      {loginMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      Sign In
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="register">
+              <Card className="bg-card border-border">
+                <CardHeader>
+                  <CardTitle className="text-foreground">Create Account</CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    Start your transformation journey today
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleRegister} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="register-name" className="text-foreground">Full Name</Label>
+                      <Input
+                        id="register-name"
+                        type="text"
+                        placeholder="Your full name"
+                        value={registerForm.fullName}
+                        onChange={(e) => setRegisterForm(prev => ({ ...prev, fullName: e.target.value }))}
+                        className="bg-input border-border text-foreground placeholder-muted-foreground"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="register-email" className="text-foreground">Email</Label>
+                      <Input
+                        id="register-email"
+                        type="email"
+                        placeholder="your@email.com"
+                        value={registerForm.email}
+                        onChange={(e) => setRegisterForm(prev => ({ ...prev, email: e.target.value }))}
+                        className="bg-input border-border text-foreground placeholder-muted-foreground"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="register-password" className="text-foreground">Password</Label>
+                      <Input
+                        id="register-password"
+                        type="password"
+                        placeholder="Create a password (min 6 characters)"
+                        value={registerForm.password}
+                        onChange={(e) => setRegisterForm(prev => ({ ...prev, password: e.target.value }))}
+                        className="bg-input border-border text-foreground placeholder-muted-foreground"
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="register-confirm" className="text-foreground">Confirm Password</Label>
+                      <Input
+                        id="register-confirm"
+                        type="password"
+                        placeholder="Confirm your password"
+                        value={registerForm.confirmPassword}
+                        onChange={(e) => setRegisterForm(prev => ({ ...prev, confirmPassword: e.target.value }))}
+                        className="bg-input border-border text-foreground placeholder-muted-foreground"
+                        required
+                      />
+                    </div>
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+                      disabled={registerMutation.isPending}
+                    >
+                      {registerMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                      Create Account
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+
+          {/* PWA Installation Guide */}
+          <PWAInstallationGuide showDismiss={false} />
+        </div>
+      </div>
+
+      {/* Right side - Hero Section */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary to-primary/80 items-center justify-center p-12">
+        <div className="max-w-lg text-center text-primary-foreground">
+          <h2 className="text-4xl font-bold mb-6">Transform Your Life</h2>
+          <p className="text-xl mb-8 text-primary-foreground/90">
+            Join thousands of men who are building strength, integrity, and purpose through 
+            our comprehensive learning platform.
+          </p>
+          
+          <div className="grid grid-cols-2 gap-6 mt-8">
+            <div className="text-center">
+              <Shield className="h-12 w-12 mx-auto mb-3 text-accent" />
+              <h3 className="font-semibold mb-2">Mental Resilience</h3>
+              <p className="text-sm text-primary-foreground/80">Build unshakeable mental strength</p>
+            </div>
+            <div className="text-center">
+              <Users className="h-12 w-12 mx-auto mb-3 text-accent" />
+              <h3 className="font-semibold mb-2">Brotherhood</h3>
+              <p className="text-sm text-primary-foreground/80">Connect with like-minded men</p>
+            </div>
+            <div className="text-center">
+              <Trophy className="h-12 w-12 mx-auto mb-3 text-accent" />
+              <h3 className="font-semibold mb-2">Excellence</h3>
+              <p className="text-sm text-primary-foreground/80">Achieve your highest potential</p>
+            </div>
+            <div className="text-center">
+              <Target className="h-12 w-12 mx-auto mb-3 text-accent" />
+              <h3 className="font-semibold mb-2">Purpose</h3>
+              <p className="text-sm text-primary-foreground/80">Discover your true calling</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+=================================================================
+FILE: client/src/lib/protected-route.tsx
+=================================================================
+
+import { useAuth } from "@/hooks/use-auth";
+import { useLocation } from "wouter";
+import { useEffect } from "react";
+
+interface ProtectedRouteProps {
+  component: React.ComponentType<any>;
+  path: string;
+}
+
+export function ProtectedRoute({ component: Component, ...props }: ProtectedRouteProps) {
+  const { user, isLoading } = useAuth();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      setLocation("/auth");
+    }
+  }, [user, isLoading, setLocation]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  return <Component {...props} />;
+}
+
+=================================================================
+FILE: client/src/components/ErrorBoundary.tsx
+=================================================================
+
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { AlertTriangle } from "lucide-react";
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error?: Error;
+}
+
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  ErrorBoundaryState
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-background">
+          <div className="text-center p-8 max-w-md mx-auto">
+            <AlertTriangle className="h-12 w-12 text-destructive mx-auto mb-4" />
+            <h2 className="text-2xl font-bold mb-4 text-foreground">Something went wrong</h2>
+            <p className="text-muted-foreground mb-6">
+              We apologize for the inconvenience. Please try refreshing the page.
+            </p>
+            <Button
+              onClick={() => window.location.reload()}
+              className="bg-primary hover:bg-primary/90"
+            >
+              Refresh Page
+            </Button>
+            {process.env.NODE_ENV === 'development' && (
+              <details className="mt-4 text-left">
+                <summary className="cursor-pointer text-sm text-muted-foreground">
+                  Error Details (Development)
+                </summary>
+                <pre className="mt-2 text-xs bg-muted p-2 rounded overflow-auto">
+                  {this.state.error?.stack}
+                </pre>
+              </details>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;
+
+=================================================================
+FILE: client/src/pages/Home.tsx
+=================================================================
+
+import { useState, useEffect } from 'react';
+import { Link } from 'wouter';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ArrowRight, Users, Trophy, Target, BookOpen, Dumbbell, Brain, Heart } from 'lucide-react';
+import { scrollToTop } from '@/lib/utils';
+
+export default function Home() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  const features = [
+    {
+      icon: Brain,
+      title: "Mental Resilience",
+      description: "Build unshakeable mental strength through evidence-based practices and philosophical frameworks."
+    },
+    {
+      icon: Dumbbell,
+      title: "Physical Excellence",
+      description: "Develop disciplined fitness routines that build both strength and character."
+    },
+    {
+      icon: Heart,
+      title: "Emotional Intelligence",
+      description: "Master your emotions and develop deep, meaningful relationships with others."
+    },
+    {
+      icon: Target,
+      title: "Purpose & Direction",
+      description: "Discover your unique mission and align your actions with your deepest values."
+    }
+  ];
+
+  return (
+    <div className={`min-h-screen transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="container relative z-10 text-center px-4 py-20">
+          <div className="max-w-4xl mx-auto space-y-8">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight">
+              Redefining What It Means to Be a 
+              <span className="text-primary block mt-2">Strong Man</span>
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Join thousands of men building authentic strength, integrity, and purpose through 
+              our comprehensive personal development platform.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
+              <Link href="/auth" onClick={() => scrollToTop()}>
+                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold group">
+                  Start Your Journey
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              
+              <Link href="/about" onClick={() => scrollToTop()}>
+                <Button variant="outline" size="lg" className="px-8 py-4 text-lg">
+                  Learn More
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 bg-background">
+        <div className="container px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
+              The Four Pillars of Authentic Manhood
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Our proven framework helps you develop holistic strength across all areas of life.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {features.map((feature, index) => (
+              <Card key={index} className="border-border bg-card hover:shadow-lg transition-all duration-300 group">
+                <CardHeader className="text-center pb-4">
+                  <div className="mx-auto p-3 bg-primary/10 rounded-lg w-fit mb-4 group-hover:bg-primary/20 transition-colors">
+                    <feature.icon className="h-8 w-8 text-primary" />
+                  </div>
+                  <CardTitle className="text-xl font-bold text-foreground">
+                    {feature.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-center text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 bg-gradient-to-r from-primary/5 to-accent/5">
+        <div className="container px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="space-y-2">
+              <div className="text-4xl md:text-5xl font-bold text-primary">10,000+</div>
+              <div className="text-lg text-muted-foreground">Men Transformed</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl md:text-5xl font-bold text-primary">95%</div>
+              <div className="text-lg text-muted-foreground">Success Rate</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl md:text-5xl font-bold text-primary">5+</div>
+              <div className="text-lg text-muted-foreground">Years of Impact</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-background">
+        <div className="container px-4 text-center">
+          <div className="max-w-3xl mx-auto space-y-8">
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground">
+              Ready to Become the Man You Were Meant to Be?
+            </h2>
+            <p className="text-xl text-muted-foreground">
+              Join our community of men who are committed to authentic growth and transformation.
+            </p>
+            <Link href="/auth" onClick={() => scrollToTop()}>
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold">
+                Get Started Today
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+=================================================================
+FILE: client/src/pages/Splash.tsx
+=================================================================
+
+import { useEffect, useState } from 'react';
+import { useAuth } from '@/hooks/use-auth';
+import { useLocation } from 'wouter';
+import { Button } from '@/components/ui/button';
+import { Target, Users, BookOpen, Brain } from 'lucide-react';
+
+export default function Splash() {
+  const { user } = useAuth();
+  const [, setLocation] = useLocation();
+  const [fadeIn, setFadeIn] = useState(false);
+
+  useEffect(() => {
+    setFadeIn(true);
+  }, []);
+
+  const handleGetStarted = () => {
+    if (user) {
+      if (user.onboardingComplete) {
+        setLocation('/dashboard');
+      } else {
+        setLocation('/onboarding');
+      }
+    } else {
+      setLocation('/auth');
+    }
+  };
+
+  const features = [
+    { icon: Target, text: "Define Your Purpose" },
+    { icon: Brain, text: "Build Mental Strength" },
+    { icon: Users, text: "Join Brotherhood" },
+    { icon: BookOpen, text: "Learn & Grow" }
+  ];
+
+  return (
+    <div className={`min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex flex-col items-center justify-center text-white transition-all duration-1000 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}>
+      
+      {/* Logo */}
+      <div className="text-center mb-8 animate-fade-in">
+        <img 
+          src="/app-icon-192.png" 
+          alt="The AM Project" 
+          className="w-24 h-24 mx-auto mb-4 rounded-2xl shadow-2xl"
+        />
+        <h1 className="text-4xl font-bold text-white mb-2">The AM Project</h1>
+        <p className="text-gray-300 text-lg">Authentic Masculine Development</p>
+      </div>
+
+      {/* Features Grid */}
+      <div className="grid grid-cols-2 gap-6 mb-12 px-8 max-w-md">
+        {features.map((feature, index) => (
+          <div 
+            key={index} 
+            className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm border border-white/20"
+            style={{ animationDelay: `${index * 0.1}s` }}
+          >
+            <feature.icon className="h-8 w-8 text-primary mx-auto mb-2" />
+            <p className="text-sm text-gray-300">{feature.text}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* CTA Button */}
+      <div className="text-center space-y-4 px-8 max-w-sm w-full">
+        <Button 
+          onClick={handleGetStarted}
+          size="lg"
+          className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-4 rounded-xl shadow-lg"
+        >
+          {user ? (user.onboardingComplete ? 'Go to Dashboard' : 'Complete Setup') : 'Get Started'}
+        </Button>
+        
+        <p className="text-xs text-gray-400 leading-relaxed">
+          Join thousands of men building strength, integrity, and purpose.
+        </p>
+      </div>
+
+      {/* Version indicator for PWA */}
+      <div className="absolute bottom-4 left-4 text-xs text-gray-500">
+        v2.1.0
+      </div>
+    </div>
+  );
+}

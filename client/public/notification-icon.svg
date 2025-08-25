@@ -1,0 +1,16 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle with AM brand colors -->
+  <circle cx="32" cy="32" r="32" fill="#8B4513"/>
+  
+  <!-- AM logo inspired design -->
+  <g transform="translate(16, 18)">
+    <!-- A -->
+    <path d="M4 28 L10 8 L14 8 L20 28 L16 28 L15 24 L9 24 L8 28 Z M10 20 L14 20 L12 14 Z" fill="white"/>
+    
+    <!-- M -->
+    <path d="M24 28 L24 8 L28 8 L32 20 L36 8 L40 8 L40 28 L36 28 L36 14 L33 24 L31 24 L28 14 L28 28 Z" fill="white"/>
+  </g>
+  
+  <!-- Notification indicator dot -->
+  <circle cx="48" cy="16" r="6" fill="#FF4444"/>
+</svg>

@@ -1,0 +1,515 @@
+# The AM Project - Complete Code Export
+
+## Project Structure
+```
+theamproject/
+├── client/
+│   ├── index.html
+│   ├── public/
+│   └── src/
+├── server/
+├── shared/
+├── scripts/
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+├── tailwind.config.ts
+├── drizzle.config.ts
+└── postcss.config.js
+```
+
+## Package.json
+```json
+{
+  "name": "rest-express",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --outDir ../dist/client",
+    "build:server": "tsc --outDir ../dist/server",
+    "dev": "NODE_ENV=development tsx server/index.ts",
+    "start": "NODE_ENV=production node dist/server/index.js",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "upload-course": "tsx scripts/upload-course.ts",
+    "content-manager": "tsx scripts/content-manager.ts",
+    "seed-challenges": "tsx scripts/seed-challenges.ts",
+    "seed-scenarios": "tsx scripts/seed-scenarios.ts"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
+    "@jridgewell/trace-mapping": "^0.3.25",
+    "@neondatabase/serverless": "^0.10.1",
+    "@radix-ui/react-accordion": "^1.2.1",
+    "@radix-ui/react-alert-dialog": "^1.1.2",
+    "@radix-ui/react-aspect-ratio": "^1.1.0",
+    "@radix-ui/react-avatar": "^1.1.1",
+    "@radix-ui/react-checkbox": "^1.1.2",
+    "@radix-ui/react-collapsible": "^1.1.1",
+    "@radix-ui/react-context-menu": "^2.2.2",
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-dropdown-menu": "^2.1.2",
+    "@radix-ui/react-hover-card": "^1.1.2",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-menubar": "^1.1.2",
+    "@radix-ui/react-navigation-menu": "^1.2.1",
+    "@radix-ui/react-popover": "^1.1.2",
+    "@radix-ui/react-progress": "^1.1.0",
+    "@radix-ui/react-radio-group": "^1.2.1",
+    "@radix-ui/react-scroll-area": "^1.2.0",
+    "@radix-ui/react-select": "^2.1.2",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-slider": "^1.2.1",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-switch": "^1.1.1",
+    "@radix-ui/react-tabs": "^1.1.1",
+    "@radix-ui/react-toast": "^1.2.2",
+    "@radix-ui/react-toggle": "^1.1.0",
+    "@radix-ui/react-toggle-group": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.3",
+    "@replit/vite-plugin-cartographer": "1.0.4",
+    "@replit/vite-plugin-runtime-error-modal": "1.0.2",
+    "@tailwindcss/typography": "^0.5.15",
+    "@tanstack/react-query": "^5.59.16",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/compression": "^1.7.5",
+    "@types/connect-pg-simple": "^7.0.3",
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/memoizee": "^0.4.11",
+    "@types/node": "^22.7.4",
+    "@types/passport": "^1.0.16",
+    "@types/passport-local": "^1.0.38",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "@types/ws": "^8.5.12",
+    "@vitejs/plugin-react": "^4.3.2",
+    "autoprefixer": "^10.4.20",
+    "bcryptjs": "^2.4.3",
+    "caniuse-lite": "^1.0.30001669",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "cmdk": "1.0.0",
+    "compression": "^1.7.4",
+    "connect-pg-simple": "^10.0.0",
+    "date-fns": "^4.1.0",
+    "drizzle-kit": "^0.28.1",
+    "drizzle-orm": "^0.36.4",
+    "drizzle-zod": "^0.5.1",
+    "embla-carousel-react": "^8.3.0",
+    "esbuild": "^0.24.0",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "framer-motion": "^11.11.17",
+    "input-otp": "^1.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.453.0",
+    "memoizee": "^0.4.17",
+    "memorystore": "^1.6.7",
+    "next-themes": "^0.4.3",
+    "openai": "^4.69.0",
+    "openid-client": "^6.1.3",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "postcss": "^8.4.47",
+    "react": "^18.3.1",
+    "react-day-picker": "^9.1.3",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
+    "react-icons": "^5.3.0",
+    "react-markdown": "^9.0.1",
+    "react-resizable-panels": "^2.1.4",
+    "recharts": "^2.12.7",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.0",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "tailwind-merge": "^2.5.3",
+    "tailwindcss": "^3.4.13",
+    "tailwindcss-animate": "^1.0.7",
+    "tsx": "^4.19.1",
+    "tw-animate-css": "^1.0.5",
+    "typescript": "^5.6.2",
+    "vaul": "^1.0.0",
+    "vite": "^5.4.8",
+    "vite-plugin-pwa": "^0.21.1",
+    "wouter": "^3.3.5",
+    "ws": "^8.18.0",
+    "zod": "^3.23.8",
+    "zod-validation-error": "^3.4.0"
+  }
+}
+```
+
+## Client Files
+
+### client/index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    
+    <!-- Default Meta Tags (will be overridden by MetaTags component when needed) -->
+    <title>The AM Project - Redefining Modern Manhood</title>
+    <meta name="description" content="Your personal development journey. Access courses, journal, challenges, and community features." />
+    
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://theamproject.com/" />
+    <meta property="og:title" content="The AM Project - Redefining Modern Manhood" />
+    <meta property="og:description" content="The AM Project helps men build strength, integrity, and purpose through actionable content and community." />
+    <meta property="og:image" content="/images/mountain-climbers.jpg" />
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="The AM Project - Redefining Modern Manhood" />
+    <meta name="twitter:description" content="The AM Project helps men build strength, integrity, and purpose through actionable content and community." />
+    <meta name="twitter:image" content="/images/mountain-climbers.jpg" />
+    
+    <link rel="icon" href="/app-icon-192.png" type="image/png" />
+    
+    <!-- Font Preconnects -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#7C4A32">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AM Project">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // MINIMAL PWA DETECTION: Only for genuine standalone installations
+      (function() {
+        // Clear any contaminated PWA state
+        const isReplitDev = /Replit-Bonsai/i.test(navigator.userAgent);
+        if (isReplitDev) {
+          localStorage.removeItem('pwaMode');
+          return;
+        }
+        
+        // Only allow PWA for actual standalone mode
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+        const isIOSStandalone = window.navigator.standalone === true;
+        const isPWAParam = window.location.search.includes('pwa=true');
+        
+        if (isStandalone || isIOSStandalone || isPWAParam) {
+          localStorage.setItem('pwaMode', 'true');
+        } else {
+          // Clear PWA state for mobile browsers
+          localStorage.removeItem('pwaMode');
+        }
+      })();
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+  </body>
+</html>
+```
+
+## Configuration Files
+
+### tsconfig.json
+```json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./client/src/*"],
+      "@shared/*": ["./shared/*"],
+      "@assets/*": ["./client/public/*"]
+    }
+  },
+  "include": ["client/src", "server", "shared", "scripts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
+```
+
+### vite.config.ts
+```typescript
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { replitCartographer } from "@replit/vite-plugin-cartographer";
+import { replitErrorModal } from "@replit/vite-plugin-runtime-error-modal";
+import path from "path";
+import { VitePWA } from 'vite-plugin-pwa';
+
+export default defineConfig({
+  plugins: [
+    react(),
+    replitCartographer(),
+    replitErrorModal(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif,woff,woff2,ttf,eot}'],
+        navigateFallback: '/index.html',
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // <== 365 days
+              },
+              cacheKeyWillBeUsed: async ({ request }) => {
+                return `${request.url}`;
+              }
+            }
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'gstatic-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // <== 365 days
+              }
+            }
+          },
+          {
+            urlPattern: /\/api\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 5 // 5 minutes
+              },
+              networkTimeoutSeconds: 10
+            }
+          }
+        ]
+      },
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'app-icon-192.png', 'app-icon-512.png'],
+      manifest: {
+        name: 'The AM Project',
+        short_name: 'AM Project',
+        description: 'Transform your life through authentic masculine development',
+        theme_color: '#7C4A32',
+        background_color: '#000000',
+        display: 'standalone',
+        scope: '/',
+        start_url: '/',
+        orientation: 'portrait-primary',
+        icons: [
+          {
+            src: 'app-icon-192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'app-icon-512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          },
+          {
+            src: 'app-icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable'
+          }
+        ],
+        categories: ['lifestyle', 'education', 'health'],
+        shortcuts: [
+          {
+            name: "Daily Challenge",
+            short_name: "Challenge",
+            description: "View today's challenge",
+            url: "/challenges",
+            icons: [{ src: "app-icon-192.png", sizes: "192x192" }]
+          },
+          {
+            name: "Journal",
+            short_name: "Journal",
+            description: "Open journal",
+            url: "/journal",
+            icons: [{ src: "app-icon-192.png", sizes: "192x192" }]
+          }
+        ]
+      }
+    })
+  ],
+  root: "client",
+  build: {
+    outDir: "../dist/client",
+    emptyOutDir: true,
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./client/src"),
+      "@shared": path.resolve(__dirname, "./shared"),
+      "@assets": path.resolve(__dirname, "./client/public"),
+    },
+  },
+  server: {
+    proxy: {
+      "/api": "http://localhost:5000",
+    },
+  },
+  optimizeDeps: {
+    exclude: ['lucide-react'],
+  },
+});
+```
+
+### tailwind.config.ts
+```typescript
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  darkMode: ["class"],
+  content: [
+    "./client/src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./client/index.html",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.5s ease-in-out",
+        "slide-in": "slide-in 0.3s ease-out",
+        "bounce-slow": "bounce 2s infinite",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "slide-in": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Inter', 'system-ui', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+};
+
+export default config;
+```
+
+### drizzle.config.ts
+```typescript
+import { defineConfig } from "drizzle-kit";
+
+export default defineConfig({
+  dialect: "postgresql",
+  schema: "./shared/schema.ts",
+  out: "./drizzle",
+  dbCredentials: {
+    url: process.env.DATABASE_URL!,
+  },
+});
+```
+
+### postcss.config.js
+```javascript
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+```
+
+### components.json
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "css": "client/src/index.css",
+    "baseColor": "slate",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils"
+  }
+}
+```

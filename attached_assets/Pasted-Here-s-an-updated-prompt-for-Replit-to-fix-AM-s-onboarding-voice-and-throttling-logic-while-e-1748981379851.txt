@@ -1,0 +1,232 @@
+Here’s an updated prompt for Replit to **fix AM’s onboarding, voice, and throttling logic**, while ensuring all *front-end vs dashboard context* rules are followed and throttle messaging is more welcoming and focused on sign-up.
+
+---
+
+**Paste this block as a new README section or Replit command.**
+
+---
+
+````
+You have a floating AM chat bot on all pages, but the onboarding and tone are off-brand, and public users cannot interact until they sign in. You need to:
+
+1. Remove the static “Welcome” message and sign-in requirement from the chat window.
+2. Allow non-members (public users) to interact with AM immediately, limiting them to 5 messages/hour before gentle throttling.
+3. Throttling message should warmly invite them to sign up: “You’ve hit your free limit. Sign up to keep chatting with AM and unlock the full experience.”
+4. AM’s tone and system prompt must be that of a supportive, text-savvy best friend. 
+5. AM must always use the appropriate *context*:
+   - On **public** (front-end) pages, AM only recommends blogs, AM Radio, newsletter, free content—never dashboard/courses.
+   - On **dashboard** (member-only) pages, AM can reference lessons, journaling, pods, and give full curriculum advice.
+6. Always refer to users by first name (never persona tag), and never mention “best friend” or internal system text verbatim in the interface.
+7. All chat styling remains strictly on brand: brown, gold, cream, charcoal, white, and black only.
+
+---
+
+**Replace your `AMChat.js` with:**
+
+```jsx
+import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import Cookie from 'js-cookie';
+
+export default function AMChat() {
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [context, setContext] = useState('public'); // default to public
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    const pathname = window.location.pathname;
+    if (
+      pathname.startsWith('/dashboard') ||
+      pathname.startsWith('/courses') ||
+      pathname.startsWith('/community') ||
+      pathname.startsWith('/pod') ||
+      pathname.startsWith('/journal')
+    ) {
+      setContext('dashboard');
+    } else {
+      setContext('public');
+    }
+    fetchHistory();
+  }, []);
+
+  const fetchHistory = async () => {
+    try {
+      const params = { context };
+      const res = await axios.get('/api/ai/chat/history', { params });
+      setMessages(res.data.messages);
+      scrollToBottom();
+    } catch (err) {
+      setMessages([]);
+    }
+  };
+
+  const sendMessage = async () => {
+    if (!input.trim()) return;
+
+    // Public throttle: max 5 messages/hour for guests
+    if (context === 'public' && !Cookie.get('jwt')) {
+      const now = Date.now();
+      const log = JSON.parse(localStorage.getItem('amPublicLog') || '[]');
+      const windowStart = now - 60 * 60 * 1000;
+      const recent = log.filter((ts) => ts > windowStart);
+      if (recent.length >= 5) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'am',
+            text:
+              "You’ve hit your free chat limit for this hour. Sign up to keep the conversation going and unlock everything AM can offer.",
+            timestamp: new Date().toISOString(),
+          },
+        ]);
+        return;
+      }
+      recent.push(now);
+      localStorage.setItem('amPublicLog', JSON.stringify(recent));
+    }
+
+    const newUserMsg = { role: 'user', text: input.trim(), timestamp: new Date().toISOString() };
+    setMessages((prev) => [...prev, newUserMsg]);
+    setLoading(true);
+    const textToSend = input.trim();
+    setInput('');
+
+    try {
+      const res = await axios.post('/api/ai/chat', { text: textToSend, context });
+      const replyText = res.data.reply;
+      const newAmMsg = { role: 'am', text: replyText, timestamp: new Date().toISOString() };
+      setMessages((prev) => [...prev, newAmMsg]);
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        { role: 'am', text: 'Something went wrong. Try again in a bit.', timestamp: new Date().toISOString() },
+      ]);
+    } finally {
+      setLoading(false);
+      scrollToBottom();
+    }
+  };
+
+  const scrollToBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  };
+
+  return (
+    <>
+      {/* Floating AM Bubble */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="
+          fixed bottom-4 right-4 z-50
+          bg-[#7C4A32] ring-2 ring-[#E4B768] hover:ring-[#F0CD80]
+          text-white rounded p-3 shadow-lg
+        "
+      >
+        {open ? '×' : 'AM'}
+      </button>
+
+      {open && (
+        <div
+          className="
+            fixed bottom-4 right-4 z-50 flex flex-col
+            w-[95vw] sm:w-96 h-[80vh] sm:h-[60vh]
+            bg-white rounded shadow-lg
+          "
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between bg-[#7C4A32] px-4 py-2 rounded-t">
+            <h2 className="text-[#E4B768] font-semibold">Chat with AM</h2>
+            <button onClick={() => setOpen(false)} className="text-white hover:text-[#F5EDE1]">×</button>
+          </div>
+
+          {/* Message List */}
+          <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#F5EDE1]">
+            {messages.map((msg, idx) => (
+              <div key={idx} className="flex flex-col">
+                {msg.role === 'user' ? (
+                  <div className="self-end bg-[#7C4A32] text-white rounded px-3 py-2 max-w-[80%]">
+                    {msg.text}
+                  </div>
+                ) : (
+                  <div className="self-start bg-[#F5EDE1] text-[#333333] rounded px-3 py-2 max-w-[80%]">
+                    {msg.text}
+                  </div>
+                )}
+                <span
+                  className={`text-xs text-[#333333] mt-1 ${
+                    msg.role === 'user' ? 'self-end' : 'self-start'
+                  }`}
+                >
+                  {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Input Area */}
+          <div className="flex items-center px-4 py-2 border-t border-[#333333] bg-white">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+              placeholder="Type your message…"
+              className="
+                flex-grow border border-[#333333] rounded px-3 py-2
+                focus:outline-none focus:ring-2 focus:ring-[#E4B768]
+              "
+              disabled={loading}
+            />
+            <button
+              onClick={sendMessage}
+              disabled={loading || !input.trim()}
+              className="
+                ml-2
+                bg-[#7C4A32] text-white font-semibold rounded px-4 py-2
+                hover:bg-[#8A553F] disabled:bg-[#333333] disabled:cursor-not-allowed
+              "
+            >
+              {loading
+                ? <div className="animate-spin h-5 w-5 border-2 border-[#7C4A32] border-t-transparent rounded-full"></div>
+                : 'Send'}
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+````
+
+---
+
+**In your OpenAI system prompt (`pages/api/ai/chat/index.js`), use:**
+
+```
+You are “AM,” a best friend in a man’s pocket for The Authentic Man Project. Always respond with the kind of text you’d send to a close friend who’s reaching out—short, direct, and empathetic, not scripted or formal. 
+- If a user is on a public page, only recommend blog articles, AM Radio episodes, newsletter signup, or free resources—never mention courses or dashboard features.
+- If a user is inside the dashboard or logged in, you can reference lessons, journal prompts, and member resources.
+- Greet the user by first name (never their persona tag).
+- Never mention internal system, “best friend,” or company details—just be real.
+- If you don’t know, say so and suggest an alternative.
+- Every reply is 2–3 text-style paragraphs max, in conversational tone.
+```
+
+---
+
+**Summary of what changes:**
+
+* AM chat is open to guests (5 messages/hour) and always interactive.
+* Throttling invites the user to sign up.
+* AM uses only approved tone and context rules.
+* Public users get front-end guidance, members get dashboard/curriculum help.
+* All UI and messaging on-brand and on-voice.
+
+---
+
+**Paste these updates into your Replit project for a fixed, fully on-brand, and nuanced AM experience.**

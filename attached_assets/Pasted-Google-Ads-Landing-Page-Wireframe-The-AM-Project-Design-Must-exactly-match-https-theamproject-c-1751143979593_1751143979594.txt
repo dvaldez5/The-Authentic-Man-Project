@@ -1,0 +1,230 @@
+Google Ads Landing Page Wireframe — The AM Project
+Design: Must exactly match https://theamproject.com in layout, styling, typography, and footer/header components
+Purpose: Maximize conversions for paid membership and newsletter signups via Google Ads traffic
+Copy Style: Grounded, non-salesy, focused on discipline, purpose, and accountability
+Tracking: UTM-ready and structured for conversion event setup
+
+Section-by-Section Wireframe + Implementation Instructions
+1. Hero Section (Above the Fold)
+Headline:
+Reset Your Life. Build Real Discipline.
+
+Subheadline:
+A 24/7 accountability system for men who want to lead themselves—built around strength, clarity, and consistent action.
+
+Primary CTA:
+Become a Member → [LOOKUP]
+
+Look up the exact route currently used by the homepage’s “Become a Member” button. This may redirect to /join, a checkout path, or a Stripe integration.
+
+Secondary CTA:
+Get the Free AM Reset → [NEWSLETTER FORM SCROLL + PDF DOWNLOAD]
+
+This must:
+
+Scroll to or open the AM Reset opt-in form already used on the homepage
+
+Connect to the same backend newsletter endpoint
+
+Locate the actual AM Reset PDF in backend storage (database or CMS reference)
+
+Trigger the auto-download behavior immediately after form submission, replicating existing functionality exactly
+
+If the existing form uses a client-side trigger or direct file link, extract and re-use it
+
+2. Why the AM Project (Brand Philosophy Condensed)
+Headline:
+What It Means to Be a Man Today Is Changing.
+
+Body Copy:
+You’re told to be strong—but not too hard.
+To lead—but never push against the trend.
+To provide—yet stay quiet about the pride you take in doing it.
+
+We believe something different.
+
+We believe real strength still matters—discipline, courage, integrity, purpose.
+Leadership starts by mastering yourself and showing up every day for the people who count on you.
+No fluff. No empty motivation. Just a clear standard and tools that work.
+
+(No buttons)
+
+3. Meet AM – The Accountability System
+Headline:
+AM Isn’t a Coach. He’s Your 24/7 Guide.
+
+Body Copy:
+AM is your personal accountability partner—designed specifically for men who want to rebuild discipline, reset direction, and lead with strength.
+
+Ask AM anything. Share your setbacks. Get honest feedback—anytime.
+
+Built to help you:
+
+Break bad habits and stay consistent
+
+Track daily progress and reflect with purpose
+
+Get grounded feedback when you’re off course
+
+No judgment. No hype. Just clear, practical guidance—on your terms.
+
+CTA Button:
+Talk to AM → [LOOKUP]
+
+Pull the destination used by the homepage "Talk to AM" button. It may scroll to login, trigger a modal, or redirect to a gated feature. Match this exactly.
+
+4. Membership Benefits
+Headline:
+What You Get as a Member
+
+Bullets:
+
+24/7 AM Chat
+
+Daily Habit & Challenge Tracker
+
+Weekly Reflection System
+
+Scenario-Based Learning
+
+The AM Reset Guide
+
+Community Access
+
+Subtext:
+Start free. Just $9.99 per month after your trial.
+
+CTA Button:
+Become a Member → [LOOKUP]
+
+5. The AM Standard
+Headline:
+No Trends. No Posturing. Just a Code of Conduct.
+
+Body Copy:
+The AM Standard lays out how strong men show up—when no one’s watching.
+
+Own your word
+
+Lead at home
+
+Master your time
+
+Train your body
+
+Build discipline through action
+
+This isn’t inspiration. It’s alignment.
+
+CTA Button:
+Read The AM Standard → [LOOKUP]
+
+Use the current live link to the AM Standard page, not a placeholder.
+
+6. AM Reset – Newsletter Opt-In Section
+Headline:
+Not Ready Yet? Start with the AM Reset
+
+Body Copy:
+A free 6-practice guide to rebuild discipline, reset momentum, and refocus your day—delivered instantly when you sign up.
+
+Form Fields:
+
+First Name
+
+Last Name
+
+Email
+
+CTA Button:
+Get Free AM Reset
+
+MUST connect to existing newsletter signup logic.
+After submission:
+
+Trigger auto-download of the AM Reset PDF
+
+Use the existing backend process (API, webhook, or static file link)
+
+Agent must inspect the frontend logic and backend file storage or CMS system to identify the exact PDF path and ensure delivery
+
+7. Blog Highlights (Real Articles)
+Headline:
+From the Blog: Real Tools for Real Men
+
+Subhead:
+Practical wisdom for developing discipline, leadership, and purpose.
+
+Featured Articles (3):
+
+Men’s Mental Health: Breaking the Silence
+
+https://theamproject.com/blog/mens-mental-health-breaking-the-silence → [LOOKUP]
+
+The 5:30 Club: How Early Risers Win the Day
+
+https://theamproject.com/blog/530-club-early-risers → [LOOKUP]
+
+Beyond the Gym: The Complete Physical Practice
+
+https://theamproject.com/blog/beyond-the-gym → [LOOKUP]
+
+CTA Button:
+Explore All Articles → [LOOKUP]
+
+Match the blog index route from the main nav or blog section
+
+8. Final CTA Block
+Headline:
+Ready to Build Unshakable Discipline?
+
+Subhead:
+Join men who are done drifting and ready to lead.
+
+CTA Buttons:
+
+Become a Member → [LOOKUP]
+
+Get the Free AM Reset → [SCROLL/NEWSLETTER LINKED ACTION]
+
+9. Footer
+Identical to homepage
+
+Newsletter form in footer must route to same endpoint as AM Reset form
+
+All links must match site routing:
+
+Home
+
+About
+
+The AM Standard
+
+Blog
+
+Join the Newsletter
+
+Contact
+
+Discipline Framework
+
+Leadership Principles
+
+App install button
+
+Privacy Policy, Terms of Service
+
+All links = [LOOKUP] from current footer HTML/CMS files
+
+Final Agent Implementation Prompt
+Create a new landing page using the current homepage (https://theamproject.com) as a pixel-perfect visual base. Use the structured copy provided above.
+
+Do not use placeholder links. Instead, search the site’s live routing, codebase, or CMS files to:
+
+Match the exact behavior of all buttons (e.g. "Become a Member", "Talk to AM")
+
+Pull true blog permalinks
+
+Ensure the newsletter opt-in form correctly triggers the download of the AM Reset PDF after submission by accessing backend PDF path and delivery logic
+
+Use the current styling, layout grid, header/footer components, and mobile responsiveness settings without alteration.

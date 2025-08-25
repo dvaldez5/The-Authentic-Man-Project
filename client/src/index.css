@@ -1,0 +1,283 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap');
+@import './styles/tour.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand Colors Based on Guidelines */
+  /* Background #0A0A0A (very dark gray, almost black) */
+  --background: 0 0% 4%;             /* #0A0A0A */
+  --foreground: 0 0% 100%;           /* #FFFFFF */
+  
+  /* Charcoal #0E0E0E (card backgrounds) */
+  --muted: 0 0% 20%;                 /* #333333 */
+  --muted-foreground: 0 0% 88%;      /* #E0E0E0 */
+  
+  --popover: 0 0% 5.5%;              /* #0E0E0E */
+  --popover-foreground: 0 0% 100%;   /* #FFFFFF */
+  
+  --card: 0 0% 5.5%;                 /* #0E0E0E */
+  --card-foreground: 0 0% 100%;      /* #FFFFFF */
+  
+  --border: 0 0% 20%;                /* #333333 */
+  --input: 0 0% 20%;                 /* #333333 */
+  
+  /* Brand Brown #7C4A32 (buttons, logo star, accents) */
+  --primary: 22 59% 34%;             /* #7C4A32 */
+  --primary-foreground: 0 0% 100%;   /* #FFFFFF */
+  
+  /* Charcoal #333333 for secondary background */
+  --secondary: 0 0% 20%;             /* #333333 */
+  --secondary-foreground: 0 0% 100%; /* #FFFFFF */
+  
+  /* Gold #E4B768 (tiny highlight lines, optional) - used sparingly */
+  --accent: 38 70% 65%;              /* #E4B768 */
+  --accent-foreground: 0 0% 0%;      /* #000000 */
+  
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  
+  /* Brand Brown #7C4A32 for focus rings */
+  --ring: 22 59% 34%;                /* #7C4A32 */
+  
+  --radius: 0.25rem;                 /* 4px radius per guidelines */
+  
+  /* Warm Cream #F5EDE1 (alternate backgrounds) */
+  --cream: 36 52% 92%;               /* #F5EDE1 */
+  
+  /* Sidebar configuration */
+  --sidebar-background: 0 0% 0%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-primary: 22 59% 34%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 38 70% 65%;
+  --sidebar-accent-foreground: 0 0% 0%;
+  --sidebar-border: 0 0% 20%;
+  --sidebar-ring: 22 59% 34%;
+  
+  /* Chart colors */
+  --chart-1: 22 59% 34%;             /* Brand Brown */
+  --chart-2: 38 70% 65%;             /* Gold */
+  --chart-3: 0 0% 20%;               /* Charcoal */
+  --chart-4: 36 52% 92%;             /* Warm Cream */
+  --chart-5: 0 0% 0%;                /* Black */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply antialiased bg-background text-foreground;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+  }
+  
+  .container {
+    @apply px-4 md:px-6 mx-auto max-w-7xl;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+  }
+  
+  strong, b {
+    font-weight: 600;
+  }
+  
+  /* Add fonts - must be at top of file */
+}
+
+@layer components {
+  .section-title {
+    @apply text-3xl md:text-5xl font-bold mb-4 text-center !important;
+  }
+  
+  .section-divider {
+    @apply w-20 h-1 bg-primary mx-auto mt-6;
+  }
+  
+  /* Ensure only section headers are centered properly */
+  section h1, 
+  section > div > h1, 
+  section > div > h2:not([class*="flex"]),
+  section > div > div > h2:not([class*="flex"]) {
+    @apply text-center;
+  }
+  
+  .hover-accent {
+    @apply hover:text-primary transition duration-300;
+  }
+  
+  .card-highlight {
+    @apply bg-primary p-6 rounded-lg border border-border hover:border-primary/50 transition duration-300;
+  }
+  
+  /* Hero animations */
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+  }
+  
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
+  /* Challenge Tracker Brand-Compliant Components */
+  .challenge-card {
+    @apply bg-card border border-primary rounded-lg shadow-sm;
+    box-shadow: 0 2px 8px rgba(51, 51, 51, 0.10);
+  }
+
+  .challenge-header {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    @apply text-foreground;
+  }
+
+  .challenge-body {
+    font-family: 'Montserrat', sans-serif;
+    @apply text-muted-foreground;
+  }
+
+  .button-primary {
+    @apply bg-primary text-primary-foreground rounded font-semibold transition-all duration-200;
+  }
+
+  .button-primary:hover {
+    @apply bg-accent text-primary;
+  }
+
+  .progress-bar {
+    @apply bg-primary h-2 rounded;
+  }
+
+  .milestone {
+    @apply text-accent font-bold border-b-2 border-accent;
+  }
+
+  .challenge-input {
+    @apply border border-primary rounded bg-card text-white placeholder:text-gray-400;
+  }
+
+  .challenge-input:focus {
+    @apply outline-none ring-2 ring-primary text-white;
+  }
+
+  .challenge-input::placeholder {
+    @apply text-gray-400;
+  }
+
+  .reflection-modal {
+    @apply bg-card border border-primary rounded-lg shadow-lg;
+  }
+
+  /* Consistent header offset utility class */
+  .am-header-offset {
+    @apply pt-10 md:pt-24;
+  }
+
+  /* First element spacing - consistent across all pages */
+  .am-first-element {
+    @apply mt-0;
+  }
+
+  /* Section spacing for homepage flow */
+  .am-section-spacing {
+    @apply py-20;
+  }
+  
+  .hero-image-container .absolute[class*="bg-primary"] {
+    animation: pulse 4s infinite ease-in-out;
+  }
+  
+  .hero-image-container img {
+    animation: rotate 120s infinite linear;
+  }
+  
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .hero-image-container .animate-pulse {
+    animation: ring-pulse 4s infinite ease-in-out;
+  }
+  
+  @keyframes ring-pulse {
+    0% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.05); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 0.3; }
+  }
+
+  /* Scenario interface text constraints */
+  .scenario-card {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .scenario-option {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+  }
+
+  .scenario-option > div {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    max-width: 100%;
+    hyphens: auto;
+  }
+
+  /* Button text containment */
+  button .font-medium {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+    max-width: 100%;
+    line-height: 1.4;
+  }
+}
+
+/* Utility class to hide scrollbars */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+}
+.tour-highlight {
+  position: relative;
+  z-index: 60;
+  outline: 2px solid #C47F00 !important;
+  outline-offset: 4px;
+  border-radius: 8px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.3s ease;
+}
+
+.tour-target {
+  transition: all 0.3s ease;
+}
+
+.tour-target.tour-highlight {
+  transform: scale(1.02);
+  outline: 2px solid #C47F00 !important;
+  outline-offset: 4px;
+  border-radius: 8px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.3) !important;
+}

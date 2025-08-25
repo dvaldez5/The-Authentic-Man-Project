@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
+  <rect width="100" height="100" rx="10" fill="black"/>
+  <path d="M50 20V50" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+  <path d="M50 50L70 70" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="50" cy="50" r="30" stroke="#FFFFFF" stroke-width="4"/>
+  <circle cx="50" cy="50" r="5" fill="#9A8C78"/>
+  <path d="M30 30L32 32" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M70 30L68 32" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M30 70L32 68" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M70 70L68 68" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M25 50L28 50" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M75 50L72 50" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M50 25L50 28" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M50 75L50 72" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+</svg>

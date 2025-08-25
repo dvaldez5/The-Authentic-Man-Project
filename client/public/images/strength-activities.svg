@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="600px" viewBox="0 0 800 600" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>Men Strength Activities</title>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="bgGradient">
+            <stop stop-color="#222222" offset="0%"></stop>
+            <stop stop-color="#111111" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <!-- Background -->
+        <rect x="0" y="0" width="800" height="600" fill="url(#bgGradient)"></rect>
+        
+        <!-- Section 1: Weight Lifting -->
+        <g transform="translate(100, 150)">
+            <!-- Person -->
+            <circle cx="70" cy="50" r="20" fill="#7C4A32"></circle>
+            <rect x="50" y="70" width="40" height="60" rx="5" fill="#444444"></rect>
+            
+            <!-- Arms -->
+            <path d="M50,80 L20,100" stroke="#444444" stroke-width="8" stroke-linecap="round"></path>
+            <path d="M90,80 L120,100" stroke="#444444" stroke-width="8" stroke-linecap="round"></path>
+            
+            <!-- Legs -->
+            <path d="M60,130 L50,180" stroke="#444444" stroke-width="10" stroke-linecap="round"></path>
+            <path d="M80,130 L90,180" stroke="#444444" stroke-width="10" stroke-linecap="round"></path>
+            
+            <!-- Weights -->
+            <rect x="0" y="100" width="20" height="5" rx="2" fill="#777777"></rect>
+            <rect x="120" y="100" width="20" height="5" rx="2" fill="#777777"></rect>
+            <circle cx="0" cy="102" r="10" fill="#777777"></circle>
+            <circle cx="140" cy="102" r="10" fill="#777777"></circle>
+        </g>
+        
+        <!-- Section 2: Running -->
+        <g transform="translate(300, 150)">
+            <!-- Person -->
+            <circle cx="70" cy="50" r="20" fill="#7C4A32"></circle>
+            <rect x="50" y="70" width="40" height="60" rx="5" fill="#444444"></rect>
+            
+            <!-- Arms - running position -->
+            <path d="M50,80 L20,60" stroke="#444444" stroke-width="8" stroke-linecap="round"></path>
+            <path d="M90,80 L120,100" stroke="#444444" stroke-width="8" stroke-linecap="round"></path>
+            
+            <!-- Legs - running position -->
+            <path d="M60,130 L30,160" stroke="#444444" stroke-width="10" stroke-linecap="round"></path>
+            <path d="M80,130 L110,160" stroke="#444444" stroke-width="10" stroke-linecap="round"></path>
+            
+            <!-- Trail path -->
+            <path d="M0,180 C50,170 100,190 150,180" stroke="#555555" stroke-width="5" stroke-linecap="round"></path>
+        </g>
+        
+        <!-- Section 3: Mountain Hiking -->
+        <g transform="translate(500, 150)">
+            <!-- Mountain -->
+            <path d="M0,180 L75,50 L150,180 Z" fill="#333333"></path>
+            <path d="M30,180 L75,80 L120,180 Z" fill="#222222"></path>
+            
+            <!-- Person -->
+            <circle cx="75" cy="120" r="15" fill="#7C4A32"></circle>
+            <rect x="65" y="135" width="20" height="40" rx="4" fill="#444444"></rect>
+            
+            <!-- Arms -->
+            <path d="M65,145 L45,130" stroke="#444444" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M85,145 L105,130" stroke="#444444" stroke-width="6" stroke-linecap="round"></path>
+            
+            <!-- Legs -->
+            <path d="M70,175 L55,200" stroke="#444444" stroke-width="8" stroke-linecap="round"></path>
+            <path d="M80,175 L95,200" stroke="#444444" stroke-width="8" stroke-linecap="round"></path>
+            
+            <!-- Hiking Stick -->
+            <line x1="45" y1="130" x2="40" y2="200" stroke="#A0522D" stroke-width="2"></line>
+        </g>
+        
+        <!-- Section 4: Boxing / Martial Arts -->
+        <g transform="translate(150, 350)">
+            <!-- Person -->
+            <circle cx="70" cy="50" r="20" fill="#7C4A32"></circle>
+            <rect x="50" y="70" width="40" height="60" rx="5" fill="#444444"></rect>
+            
+            <!-- Arms - fighting stance -->
+            <path d="M50,80 L20,70" stroke="#444444" stroke-width="8" stroke-linecap="round"></path>
+            <path d="M90,80 L120,60" stroke="#444444" stroke-width="8" stroke-linecap="round"></path>
+            
+            <!-- Legs - stable stance -->
+            <path d="M60,130 L40,170" stroke="#444444" stroke-width="10" stroke-linecap="round"></path>
+            <path d="M80,130 L100,170" stroke="#444444" stroke-width="10" stroke-linecap="round"></path>
+            
+            <!-- Boxing gloves -->
+            <circle cx="20" cy="70" r="10" fill="#7C4A32"></circle>
+            <circle cx="120" cy="60" r="10" fill="#7C4A32"></circle>
+        </g>
+        
+        <!-- Section 5: Swimming -->
+        <g transform="translate(450, 350)">
+            <!-- Water -->
+            <path d="M0,120 C25,110 50,130 75,120 C100,110 125,130 150,120 L150,180 L0,180 Z" fill="#333355"></path>
+            
+            <!-- Person -->
+            <circle cx="75" cy="80" r="15" fill="#7C4A32"></circle>
+            <rect x="45" y="95" width="60" height="25" rx="4" fill="#444444"></rect>
+            
+            <!-- Arms - swimming -->
+            <path d="M45,105 L15,85" stroke="#444444" stroke-width="6" stroke-linecap="round"></path>
+            <path d="M105,105 L135,85" stroke="#444444" stroke-width="6" stroke-linecap="round"></path>
+            
+            <!-- Legs - kicking -->
+            <path d="M65,120 L55,150" stroke="#444444" stroke-width="8" stroke-linecap="round"></path>
+            <path d="M85,120 L95,150" stroke="#444444" stroke-width="8" stroke-linecap="round"></path>
+        </g>
+    </g>
+</svg>

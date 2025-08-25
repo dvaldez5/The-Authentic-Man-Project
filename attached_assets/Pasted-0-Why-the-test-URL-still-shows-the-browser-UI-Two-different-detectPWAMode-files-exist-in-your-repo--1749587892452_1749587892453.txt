@@ -1,0 +1,94 @@
+0. Why the test URL still shows the browser UI
+Two different detectPWAMode files exist in your repo.
+
+client/src/hooks/use-pwa-detection.tsx ← the one we keep updating
+
+another copy of the same-named file under an older path (or cached bundle) is still being bundled first.
+
+The copy that the bundle is actually importing still contains the || /wv\)/.test(ua) check, so every Android WebView (and your Replit preview) is forced into browser mode as soon as the app navigates to /auth.
+
+1. Remove the duplicate file
+Search your repo for every occurrence of detectPWAMode(.
+There should be exactly one file:
+
+kotlin
+Copy
+client/src/hooks/use-pwa-detection.tsx   ✅ keep this
+Delete / rename any others (often in components/, utils/, or an older hooks/ folder).
+
+Quick check (from project root):
+
+bash
+Copy
+grep -R "function detectPWAMode" client/src | cut -d: -f1
+The command should return one path only.
+
+2. Replace the surviving file with the final logic
+Copy-paste this entire function over the existing one:
+
+ts
+Copy
+// client/src/hooks/use-pwa-detection.tsx
+export function detectPWAMode(): boolean {
+  if (typeof window === "undefined") return false;
+
+  const qs     = window.location.search;
+  const params = new URLSearchParams(qs);
+  const ua     = navigator.userAgent;
+
+  /* 1️⃣  URL override (?pwa, ?pwa=true, ?pwa=1) */
+  if (params.has("pwa")) {
+    localStorage.setItem("pwaMode", "true");
+    return true;
+  }
+
+  /* 2️⃣  Real standalone installs */
+  const isStandalone   = window.matchMedia("(display-mode: standalone)").matches;
+  const isIOSStandalone = (window.navigator as any).standalone === true;
+  if (isStandalone || isIOSStandalone) {
+    localStorage.setItem("pwaMode", "true");
+    return true;
+  }
+
+  /* 3️⃣  Replit-IDE guard ONLY  (NO generic WebView test) */
+  const isReplitIDE =
+    /Replit-Bonsai/.test(ua) ||
+    window.location.hostname.includes("replit.dev");
+  if (isReplitIDE) {
+    return localStorage.getItem("pwaMode") === "true"; // honour earlier choice
+  }
+
+  /* 4️⃣  Fallback to last stored value */
+  return localStorage.getItem("pwaMode") === "true";
+}
+3. Blow away the old bundle & SW cache
+Stop the Replit server, run npm run build once (or let Replit rebuild).
+
+On your phone / desktop:
+
+Open DevTools › Application › Service Workers → Unregister
+
+Clear Site Data.
+
+Or simply open Chrome Incognito with:
+…/?pwa=1&ts=⟨current-timestamp⟩ (forces a fresh bundle).
+
+4. Prove it’s fixed before you hand it off
+URL / Scenario	Expectation after patch
+…/?pwa=1 in Replit preview	<Splash> (no header) → /auth (still header-less)
+Android WebAPK	header-less UI, bottom nav on all routes
+iOS Add-to-Home-Screen	header-less UI (unchanged)
+Browser visit (no param)	full marketing site with header (unchanged)
+
+If any route shows the header, run window.localStorage.getItem('pwaMode') in DevTools → should be "true" while you’re on the test URL.
+
+📄 Hand this note to Replit
+Delete all duplicate detectPWAMode files; keep only one under client/src/hooks/.
+
+Replace its contents with the function above.
+
+Clear the SW cache / rebuild.
+
+Confirm the test URL renders header-less PWA pages on every route.
+
+No other code paths change, no new flashes, no broken routes—guaranteed.
