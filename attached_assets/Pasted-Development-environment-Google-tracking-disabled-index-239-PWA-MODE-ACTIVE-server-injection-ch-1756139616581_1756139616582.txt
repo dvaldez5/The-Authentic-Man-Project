@@ -1,0 +1,92 @@
+Development environment - Google tracking disabled
+(index):239 PWA MODE ACTIVE (server injection)
+chunk-RPCDYKBN.js?v=5bf8de6e:21551 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+chunk-RPCDYKBN.js?v=84029157:21551 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+notification-service.ts:22 Notification support check: Object
+main.tsx:7 === REACT INSTANCE DIAGNOSTIC ===
+main.tsx:8 React version: 18.3.1
+main.tsx:9 React object: Object
+main.tsx:10 React useState: ƒ useState(initialState) {
+          var dispatcher = resolveDispatcher();
+          return dispatcher.useState(initialState);
+        }
+main.tsx:11 Global React instances: Single instance
+notification-service.ts:38 ServiceWorker initialized and ready for notifications
+2chunk-QCHXOAYK.js?v=84029157:136 Warning: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
+printWarning @ chunk-QCHXOAYK.js?v=84029157:136Understand this error
+chunk-QCHXOAYK.js?v=84029157:1066 Uncaught TypeError: Cannot read properties of null (reading 'useState')
+    at useState (chunk-QCHXOAYK.js?v=84029157:1066:29)
+    at PWAProvider (use-pwa.tsx:18:47)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=5bf8de6e:11548:26)
+    at mountIndeterminateComponent (chunk-RPCDYKBN.js?v=5bf8de6e:14926:21)
+    at beginWork (chunk-RPCDYKBN.js?v=5bf8de6e:15914:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=5bf8de6e:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=5bf8de6e:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=5bf8de6e:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=5bf8de6e:19765:15)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=5bf8de6e:19198:20)Understand this error
+2chunk-QCHXOAYK.js?v=84029157:136 Warning: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
+printWarning @ chunk-QCHXOAYK.js?v=84029157:136Understand this error
+chunk-QCHXOAYK.js?v=84029157:1066 Uncaught TypeError: Cannot read properties of null (reading 'useState')
+    at useState (chunk-QCHXOAYK.js?v=84029157:1066:29)
+    at PWAProvider (use-pwa.tsx:18:47)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=5bf8de6e:11548:26)
+    at mountIndeterminateComponent (chunk-RPCDYKBN.js?v=5bf8de6e:14926:21)
+    at beginWork (chunk-RPCDYKBN.js?v=5bf8de6e:15914:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=5bf8de6e:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=5bf8de6e:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=5bf8de6e:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=5bf8de6e:19765:15)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=5bf8de6e:19198:20)Understand this error
+chunk-RPCDYKBN.js?v=5bf8de6e:14032 The above error occurred in the <PWAProvider> component:
+
+    at PWAProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/hooks/use-pwa.tsx:20:31)
+    at QueryClientProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=5bf8de6e:2933:3)
+    at ErrorBoundary (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/components/ErrorBoundary.tsx:7:5)
+    at App (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?v=K4BgwjldILGtCx3ftsOiu:607:3)
+
+React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundary.
+logCapturedError @ chunk-RPCDYKBN.js?v=5bf8de6e:14032Understand this error
+ErrorBoundary.tsx:24 ErrorBoundary caught an error: TypeError: Cannot read properties of null (reading 'useState')
+    at useState (chunk-QCHXOAYK.js?v=84029157:1066:29)
+    at PWAProvider (use-pwa.tsx:18:47)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=5bf8de6e:11548:26)
+    at mountIndeterminateComponent (chunk-RPCDYKBN.js?v=5bf8de6e:14926:21)
+    at beginWork (chunk-RPCDYKBN.js?v=5bf8de6e:15914:22)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=5bf8de6e:19753:22)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=5bf8de6e:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=5bf8de6e:19137:13)
+    at renderRootSync (chunk-RPCDYKBN.js?v=5bf8de6e:19116:15)
+    at recoverFromConcurrentError (chunk-RPCDYKBN.js?v=5bf8de6e:18736:28) Object
+componentDidCatch @ ErrorBoundary.tsx:24Understand this error
+unified-tracking.ts:63 🎯 Unified Tracking Initialized: Object
+seo-utils.ts:356 ✅ SEO System Initialized
+programmatic-seo.ts:459 🎯 Programmatic SEO System Initialized
+programmatic-seo.ts:460 📊 Template Coverage: 4 content types
+programmatic-seo.ts:461 🔍 Keyword Targeting: 18 keywords
+main.tsx:48 PWA Service Worker registered
+client:536 WebSocket connection to 'wss://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/?token=kCHCj-p6qISd' failed: 
+setupWebSocket @ client:536Understand this error
+client:536 Uncaught (in promise) SyntaxError: Failed to construct 'WebSocket': The URL 'wss://localhost:undefined/?token=kCHCj-p6qISd' is invalid.
+    at setupWebSocket (client:536:19)
+    at fallback (client:509:16)
+    at WebSocket.<anonymous> (client:555:7)Understand this error
+The FetchEvent for "https://www.google.com/pagead/1p-user-list/835937139/?random=1756139584897&cv=11&fst=1756137600000&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be58k1v875747112za200xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~104527906~104528500~104684208~104684211~104948813~105399921~105399923~105423368&u_w=1537&u_h=864&url=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2F&ref=https%3A%2F%2Freplit.com%2F&_ng=1&hn=www.googleadservices.com&frm=0&tiba=The%20AM%20Project%20-%20Mental%20Fitness%20App%20for%20Men%20%7C%20Build%20Discipline%20%26%20Purpose&npa=0&pscdl=noapi&auid=280054974.1755635515&uaa=x86&uab=64&uafvl=Not%253BA%253DBrand%3B99.0.0.0%7CGoogle%2520Chrome%3B139.0.7258.128%7CChromium%3B139.0.7258.128&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSmQEA2abss8b-pXTILYJzR1WBh9tpbGfZDyLA5e5rTWPgeIiZHuy-GSWTQUe8hm5Jkw3-OB1N3Q_cvleYCRYQkxvmT44NFGhl72Db231o2wDRH391PdNQIbnxs8GNHpyd9rJKwjNlMwOfcnIN00p7hFqVANQN869ldD31HYfWDMyHkYvjV-4NgwzbMKAUjaV6nUKl9Hn7z0c8vvw&random=2837282250&rmt_tld=0&ipr=y" resulted in a network error response: the promise was rejected.Understand this warning
+835937139/?random=1756139584897&cv=11&fst=1756137600000&bg=ffffff&guid=ON&async=1&en=gtag.config&gt…:1  Failed to load resource: net::ERR_FAILEDUnderstand this error
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+(index):1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">Understand this warning
+ga4-bounce-analysis.ts:51 GA4 Bounce Analysis initialized
+js:1  Failed to load resource: the server responded with a status of 404 ()Understand this error
+The FetchEvent for "https://www.google.com/pagead/1p-user-list/835937139/?random=1756139585930&cv=11&fst=1756137600000&bg=ffffff&guid=ON&async=1&en=session_end&gtm=45be58k1v875747112za200xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~104527906~104528500~104684208~104684211~104948813~105399921~105399923~105423368&u_w=1537&u_h=864&url=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2F&ref=https%3A%2F%2Freplit.com%2F&_ng=1&hn=www.googleadservices.com&frm=0&tiba=The%20AM%20Project%20-%20Mental%20Fitness%20App%20for%20Men%20%7C%20Build%20Discipline%20%26%20Purpose&npa=0&pscdl=noapi&auid=280054974.1755635515&uaa=x86&uab=64&uafvl=Not%253BA%253DBrand%3B99.0.0.0%7CGoogle%2520Chrome%3B139.0.7258.128%7CChromium%3B139.0.7258.128&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dsession_end%3Bevent_category%3Dengagement_analysis%3Bevent_label%3Dlow&rfmt=3&fmt=3&is_vtc=1&cid=CAQSmQEA2abss2ONj_SnnKKGSfOQ4Z2J3MyRpHs2-nYpMAGua3aEo5HL9vwZzX9B9CKA1MFY3dEqzlqkHXW8KQgMydL9Xg_Z-1BIPj083neYpsYCuE3qL1RyZ-IK2rDtznlJQNNgtXxYwKPy_TISqbm2R_Me6jK_GI9S2GXROV_LhJP7e2F_6xfVJhecDyLVMbPmQH_ezHZYPETbFQI&random=226094235&rmt_tld=0&ipr=y" resulted in a network error response: the promise was rejected.Understand this warning
+sw.js:364  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:364:16Understand this error
+835937139/?random=1756139585930&cv=11&fst=1756137600000&bg=ffffff&guid=ON&async=1&en=session_end&gt…:1  Failed to load resource: net::ERR_FAILED
