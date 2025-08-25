@@ -1,66 +1,57 @@
-import { Switch, Route, Router } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import ErrorBoundary from "@/components/ErrorBoundary";
-
-// Import only essential pages
-import NotFound from "@/pages/not-found";
-
 function SimpleHome() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100">
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            The AM Project
-          </h1>
-          <p className="text-xl text-gray-700 mb-8">
-            Redefining what it means to be a man in the modern world.
-          </p>
-          <div className="flex gap-4 justify-center">
-            <button className="bg-amber-600 text-white px-8 py-3 rounded-lg hover:bg-amber-700 transition-colors">
-              Get Started
-            </button>
-            <button className="border border-amber-600 text-amber-600 px-8 py-3 rounded-lg hover:bg-amber-50 transition-colors">
-              Learn More
-            </button>
-          </div>
+    <div style={{ 
+      minHeight: '100vh', 
+      background: 'linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <div style={{ textAlign: 'center', maxWidth: '800px', padding: '2rem' }}>
+        <h1 style={{ 
+          fontSize: '4rem', 
+          fontWeight: 'bold', 
+          color: '#1f2937', 
+          marginBottom: '1.5rem' 
+        }}>
+          The AM Project
+        </h1>
+        <p style={{ 
+          fontSize: '1.25rem', 
+          color: '#374151', 
+          marginBottom: '2rem' 
+        }}>
+          Redefining what it means to be a man in the modern world.
+        </p>
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+          <button style={{
+            backgroundColor: '#d97706',
+            color: 'white',
+            padding: '0.75rem 2rem',
+            borderRadius: '0.5rem',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '1rem'
+          }}>
+            Get Started
+          </button>
+          <button style={{
+            border: '2px solid #d97706',
+            color: '#d97706',
+            backgroundColor: 'transparent',
+            padding: '0.75rem 2rem',
+            borderRadius: '0.5rem',
+            cursor: 'pointer',
+            fontSize: '1rem'
+          }}>
+            Learn More
+          </button>
         </div>
       </div>
     </div>
   );
 }
 
-function AppRouter(): React.JSX.Element {
-  return (
-    <Switch>
-      <Route path="/" component={SimpleHome} />
-      <Route component={NotFound} />
-    </Switch>
-  );
-}
-
-function AppContent() {
-  return (
-    <TooltipProvider>
-      <main>
-        <AppRouter />
-      </main>
-      <Toaster />
-    </TooltipProvider>
-  );
-}
-
 export default function App() {
-  return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <Router>
-          <AppContent />
-        </Router>
-      </QueryClientProvider>
-    </ErrorBoundary>
-  );
+  return <SimpleHome />;
 }
