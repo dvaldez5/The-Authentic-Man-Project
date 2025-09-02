@@ -41,6 +41,16 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
               <img src="/app-icon-192.png" alt="AM Project" className="w-16 h-16 mx-auto mb-4" />
               <h1 className="text-2xl font-bold text-gray-900 mb-2">Something went wrong</h1>
               <p className="text-gray-600 mb-4">The app encountered an error. Please try refreshing the page.</p>
+              {this.state.error && (
+                <div className="bg-red-50 border border-red-200 rounded p-4 mb-4 text-left">
+                  <p className="text-red-800 font-medium text-sm">Error: {this.state.error.message}</p>
+                  {this.state.error.stack && (
+                    <pre className="text-red-600 text-xs mt-2 overflow-auto max-h-32">
+                      {this.state.error.stack.slice(0, 500)}...
+                    </pre>
+                  )}
+                </div>
+              )}
             </div>
             <button 
               onClick={() => window.location.reload()}
