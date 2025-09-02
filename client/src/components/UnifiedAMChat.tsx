@@ -18,28 +18,7 @@ export default function UnifiedAMChat({
 }: UnifiedAMChatProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const [inputMessage, setInputMessage] = useState('');
-  
-  // Safely access context with try-catch to prevent crashes
-  let messages: any[] = [];
-  let loading = false;
-  let isAuthenticated = false;
-  let userName: string | null = null;
-  let sendMessage = async (message: string) => {};
-  
-  try {
-    const chatContext = useAMChat();
-    messages = chatContext.messages;
-    loading = chatContext.loading;
-    isAuthenticated = chatContext.isAuthenticated;
-    userName = chatContext.userName;
-    sendMessage = chatContext.sendMessage;
-  } catch (error) {
-    console.warn('UnifiedAMChat: Context not available yet');
-    // Return null if context is not ready to prevent crash
-    if (type === 'bubble') {
-      return null;
-    }
-  }
+  const { messages, loading, isAuthenticated, userName, sendMessage } = useAMChat();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
