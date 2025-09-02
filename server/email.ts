@@ -3,7 +3,11 @@ import path from 'path';
 import fs from 'fs';
 
 // Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resendApiKey = process.env.RESEND_API_KEY;
+if (!resendApiKey) {
+  console.warn('RESEND_API_KEY not configured - email functionality will be disabled');
+}
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 // Welcome email template matching app branding
 const createWelcomeEmailHTML_internal = (firstName: string) => {
@@ -233,6 +237,11 @@ export const createWelcomeEmailHTML = createWelcomeEmailHTML_internal;
 // Send welcome email
 export const sendWelcomeEmail = async (email: string, firstName: string) => {
   try {
+    if (!resend) {
+      console.warn('Email service not configured - skipping welcome email');
+      return { success: false, error: 'Email service not configured' };
+    }
+    
     const result = await resend.emails.send({
       from: VERIFIED_SENDER,
       to: [email],
@@ -266,8 +275,9 @@ export const testEmailConnection = async () => {
   try {
     // Test Resend by sending a simple email to verify API key
     console.log('Testing Resend API connection...');
-    if (!process.env.RESEND_API_KEY) {
-      throw new Error('RESEND_API_KEY not configured');
+    if (!resendApiKey) {
+      console.warn('RESEND_API_KEY not configured - email functionality disabled');
+      return false;
     }
     console.log('Resend API key configured successfully');
     return true;

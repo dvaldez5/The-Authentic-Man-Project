@@ -3276,8 +3276,8 @@ ${req.userId ? '' : 'CRITICAL: You are on a PUBLIC page. For structured courses/
           let periodEnd;
           if (subscription.status === 'trialing' && subscription.trial_end) {
             periodEnd = subscription.trial_end;
-          } else if (subscription.current_period_end) {
-            periodEnd = subscription.current_period_end;
+          } else if ((subscription as any).current_period_end) {
+            periodEnd = (subscription as any).current_period_end;
           }
           hasActiveSubscription = periodEnd ? now < periodEnd : false;
         } catch (error) {
@@ -3335,7 +3335,7 @@ ${req.userId ? '' : 'CRITICAL: You are on a PUBLIC page. For structured courses/
           id: subscription.id,
           status: subscription.status,
           cancel_at_period_end: subscription.cancel_at_period_end,
-          current_period_end: subscription.current_period_end
+          current_period_end: (subscription as any).current_period_end
         }
       });
     } catch (error: any) {
@@ -3408,8 +3408,8 @@ ${req.userId ? '' : 'CRITICAL: You are on a PUBLIC page. For structured courses/
           id: subscription.id,
           status: subscription.status,
           cancel_at_period_end: subscription.cancel_at_period_end,
-          current_period_start: subscription.current_period_start,
-          current_period_end: subscription.current_period_end,
+          current_period_start: (subscription as any).current_period_start,
+          current_period_end: (subscription as any).current_period_end,
           trial_end: subscription.trial_end,
           plan: {
             amount: subscription.items.data[0]?.price.unit_amount,

@@ -24,8 +24,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Session configuration with cross-subdomain support
+const sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret && process.env.NODE_ENV === 'production') {
+  throw new Error('SESSION_SECRET is required in production');
+}
+
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'fallback-secret-for-dev',
+  secret: sessionSecret || 'development-session-secret-not-for-production',
   resave: false,
   saveUninitialized: false,
   cookie: {

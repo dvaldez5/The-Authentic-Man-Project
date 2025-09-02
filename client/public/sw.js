@@ -154,23 +154,34 @@ async function syncPendingData() {
     // Get pending sync data from IndexedDB or localStorage
     const pendingData = await getPendingSync();
     
+    if (!Array.isArray(pendingData) || pendingData.length === 0) {
+      return;
+    }
+    
     for (const item of pendingData) {
+      if (!item || !item.url || !item.id) {
+        console.log('Invalid sync item, skipping:', item);
+        continue;
+      }
+      
       try {
         const response = await fetch(item.url, {
           method: item.method || 'POST',
           headers: item.headers || { 'Content-Type': 'application/json' },
-          body: JSON.stringify(item.data)
+          body: item.data ? JSON.stringify(item.data) : undefined
         });
         
         if (response.ok) {
           await removePendingSync(item.id);
+        } else {
+          console.log('Sync failed for item:', item.id, 'Status:', response.status);
         }
       } catch (error) {
-        console.log('Sync failed for item:', item.id);
+        console.log('Sync network error for item:', item.id, error.message || error);
       }
     }
   } catch (error) {
-    console.log('Background sync failed:', error);
+    console.log('Background sync failed:', error.message || error);
   }
 }
 
@@ -185,17 +196,25 @@ async function periodicDataSync() {
     
     for (const endpoint of endpointsToRefresh) {
       try {
-        const response = await fetch(endpoint);
+        const response = await fetch(endpoint, {
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
         if (response.ok) {
           const cache = await caches.open(DYNAMIC_CACHE);
-          cache.put(endpoint, response.clone());
+          await cache.put(endpoint, response.clone());
+        } else {
+          console.log('Periodic sync failed for:', endpoint, 'Status:', response.status);
         }
       } catch (error) {
-        console.log('Periodic sync failed for:', endpoint);
+        console.log('Periodic sync network error for:', endpoint, error.message || error);
       }
     }
   } catch (error) {
-    console.log('Periodic sync failed:', error);
+    console.log('Periodic sync failed:', error.message || error);
   }
 }
 
@@ -211,11 +230,21 @@ async function getPendingSync() {
 
 async function removePendingSync(id) {
   try {
+    if (!id) {
+      console.log('Cannot remove pending sync item: invalid ID');
+      return;
+    }
+    
     const pending = await getPendingSync();
-    const filtered = pending.filter(item => item.id !== id);
+    if (!Array.isArray(pending)) {
+      console.log('Cannot remove pending sync item: invalid pending data');
+      return;
+    }
+    
+    const filtered = pending.filter(item => item && item.id !== id);
     localStorage.setItem('am-pending-sync', JSON.stringify(filtered));
   } catch (error) {
-    console.log('Failed to remove pending sync item:', error);
+    console.log('Failed to remove pending sync item:', error.message || error);
   }
 }
 

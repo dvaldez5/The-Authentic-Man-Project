@@ -3,7 +3,10 @@ import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { storage } from "./storage";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error('Missing required environment variable: JWT_SECRET');
+}
 const JWT_EXPIRES_IN = "7d";
 
 export interface AuthRequest extends Request {
@@ -24,26 +27,26 @@ export async function comparePassword(password: string, hash: string): Promise<b
 
 // Generate JWT token
 export function generateToken(userId: number): string {
+  if (!JWT_SECRET) {
+    throw new Error('JWT_SECRET is not configured');
+  }
   return jwt.sign({ userId }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 }
 
 // Verify JWT token
 export function verifyToken(token: string): { userId: number } | null {
+  if (!JWT_SECRET) {
+    console.error('JWT_SECRET is not configured');
+    return null;
+  }
+  
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: number };
-    return decoded;
-  } catch (error) {
-    // If token verification fails, try to decode without verification for development
+    const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload & { userId: number };
+    return { userId: decoded.userId };
+  } catch (error: any) {
+    // Log verification failure for debugging but don't bypass security
     if (process.env.NODE_ENV === 'development') {
-      try {
-        const decoded = jwt.decode(token) as { userId: number };
-        if (decoded && decoded.userId) {
-          console.log('Development mode: Using expired token for user', decoded.userId);
-          return decoded;
-        }
-      } catch (decodeError) {
-        // Still return null if decode fails
-      }
+      console.log('JWT verification failed:', error.message);
     }
     return null;
   }
