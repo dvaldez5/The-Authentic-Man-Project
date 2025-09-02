@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+
 interface User {
   id: number;
   email: string;

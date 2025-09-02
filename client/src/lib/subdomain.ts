@@ -19,7 +19,7 @@ export function isAppSubdomain(): boolean {
   
   // In development, check for special port or parameter
   // This allows testing subdomain logic locally
-  if (import.meta.env.DEV) {
+  if (process.env.NODE_ENV === 'development') {
     // Check for ?app=true parameter for local testing
     const params = new URLSearchParams(window.location.search);
     if (params.get('app') === 'true') {
@@ -45,7 +45,7 @@ export function isMarketingDomain(): boolean {
   }
   
   // In development, default to marketing if not explicitly app
-  if (import.meta.env.DEV) {
+  if (process.env.NODE_ENV === 'development') {
     return !isAppSubdomain();
   }
   
@@ -60,7 +60,7 @@ export function getAuthDomain(): string {
   if (typeof window === 'undefined') return '';
   
   // In production, always use app subdomain for auth
-  if (import.meta.env.PROD) {
+  if (process.env.NODE_ENV === 'production') {
     return 'https://app.theamproject.com';
   }
   
@@ -76,7 +76,7 @@ export function getMarketingDomain(): string {
   if (typeof window === 'undefined') return '';
   
   // In production, use main domain
-  if (import.meta.env.PROD) {
+  if (process.env.NODE_ENV === 'production') {
     return 'https://theamproject.com';
   }
   
@@ -89,7 +89,7 @@ export function getMarketingDomain(): string {
  * Used for auth and protected pages
  */
 export function redirectToAppSubdomain(path: string = '/'): void {
-  if (!isAppSubdomain() && import.meta.env.PROD) {
+  if (!isAppSubdomain() && process.env.NODE_ENV === 'production') {
     window.location.href = `https://app.theamproject.com${path}`;
   }
 }
@@ -99,7 +99,7 @@ export function redirectToAppSubdomain(path: string = '/'): void {
  * Used when non-authenticated users access app subdomain
  */
 export function redirectToMarketingDomain(path: string = '/'): void {
-  if (isAppSubdomain() && import.meta.env.PROD) {
+  if (isAppSubdomain() && process.env.NODE_ENV === 'production') {
     window.location.href = `https://theamproject.com${path}`;
   }
 }

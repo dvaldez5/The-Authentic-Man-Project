@@ -76,7 +76,8 @@ class NotificationService {
         tag: 'permission-test',
         icon: '/am-logo-notification.png',
         silent: true,
-        requireInteraction: false
+        requireInteraction: false,
+        actions: []
       });
       
       console.log('WebView notification permission granted via ServiceWorker');
@@ -108,7 +109,9 @@ class NotificationService {
         tag: options.tag,
         requireInteraction: options.requireInteraction || false,
         data: options.data,
-        silent: false
+        silent: false,
+        vibrate: [200, 100, 200],
+        timestamp: Date.now()
       });
       
       console.log('ServiceWorker notification shown successfully');

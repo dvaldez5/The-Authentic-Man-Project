@@ -169,16 +169,6 @@ function toast({ ...props }: Toast) {
 }
 
 function useToast() {
-  // Safety check for React hooks
-  if (!React || !React.useState || !React.useEffect) {
-    console.warn('React hooks not available, providing fallback useToast');
-    return {
-      toast: () => ({ id: 'fallback', dismiss: () => {}, update: () => {} }),
-      dismiss: () => {},
-      toasts: []
-    };
-  }
-
   const [state, setState] = React.useState<State>(memoryState)
 
   React.useEffect(() => {

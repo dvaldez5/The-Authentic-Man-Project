@@ -1,5 +1,16 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
+// Global cache invalidation for cross-instance sync
+export function invalidateAllUserData() {
+  queryClient.invalidateQueries({ queryKey: ['/api/auth/me'] });
+  queryClient.invalidateQueries({ queryKey: ['/api/dashboard/stats'] });
+  queryClient.invalidateQueries({ queryKey: ['/api/daily-challenge'] });
+  queryClient.invalidateQueries({ queryKey: ['/api/learning/courses'] });
+  queryClient.invalidateQueries({ queryKey: ['/api/journal'] });
+  queryClient.invalidateQueries({ queryKey: ['/api/scenarios'] });
+  queryClient.invalidateQueries({ queryKey: ['/api/weekly-reflections'] });
+}
+
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
     const text = (await res.text()) || res.statusText;
@@ -75,14 +86,3 @@ export const queryClient = new QueryClient({
     },
   },
 });
-
-// Global cache invalidation for cross-instance sync (moved after queryClient declaration)
-export function invalidateAllUserData() {
-  queryClient.invalidateQueries({ queryKey: ['/api/auth/me'] });
-  queryClient.invalidateQueries({ queryKey: ['/api/dashboard/stats'] });
-  queryClient.invalidateQueries({ queryKey: ['/api/daily-challenge'] });
-  queryClient.invalidateQueries({ queryKey: ['/api/learning/courses'] });
-  queryClient.invalidateQueries({ queryKey: ['/api/journal'] });
-  queryClient.invalidateQueries({ queryKey: ['/api/scenarios'] });
-  queryClient.invalidateQueries({ queryKey: ['/api/weekly-reflections'] });
-}
