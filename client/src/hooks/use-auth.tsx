@@ -5,8 +5,6 @@ import {
   UseMutationResult,
 } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "../lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
-
 interface User {
   id: number;
   email: string;
@@ -40,7 +38,7 @@ type AuthContextType = {
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { toast } = useToast();
+  // Removed useToast to fix React hook errors
   const [token, setToken] = useState<string | null>(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('auth_token');
@@ -92,19 +90,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('auth_token', authToken);
       setToken(authToken);
       queryClient.setQueryData(["/api/auth/me"], user);
-      toast({
-        title: "Welcome back!",
-        description: `Good to see you again, ${user.fullName}`,
-      });
+      console.log(`Welcome back! Good to see you again, ${user.fullName}`);
       // Redirect to appropriate destination
       window.location.href = user.onboardingComplete ? "/dashboard" : "/onboarding";
     },
     onError: (error: Error) => {
-      toast({
-        title: "Login failed",
-        description: error.message,
-        variant: "destructive",
-      });
+      console.error("Login failed:", error.message);
     },
   });
 
@@ -119,17 +110,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('registrationKey', data.registrationKey);
       localStorage.setItem('pendingEmail', data.email);
       // Account will be created only after successful payment
-      toast({
-        title: "Registration prepared!",
-        description: "Complete your payment to activate your account",
-      });
+      console.log("Registration prepared! Complete your payment to activate your account");
     },
     onError: (error: Error) => {
-      toast({
-        title: "Registration failed",
-        description: error.message,
-        variant: "destructive",
-      });
+      console.error("Registration failed:", error.message);
     },
   });
 
@@ -142,10 +126,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     onSuccess: () => {
       queryClient.setQueryData(["/api/auth/me"], null);
       queryClient.clear(); // Clear all cached data
-      toast({
-        title: "Logged out",
-        description: "You have been successfully logged out",
-      });
+      console.log("Logged out - You have been successfully logged out");
       // Redirect to marketing homepage
       window.location.href = '/';
     },
