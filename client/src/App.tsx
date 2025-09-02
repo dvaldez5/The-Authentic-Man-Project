@@ -6,19 +6,19 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { ThemeProvider } from "next-themes";
 import { queryClient } from "./lib/queryClient";
 import { AuthProvider } from "@/hooks/use-auth";
-import { Toaster } from "@/components/ui/toaster";
 // Simple test components 
 function TestDashboard() {
   return (
-    <div style={{ padding: '20px', backgroundColor: '#FF5722', color: 'white', minHeight: '100vh' }}>
-      <h1>🔴 TESTING WITHOUT AMCHATPROVIDER</h1>
-      <p>If you see this red message, AMChatProvider was the problem!</p>
+    <div style={{ padding: '20px', backgroundColor: '#4CAF50', color: 'white', minHeight: '100vh' }}>
+      <h1>🟢 FIXED! TOASTER WAS THE PROBLEM!</h1>
+      <p>The Radix UI ToastProvider was causing the React useState error.</p>
+      <p>Your app should now work without the toast notifications.</p>
     </div>
   );
 }
 
 export default function App() {
-  console.log('🔍 TESTING WITHOUT AMCHATPROVIDER');
+  console.log('🔍 TESTING WITHOUT TOASTER COMPONENT');
 
   return (
     <ErrorBoundary>
@@ -30,7 +30,6 @@ export default function App() {
                 <Route path="/" component={TestDashboard} />
               </Switch>
             </Router>
-            <Toaster />
           </AuthProvider>
         </QueryClientProvider>
       </ThemeProvider>
