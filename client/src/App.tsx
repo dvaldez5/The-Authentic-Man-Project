@@ -7,45 +7,30 @@ import { ThemeProvider } from "next-themes";
 import { queryClient } from "./lib/queryClient";
 import { AuthProvider } from "@/hooks/use-auth";
 import { Toaster } from "@/components/ui/toaster";
-import { AMChatProvider } from "@/contexts/UnifiedAMChatContext";
-
-// Simple test components instead of importing pages
+// Simple test components 
 function TestDashboard() {
   return (
-    <div style={{ padding: '20px', backgroundColor: '#4CAF50', color: 'white', minHeight: '100vh' }}>
-      <h1>🟢 DASHBOARD TEST</h1>
-      <p>Dashboard component working!</p>
-    </div>
-  );
-}
-
-function TestAuth() {
-  return (
-    <div style={{ padding: '20px', backgroundColor: '#2196F3', color: 'white', minHeight: '100vh' }}>
-      <h1>🔵 AUTH TEST</h1>
-      <p>Auth page working!</p>
+    <div style={{ padding: '20px', backgroundColor: '#FF5722', color: 'white', minHeight: '100vh' }}>
+      <h1>🔴 TESTING WITHOUT AMCHATPROVIDER</h1>
+      <p>If you see this red message, AMChatProvider was the problem!</p>
     </div>
   );
 }
 
 export default function App() {
-  console.log('🔍 TESTING MINIMAL ROUTING');
+  console.log('🔍 TESTING WITHOUT AMCHATPROVIDER');
 
   return (
     <ErrorBoundary>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
-            <AMChatProvider>
-              <Router>
-                <Switch>
-                  <Route path="/" component={TestDashboard} />
-                  <Route path="/login" component={TestAuth} />
-                  <Route path="/register" component={TestAuth} />
-                </Switch>
-              </Router>
-              <Toaster />
-            </AMChatProvider>
+            <Router>
+              <Switch>
+                <Route path="/" component={TestDashboard} />
+              </Switch>
+            </Router>
+            <Toaster />
           </AuthProvider>
         </QueryClientProvider>
       </ThemeProvider>
