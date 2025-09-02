@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { CheckCircle2, Clock, ChevronDown, ChevronUp, MessageCircle, Lightbulb, Heart } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
-// Removed useToast to fix React hook errors
+import { useToast } from "@/hooks/use-toast";
 import type { Challenge, UserChallenge } from "@shared/schema";
 import { ReflectionModal } from "./ReflectionModal";
 import { broadcastUpdate } from "@/hooks/use-cross-instance-sync";
@@ -21,7 +21,7 @@ export function DailyChallengeCard({ userChallenge, challenge }: DailyChallengeC
   const [showReflectionModal, setShowReflectionModal] = useState(false);
   const [showAmFeedback, setShowAmFeedback] = useState(false);
   const [, setLocation] = useLocation();
-  // Removed useToast to fix React hook errors
+  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const completeMutation = useMutation({
@@ -45,11 +45,18 @@ export function DailyChallengeCard({ userChallenge, challenge }: DailyChallengeC
       // Broadcast update to all other instances (desktop, mobile browser, PWA)
       broadcastUpdate('challenge_complete', { challengeId: challenge.id });
       
-      console.log("Challenge Complete: Keep going. Consistency—not perfection—is what builds character.");
+      toast({
+        title: "Challenge Complete",
+        description: "Keep going. Consistency—not perfection—is what builds character.",
+      });
       setShowReflectionModal(false);
     },
     onError: (error) => {
-      console.error("Error: Failed to complete challenge. Try again.");
+      toast({
+        title: "Error",
+        description: "Failed to complete challenge. Try again.",
+        variant: "destructive",
+      });
     }
   });
 

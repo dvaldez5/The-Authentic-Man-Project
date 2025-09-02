@@ -6,6 +6,7 @@ import { ThemeProvider } from "next-themes";
 import { queryClient } from "./lib/queryClient";
 import { AuthProvider } from "@/hooks/use-auth";
 import { AMChatProvider } from "@/contexts/UnifiedAMChatContext";
+import { Toaster } from "@/components/ui/toaster";
 
 // Pages
 import Dashboard from "@/pages/Dashboard";
@@ -52,6 +53,7 @@ export default function App() {
             </AMChatProvider>
           </AuthProvider>
         </QueryClientProvider>
+        <Toaster />
       </ThemeProvider>
     </ErrorBoundary>
   );
