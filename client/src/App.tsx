@@ -309,26 +309,36 @@ function AppContent() {
 }
 
 export default function App() {
+  console.log('🔍 App function starting');
+  
   // Initialize unified tracking (GA4 + Google Ads) when app loads
   useEffect(() => {
+    console.log('🔍 useEffect starting');
     if (!import.meta.env.VITE_GA_MEASUREMENT_ID) {
       console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
     } else {
-      initUnifiedTracking();
-      
-      // Initialize SEO systems
-      initializeSEO();
-      initializeProgrammaticSEO();
-      
-      // Initialize advanced GA4 features after basic setup
-      setTimeout(() => {
-        import('./lib/ga4-bounce-analysis').then(({ initGA4BounceAnalysis }) => {
-          initGA4BounceAnalysis();
-        });
-      }, 1000);
+      try {
+        console.log('🔍 Initializing tracking systems');
+        initUnifiedTracking();
+        
+        // Initialize SEO systems
+        initializeSEO();
+        initializeProgrammaticSEO();
+        
+        // Initialize advanced GA4 features after basic setup
+        setTimeout(() => {
+          import('./lib/ga4-bounce-analysis').then(({ initGA4BounceAnalysis }) => {
+            initGA4BounceAnalysis();
+          });
+        }, 1000);
+        console.log('🔍 Tracking systems initialized successfully');
+      } catch (error) {
+        console.error('🚨 Error in useEffect:', error);
+      }
     }
   }, []);
 
+  console.log('🔍 About to render JSX');
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
