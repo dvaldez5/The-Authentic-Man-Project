@@ -15,12 +15,28 @@ interface PWAContextType {
 const PWAContext = createContext<PWAContextType | undefined>(undefined);
 
 export function PWAProvider({ children }: { children: ReactNode }) {
-  // Safety check for React hooks
-  if (!React || typeof React.useState !== 'function') {
-    console.warn('React hooks not available, rendering children without PWA context');
-    return <>{children}</>;
-  }
+  // Temporarily disable PWA functionality to avoid React hook dispatcher issues
+  console.warn('PWA functionality temporarily disabled due to React hook initialization issues');
   
+  // Provide default PWA context values
+  const defaultContext: PWAContextType = {
+    deferredPrompt: null,
+    isInstallable: false,
+    isInstalled: false,
+    installApp: async () => {
+      console.warn('PWA install not available - PWA provider disabled');
+      throw new Error('PWA functionality temporarily disabled');
+    }
+  };
+  
+  return (
+    <PWAContext.Provider value={defaultContext}>
+      {children}
+    </PWAContext.Provider>
+  );
+  
+  // Original hook-based code disabled until React dispatcher issue is resolved
+  /*
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
@@ -92,6 +108,7 @@ export function PWAProvider({ children }: { children: ReactNode }) {
       {children}
     </PWAContext.Provider>
   );
+  */
 }
 
 export function usePWA() {
