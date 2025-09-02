@@ -1,3 +1,4 @@
+// Test minimal routing without page imports
 import React from "react";
 import { Route, Switch, Router } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -8,16 +9,28 @@ import { AuthProvider } from "@/hooks/use-auth";
 import { Toaster } from "@/components/ui/toaster";
 import { AMChatProvider } from "@/contexts/UnifiedAMChatContext";
 
-// Pages
-import Dashboard from "@/pages/Dashboard";
-import AuthPage from "@/pages/AuthPage";
-import Onboarding from "@/pages/Onboarding";
-import Challenges from "@/pages/Challenges";
-import Journal from "@/pages/Journal";
-import Settings from "@/pages/Settings";
-import SubscriptionPage from "@/pages/SubscriptionPage";
+// Simple test components instead of importing pages
+function TestDashboard() {
+  return (
+    <div style={{ padding: '20px', backgroundColor: '#4CAF50', color: 'white', minHeight: '100vh' }}>
+      <h1>🟢 DASHBOARD TEST</h1>
+      <p>Dashboard component working!</p>
+    </div>
+  );
+}
+
+function TestAuth() {
+  return (
+    <div style={{ padding: '20px', backgroundColor: '#2196F3', color: 'white', minHeight: '100vh' }}>
+      <h1>🔵 AUTH TEST</h1>
+      <p>Auth page working!</p>
+    </div>
+  );
+}
 
 export default function App() {
+  console.log('🔍 TESTING MINIMAL ROUTING');
+
   return (
     <ErrorBoundary>
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
@@ -26,14 +39,9 @@ export default function App() {
             <AMChatProvider>
               <Router>
                 <Switch>
-                  <Route path="/" component={Dashboard} />
-                  <Route path="/login" component={AuthPage} />
-                  <Route path="/register" component={AuthPage} />
-                  <Route path="/onboarding" component={Onboarding} />
-                  <Route path="/challenges" component={Challenges} />
-                  <Route path="/journal" component={Journal} />
-                  <Route path="/settings" component={Settings} />
-                  <Route path="/subscription" component={SubscriptionPage} />
+                  <Route path="/" component={TestDashboard} />
+                  <Route path="/login" component={TestAuth} />
+                  <Route path="/register" component={TestAuth} />
                 </Switch>
               </Router>
               <Toaster />
