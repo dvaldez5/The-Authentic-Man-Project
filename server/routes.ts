@@ -1253,6 +1253,7 @@ ${req.userId ? '' : 'CRITICAL: You are on a PUBLIC page. For structured courses/
       }
 
       // Create a journal entry for the completed challenge
+      // CRITICAL: Await journal creation before proceeding to ensure proper data consistency
       const journalEntry = await storage.createJournalEntry({
         userId: req.userId,
         content: reflection,
@@ -1260,6 +1261,9 @@ ${req.userId ? '' : 'CRITICAL: You are on a PUBLIC page. For structured courses/
         lessonId: null,
         scenarioId: null
       });
+      
+      // Add small delay to ensure database write completes
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       // Generate AM reflection if OpenAI is available
       let aiReflection = null;
@@ -1316,6 +1320,13 @@ ${req.userId ? '' : 'CRITICAL: You are on a PUBLIC page. For structured courses/
         await storage.updateJournalEntry(journalEntry.id, { aiReflection });
       }
 
+      // Award XP for challenge completion
+      try {
+        await storage.addXP(req.userId, 50, 'challenge_complete');
+      } catch (xpError) {
+        console.error('Failed to award XP for challenge completion:', xpError);
+      }
+      
       res.json({
         message: 'Challenge completed successfully',
         userChallenge: completedChallenge,
@@ -3276,8 +3287,8 @@ ${req.userId ? '' : 'CRITICAL: You are on a PUBLIC page. For structured courses/
           let periodEnd;
           if (subscription.status === 'trialing' && subscription.trial_end) {
             periodEnd = subscription.trial_end;
-          } else if (subscription.current_period_end) {
-            periodEnd = subscription.current_period_end;
+          } else if ((subscription as any).current_period_end) {
+            periodEnd = (subscription as any).current_period_end;
           }
           hasActiveSubscription = periodEnd ? now < periodEnd : false;
         } catch (error) {
@@ -3335,7 +3346,7 @@ ${req.userId ? '' : 'CRITICAL: You are on a PUBLIC page. For structured courses/
           id: subscription.id,
           status: subscription.status,
           cancel_at_period_end: subscription.cancel_at_period_end,
-          current_period_end: subscription.current_period_end
+          current_period_end: (subscription as any).current_period_end
         }
       });
     } catch (error: any) {
@@ -3408,8 +3419,8 @@ ${req.userId ? '' : 'CRITICAL: You are on a PUBLIC page. For structured courses/
           id: subscription.id,
           status: subscription.status,
           cancel_at_period_end: subscription.cancel_at_period_end,
-          current_period_start: subscription.current_period_start,
-          current_period_end: subscription.current_period_end,
+          current_period_start: (subscription as any).current_period_start,
+          current_period_end: (subscription as any).current_period_end,
           trial_end: subscription.trial_end,
           plan: {
             amount: subscription.items.data[0]?.price.unit_amount,
