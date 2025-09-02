@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { ChevronDown, ChevronUp, MessageCircle, Lightbulb, Heart } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
+// Removed useToast to fix React hook errors
 import { broadcastUpdate } from "@/hooks/use-cross-instance-sync";
 // import { JournalModal } from "@/components/journal/JournalModal";
 import type { Scenario } from "@shared/schema";
@@ -42,7 +42,7 @@ export function ScenarioPlayer({ scenario, onComplete, existingResponse }: Scena
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [, setLocation] = useLocation();
-  const { toast } = useToast();
+  // Removed useToast to fix React hook errors
   const queryClient = useQueryClient();
 
   // Format AI feedback with icons like journal entries
@@ -93,20 +93,13 @@ export function ScenarioPlayer({ scenario, onComplete, existingResponse }: Scena
       // Broadcast scenario completion to all other instances
       broadcastUpdate('scenario_complete', { scenarioId: scenario.id });
       
-      toast({
-        title: "Response Recorded",
-        description: "Your choice has been saved.",
-      });
+      console.log("Response Recorded: Your choice has been saved.");
     },
     onError: (error) => {
       setIsSubmitting(false);
       setSubmissionError("Something went wrong saving your choice. Your response wasn't recorded. Please tap again or refresh and try once more.");
       console.error("Scenario response error:", error);
-      toast({
-        title: "Error",
-        description: "Failed to record your response. Please try again.",
-        variant: "destructive",
-      });
+      console.error("Error: Failed to record your response. Please try again.");
     },
   });
 
