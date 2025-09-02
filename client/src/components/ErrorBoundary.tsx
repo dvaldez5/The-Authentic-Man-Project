@@ -33,27 +33,25 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
       return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-100">
-          <div className="text-center p-8 max-w-4xl">
+          <div className="text-center p-8 max-w-2xl">
             <div className="mb-6">
               <img src="/app-icon-192.png" alt="AM Project" className="w-16 h-16 mx-auto mb-4" />
               <h1 className="text-2xl font-bold text-gray-900 mb-2">Something went wrong</h1>
               <p className="text-gray-600 mb-4">The app encountered an error. Please try refreshing the page.</p>
               
-              {/* Display actual error details */}
+              {/* Show error details in development */}
               {this.state.error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-left mb-6">
-                  <h2 className="text-lg font-semibold text-red-800 mb-2">Error Details:</h2>
-                  <div className="text-sm text-red-700 mb-2">
-                    <strong>Message:</strong> {this.state.error.message}
-                  </div>
-                  {this.state.error.stack && (
-                    <div className="text-sm text-red-700">
-                      <strong>Stack Trace:</strong>
-                      <pre className="mt-2 text-xs bg-red-100 p-2 rounded overflow-x-auto whitespace-pre-wrap">
+                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-left">
+                  <h3 className="font-semibold text-red-800 mb-2">Error Details:</h3>
+                  <pre className="text-sm text-red-700 whitespace-pre-wrap overflow-auto max-h-40">
+                    {this.state.error.name}: {this.state.error.message}
+                    {this.state.error.stack && (
+                      <>
+                        {'\n\nStack trace:\n'}
                         {this.state.error.stack}
-                      </pre>
-                    </div>
-                  )}
+                      </>
+                    )}
+                  </pre>
                 </div>
               )}
             </div>

@@ -303,7 +303,7 @@ function AppContent() {
       <TourTooltip />
       <TourManager />
       {/* Global AM Chat Bubble - only show when not on homepage/splash */}
-      {/* {showAMChat && <UnifiedAMChat type="bubble" />} */}
+      {showAMChat && <UnifiedAMChat type="bubble" />}
     </TooltipProvider>
   );
 }
