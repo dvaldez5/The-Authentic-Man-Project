@@ -54,8 +54,8 @@ self.addEventListener('activate', (event) => {
       }),
       // Claim clients
       self.clients.claim(),
-      // Initialize background sync store
-      self.registration.sync && self.registration.sync.register('background-sync')
+      // Temporarily disabled background sync for launch:
+      // self.registration.sync && self.registration.sync.register('background-sync')
     ])
   );
 });
@@ -80,9 +80,9 @@ self.addEventListener('message', (event) => {
 
 // Background sync for data persistence
 self.addEventListener('sync', (event) => {
-  if (event.tag === 'background-sync') {
-    event.waitUntil(syncPendingData());
-  }
+  if (event.tag !== 'background-sync') return;
+  // Temporarily no-op: we won't process queued posts for launch
+  event.waitUntil(Promise.resolve());
 });
 
 // Periodic background sync for fresh data

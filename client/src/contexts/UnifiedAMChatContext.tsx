@@ -42,11 +42,9 @@ export function AMChatProvider({ children }: { children: React.ReactNode }) {
         'Content-Type': 'application/json',
       };
 
-      // Use token from auth context with localStorage fallback
-      const authToken = token || localStorage.getItem('auth_token');
-      
-      if (authToken) {
-        headers['Authorization'] = `Bearer ${authToken}`;
+      // Use token from auth context only (no localStorage fallback)
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
       }
 
 

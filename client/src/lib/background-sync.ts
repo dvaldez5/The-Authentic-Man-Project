@@ -37,17 +37,17 @@ export class BackgroundSync {
       pending.push(item);
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(pending));
 
-      // Try to register background sync
-      if ('serviceWorker' in navigator && 'ServiceWorkerRegistration' in window) {
-        try {
-          const registration = await navigator.serviceWorker.ready;
-          if ('sync' in registration) {
-            await (registration as any).sync.register('background-sync');
-          }
-        } catch (error) {
-          console.log('Background sync not supported:', error);
-        }
-      }
+      // Temporarily disabled for launch:
+      // if ('serviceWorker' in navigator && 'ServiceWorkerRegistration' in window) {
+      //   try {
+      //     const registration = await navigator.serviceWorker.ready;
+      //     if ('sync' in registration) {
+      //       await (registration as any).sync.register('background-sync');
+      //     }
+      //   } catch (error) {
+      //     console.log('Background sync not supported:', error);
+      //   }
+      // }
 
       console.log('Queued for background sync:', url);
       return item.id;

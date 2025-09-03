@@ -79,6 +79,9 @@ function AppRouter(): React.JSX.Element {
   // Subdomain detection for routing separation
   const onAppSubdomain = isAppSubdomain();
   const onMarketingDomain = isMarketingDomain();
+  
+  // Environment check - Vite safe
+  const isProd = import.meta.env.MODE === 'production';
 
   console.log('FORCED ROUTING DECISION:', {
     shouldUsePWA,
@@ -164,7 +167,7 @@ function AppRouter(): React.JSX.Element {
       
       {/* Auth pages redirect to app subdomain in production */}
       <Route path="/auth">{() => {
-        if (process.env.NODE_ENV === 'production' && !onAppSubdomain && !shouldUsePWA) {
+        if (isProd && !onAppSubdomain && !shouldUsePWA) {
           window.location.href = 'https://app.theamproject.com/auth';
           return <div>Redirecting...</div>;
         }
@@ -172,7 +175,7 @@ function AppRouter(): React.JSX.Element {
       }}</Route>
       
       <Route path="/payment">{() => {
-        if (process.env.NODE_ENV === 'production' && !onAppSubdomain && !shouldUsePWA) {
+        if (isProd && !onAppSubdomain && !shouldUsePWA) {
           window.location.href = 'https://app.theamproject.com/payment';
           return <div>Redirecting...</div>;
         }
@@ -180,7 +183,7 @@ function AppRouter(): React.JSX.Element {
       }}</Route>
       
       <Route path="/onboarding">{() => {
-        if (process.env.NODE_ENV === 'production' && !onAppSubdomain && !shouldUsePWA) {
+        if (isProd && !onAppSubdomain && !shouldUsePWA) {
           window.location.href = 'https://app.theamproject.com/onboarding';
           return <div>Redirecting...</div>;
         }
@@ -189,7 +192,7 @@ function AppRouter(): React.JSX.Element {
       
       {/* Protected pages redirect to app subdomain */}
       <Route path="/dashboard">{() => {
-        if (process.env.NODE_ENV === 'production' && !onAppSubdomain && !shouldUsePWA) {
+        if (isProd && !onAppSubdomain && !shouldUsePWA) {
           window.location.href = 'https://app.theamproject.com/dashboard';
           return <div>Redirecting...</div>;
         }
@@ -198,7 +201,7 @@ function AppRouter(): React.JSX.Element {
       
       {/* All other protected routes redirect to app subdomain */}
       <Route path="/learning">{() => {
-        if (process.env.NODE_ENV === 'production' && !onAppSubdomain && !shouldUsePWA) {
+        if (isProd && !onAppSubdomain && !shouldUsePWA) {
           window.location.href = 'https://app.theamproject.com/learning';
           return <div>Redirecting...</div>;
         }
@@ -206,7 +209,7 @@ function AppRouter(): React.JSX.Element {
       }}</Route>
       
       <Route path="/challenges">{() => {
-        if (process.env.NODE_ENV === 'production' && !onAppSubdomain && !shouldUsePWA) {
+        if (isProd && !onAppSubdomain && !shouldUsePWA) {
           window.location.href = 'https://app.theamproject.com/challenges';
           return <div>Redirecting...</div>;
         }
@@ -214,7 +217,7 @@ function AppRouter(): React.JSX.Element {
       }}</Route>
       
       <Route path="/journal">{() => {
-        if (process.env.NODE_ENV === 'production' && !onAppSubdomain && !shouldUsePWA) {
+        if (isProd && !onAppSubdomain && !shouldUsePWA) {
           window.location.href = 'https://app.theamproject.com/journal';
           return <div>Redirecting...</div>;
         }
@@ -222,7 +225,7 @@ function AppRouter(): React.JSX.Element {
       }}</Route>
       
       <Route path="/community">{() => {
-        if (process.env.NODE_ENV === 'production' && !onAppSubdomain && !shouldUsePWA) {
+        if (isProd && !onAppSubdomain && !shouldUsePWA) {
           window.location.href = 'https://app.theamproject.com/community';
           return <div>Redirecting...</div>;
         }
@@ -230,7 +233,7 @@ function AppRouter(): React.JSX.Element {
       }}</Route>
       
       <Route path="/weekly-reflections">{() => {
-        if (process.env.NODE_ENV === 'production' && !onAppSubdomain && !shouldUsePWA) {
+        if (isProd && !onAppSubdomain && !shouldUsePWA) {
           window.location.href = 'https://app.theamproject.com/weekly-reflections';
           return <div>Redirecting...</div>;
         }
@@ -238,7 +241,7 @@ function AppRouter(): React.JSX.Element {
       }}</Route>
       
       <Route path="/settings">{() => {
-        if (process.env.NODE_ENV === 'production' && !onAppSubdomain && !shouldUsePWA) {
+        if (isProd && !onAppSubdomain && !shouldUsePWA) {
           window.location.href = 'https://app.theamproject.com/settings';
           return <div>Redirecting...</div>;
         }
@@ -246,7 +249,7 @@ function AppRouter(): React.JSX.Element {
       }}</Route>
       
       <Route path="/subscription">{() => {
-        if (process.env.NODE_ENV === 'production' && !onAppSubdomain && !shouldUsePWA) {
+        if (isProd && !onAppSubdomain && !shouldUsePWA) {
           window.location.href = 'https://app.theamproject.com/subscription';
           return <div>Redirecting...</div>;
         }
