@@ -1,0 +1,212 @@
+Phase 1 — Security & Auth Hardening (Plan only, no edits yet)
+Non-negotiable security requirements (what “good” looks like)
+
+Logout behavior
+
+Logging out from app.theamproject.com must land the user on https://theamproject.com?loggedOut=1
+.
+
+Server clears all session/JWT state across .theamproject.com.
+
+No open redirects; only allowlisted destinations.
+
+Passwords (update in this phase)
+
+Minimum length: 12 (passphrases allowed; 16+ has no composition rules).
+
+Composition (if <16 chars): at least 1 letter and 1 number. (No special-char gimmicks.)
+
+Maximum length: 128; trim leading/trailing whitespace; reject all-whitespace.
+
+No exposure in logs; enforce server-side validation.
+
+Progressive login throttling (IP+account); lockout after repeated failures (temporary, exponential backoff).
+
+(Per your direction: do not add top-10k/keyboard-pattern blacklists.)
+
+Sensitive data at rest (encrypt)
+
+Application-layer encryption for: journalEntries.text, chatMessages.text, weeklyReflections.reflection, users.onboardingAnswers, userNotificationSettings.pushSubscription.
+
+AES-256-GCM (authenticated encryption) with a master key from secrets (env), never in the repo.
+
+Envelope model: each record uses a random IV; store {v, alg, iv, tag, ct, salt?, keyId} alongside the data.
+
+No plaintext “encryption_key” columns; no keys stored next to ciphertext.
+
+Prefer HKDF to derive per-tenant/per-user data keys from a KMS_MASTER_KEY (env) + context (e.g., userId, table).
+
+Key rotation plan: support keyId and roll forward; keep decrypt compatibility for older keyIds.
+
+Logging: never log decrypted data; redact/omit on server logs; sanitize errors.
+
+Tokens/sessions (risk reduction in Phase 1)
+
+Stop using localStorage for auth. Move tokens to httpOnly, Secure, SameSite=Strict|Lax cookies on .theamproject.com.
+
+Short-lived access token (e.g., 15m) + httpOnly refresh cookie (e.g., 7–30d).
+
+CSRF protection for state-changing routes (double-submit or SameSite + CSRF token).
+
+If full migration is too large for Phase 1, propose a Phase 1A/1B split (see below).
+
+Transport & headers
+
+Enforce HTTPS only; HSTS on production; helmet with strict CSP (nonce/sha for inline), X-Frame-Options: DENY, X-Content-Type-Options: nosniff, strict Referrer-Policy.
+
+CORS explicit policy (exact origins in prod).
+
+Secrets management
+
+All keys in Replit Secrets / env, never committed.
+
+Add a new KMS_MASTER_KEY (32 bytes / 256-bit). Generate server-side; don’t show in chats/logs.
+
+Backups & retention
+
+Confirm DB backups are encrypted at rest by provider.
+
+Document retention windows; allow user data deletion requests to wipe encrypted payloads.
+
+Proposed Phase 1 work breakdown (plan only)
+1) Logout redirect (server-led; minimal risk)
+
+Add a server logout endpoint that clears server session/cookies and returns an allowlisted redirect (default https://theamproject.com?loggedOut=1).
+
+Client logout calls this endpoint, clears client cache, follows the returned URL.
+
+Test across both domain and subdomain, and ensure no open-redirect vectors.
+
+2) Password policy (server enforced; client hints)
+
+Implement the policy above server-side (validation before hashing).
+
+Keep bcrypt hashing as is (12 rounds OK).
+
+Add rate-limiting + temporary lockout for repeated failures.
+
+Update client UI to reflect rules (no hard block lists; passphrase allowed).
+
+3) Data-at-rest encryption (application layer)
+
+Add an envelope crypto utility (Node crypto or libsodium), with AES-256-GCM and HKDF(KMS_MASTER_KEY, context).
+
+Schema additions: for each encrypted field, add an adjacent column (e.g., encrypted_payload jsonb) or replace the field entirely with the envelope JSON.
+
+Forward-encrypt new writes first.
+
+Plan an online migration for existing rows (batch job, id-ranged, resumable).
+
+Keep plaintext columns until migration verified; then drop or null them.
+
+4) Token handling (two options for Phase 1)
+
+Option A (preferred in Phase 1): Move to httpOnly cookie model now.
+
+Server sets Set-Cookie for refresh; mints short access tokens; client uses credentials: "include"; add CSRF.
+
+Option B (Phase 1A/1B):
+
+Phase 1A now: eliminate localStorage writes on new sessions; serve access token in a temporary secure cookie; leave existing sessions until expiry.
+
+Phase 1B shortly after: add refresh flow + CSRF + revoke legacy tokens.
+
+5) Headers & logging
+
+Add helmet with strict CSP (nonce/sha approach) and other headers listed above.
+
+Scrub logs (no PII payload bodies, no decrypted content).
+
+Audit error boundaries to avoid leaking server messages.
+
+6) Tests & acceptance
+
+Unit tests for: password validator; encrypt/decrypt roundtrip; header presence; logout flow; CSRF rejection when missing token; cookie flags.
+
+Manual: sign-in/out across subdomains; back-button after logout; DB spot-check shows ciphertext only; logs contain no sensitive content.
+
+Files/Artifacts we still need to see (verbatim; redact secrets)
+
+(Paste only the relevant parts if files are huge.)
+
+Auth & sessions
+
+server/index.ts (Express init; session/cookie settings; any helmet/CORS/CSRF you already have)
+
+server/auth.ts (JWT issue/verify; middlewares)
+
+server/routes.ts (all /api/auth/* routes; especially login/register/me; any existing logout)
+
+Any passport configuration or session store setup (if separate)
+
+Password flows
+
+Password validation (if any utility exists)
+
+Password reset endpoints & token issuance/verification (routes + email sender)
+
+Email templates used for reset (to check token handling/no secrets in links)
+
+Client auth surface
+
+client/src/hooks/use-auth.tsx (AuthProvider; login/logout)
+
+client/src/lib/queryClient.ts (or fetch wrapper/interceptor that attaches tokens)
+
+client/src/lib/subdomain.ts
+
+Component that triggers logout (e.g., client/src/components/NewHeader.tsx)
+
+Data models & handlers
+
+shared/schema.ts (tables: users, journalEntries, chatMessages, weeklyReflections, userNotificationSettings)
+
+Server handlers/services that create/read/update those sensitive fields (paste the specific functions)
+
+Config (read-only for context)
+
+package.json
+
+vite.config.* (CSP nonce transforms, dev server proxy, etc.)
+
+Current helmet/CSP setup if any
+
+.env.example names only for all auth/crypto/DB/email settings (no values)
+
+Optional commands (paste outputs)
+
+rg -n "logout" client server | head -n 80
+
+rg -n "localStorage" client | head -n 80
+
+rg -n "/api/auth" server | head -n 80
+
+Open questions for Replit (please answer before coding)
+
+Cookie domain: Confirm production cookie domain is .theamproject.com (covers app + marketing) and all prod traffic is HTTPS.
+
+Crypto library preference: Stick with Node crypto (AES-GCM) or can we use libsodium? (I’m fine with either; AES-GCM + HKDF is sufficient.)
+
+Schema shape for envelopes: Prefer a single JSONB column per encrypted field (e.g., encrypted_journal) vs. multiple scalar columns. Any strong preference?
+
+Migration window: OK to encrypt new writes now and migrate historical rows in a separate job within this phase?
+
+CSRF approach: Double-submit cookie vs. CSRF token endpoint—what’s cleanest within current stack?
+
+Phase 1 deliverables (what we will review before permitting edits)
+
+A short written plan mapping file-by-file changes for:
+
+Logout (server endpoint + client call + redirect allowlist)
+
+Password validation + throttling (server) and minimal client UI hints
+
+Encryption introduces: crypto utility API, schema column additions, write-path updates, read-path fallback, migration script outline
+
+Token handling approach (Option A or 1A/1B), cookie flags, CSRF strategy
+
+Headers/logging changes
+
+A risk & rollback note for each item.
+
+Reminder: no code or edits until we approve the written plan.
