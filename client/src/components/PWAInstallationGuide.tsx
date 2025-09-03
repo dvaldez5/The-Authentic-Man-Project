@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, Smartphone, Monitor, CheckCircle, ArrowRight, X, Loader2, Shield } from "lucide-react";
-import { usePWA } from "@/hooks/use-pwa";
+import { getSimplePWAState } from '@/lib/simple-pwa';
 import { useToast } from "@/hooks/use-toast";
 
 interface PWAInstallationGuideProps {
@@ -13,7 +13,7 @@ interface PWAInstallationGuideProps {
 export default function PWAInstallationGuide({ onDismiss, showDismiss = true }: PWAInstallationGuideProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isInstalling, setIsInstalling] = useState(false);
-  const { isInstallable, installApp, isInstalled } = usePWA();
+  const { isInstallable, installApp, isInstalled } = getSimplePWAState();
   const { toast } = useToast();
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   const isAndroid = /Android/.test(navigator.userAgent);

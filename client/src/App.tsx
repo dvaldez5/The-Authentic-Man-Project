@@ -335,7 +335,6 @@ export default function App() {
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <PWAProvider>
           <AuthProvider>
             <AMChatProvider>
               <PWANavigationProvider>
@@ -347,7 +346,6 @@ export default function App() {
               </PWANavigationProvider>
             </AMChatProvider>
           </AuthProvider>
-        </PWAProvider>
       </QueryClientProvider>
     </ErrorBoundary>
   );

@@ -8,7 +8,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
-import { usePWA } from '@/hooks/use-pwa';
+import { getSimplePWAState } from '@/lib/simple-pwa';
 import { Instagram, Twitter, Youtube, Linkedin, Download, Loader2, CheckCircle } from 'lucide-react';
 import { scrollToTop } from '@/lib/utils';
 
@@ -24,7 +24,7 @@ const Footer = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isInstalling, setIsInstalling] = useState(false);
   const { toast } = useToast();
-  const { isInstallable, installApp, isInstalled } = usePWA();
+  const { isInstallable, installApp, isInstalled } = getSimplePWAState();
   
   const form = useForm<FooterFormValues>({
     resolver: zodResolver(footerFormSchema),

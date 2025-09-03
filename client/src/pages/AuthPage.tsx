@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { usePWA } from "@/hooks/use-pwa";
+import { getSimplePWAState } from '@/lib/simple-pwa';
 import { Loader2, Shield, Users, Trophy, Target } from "lucide-react";
 import PWAInstallationGuide from "@/components/PWAInstallationGuide";
 import { useMarketingAnalytics } from "@/hooks/use-marketing-analytics";
@@ -19,7 +19,7 @@ import ExitIntentModal from '@/components/ExitIntentModal';
 export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
   const { toast } = useToast();
-  const { isInstallable, installApp } = usePWA();
+  const { isInstallable, installApp } = getSimplePWAState();
   const [, navigate] = useLocation();
   const [showExitModal, setShowExitModal] = useState(false);
   

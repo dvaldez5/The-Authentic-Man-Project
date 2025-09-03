@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { usePWA } from "@/hooks/use-pwa";
+import { getSimplePWAState } from '@/lib/simple-pwa';
 import PWAInstallationGuide from "@/components/PWAInstallationGuide";
 
 export default function InstallPrompt() {
   const [dismissed, setDismissed] = useState(false);
-  const { isInstalled, isInstallable } = usePWA();
+  const { isInstalled, isInstallable } = getSimplePWAState();
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   useEffect(() => {
