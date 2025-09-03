@@ -22,6 +22,12 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack
+    });
   }
 
   render() {
@@ -39,21 +45,31 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
               <h1 className="text-2xl font-bold text-gray-900 mb-2">Something went wrong</h1>
               <p className="text-gray-600 mb-4">The app encountered an error. Please try refreshing the page.</p>
               
-              {/* Show error details in development */}
-              {this.state.error && (
-                <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-left">
-                  <h3 className="font-semibold text-red-800 mb-2">Error Details:</h3>
-                  <pre className="text-sm text-red-700 whitespace-pre-wrap overflow-auto max-h-40">
-                    {this.state.error.name}: {this.state.error.message}
+              {/* Always show error details for debugging */}
+              <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-left">
+                <h3 className="font-semibold text-red-800 mb-2">Error Details:</h3>
+                {this.state.error ? (
+                  <pre className="text-sm text-red-700 whitespace-pre-wrap overflow-auto max-h-60">
+                    <strong>Error Name:</strong> {this.state.error.name || 'Unknown'}
+                    {'\n'}<strong>Error Message:</strong> {this.state.error.message || 'No message available'}
                     {this.state.error.stack && (
                       <>
-                        {'\n\nStack trace:\n'}
-                        {this.state.error.stack}
+                        {'\n\n'}<strong>Stack Trace:</strong>
+                        {'\n'}{this.state.error.stack}
                       </>
                     )}
                   </pre>
+                ) : (
+                  <p className="text-sm text-red-700">No error object available - this might indicate a rendering issue.</p>
+                )}
+                
+                <div className="mt-3 pt-3 border-t border-red-200">
+                  <p className="text-xs text-red-600"><strong>Debug Info:</strong></p>
+                  <p className="text-xs text-red-600">Error State: {this.state.hasError ? 'true' : 'false'}</p>
+                  <p className="text-xs text-red-600">Error Object: {this.state.error ? 'present' : 'missing'}</p>
+                  <p className="text-xs text-red-600">Timestamp: {new Date().toLocaleString()}</p>
                 </div>
-              )}
+              </div>
             </div>
             <button 
               onClick={() => window.location.reload()}
