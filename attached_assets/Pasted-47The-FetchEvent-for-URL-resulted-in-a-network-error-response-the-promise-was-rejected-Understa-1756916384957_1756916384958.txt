@@ -1,0 +1,230 @@
+47The FetchEvent for "<URL>" resulted in a network error response: the promise was rejected.Understand this warning
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+(index):99 Development environment - Google tracking disabled
+(index):239 PWA MODE ACTIVE (server injection)
+2sw.js:398 Uncaught (in promise) TypeError: Failed to execute 'put' on 'Cache': Request scheme 'chrome-extension' is unsupported
+    at sw.js:398:23
+(anonymous) @ sw.js:398Understand this error
+chunk-RPCDYKBN.js?v=f3e18717:21551 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+chunk-RPCDYKBN.js?v=5bf8de6e:21551 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+notification-service.ts:22 Notification support check: Object
+main.tsx:7 React runtime version: 18.3.1
+main.tsx:8 Renderers: Array(0)
+notification-service.ts:38 ServiceWorker initialized and ready for notifications
+main.tsx:39 PWA Service Worker registered
+2chunk-QCHXOAYK.js?v=5bf8de6e:136 Warning: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
+printWarning @ chunk-QCHXOAYK.js?v=5bf8de6e:136Understand this error
+chunk-QCHXOAYK.js?v=5bf8de6e:1066 Uncaught TypeError: Cannot read properties of null (reading 'useState')
+    at Object.useState (chunk-QCHXOAYK.js?v=5bf8de6e:1066:29)
+    at useToast (use-toast.ts:172:35)
+    at AuthProvider (use-auth.tsx:43:21)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=f3e18717:11548:26)
+    at mountIndeterminateComponent (chunk-RPCDYKBN.js?v=f3e18717:14926:21)
+    at beginWork (chunk-RPCDYKBN.js?v=f3e18717:15914:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=f3e18717:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=f3e18717:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=f3e18717:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=f3e18717:19765:15)Understand this error
+2chunk-QCHXOAYK.js?v=5bf8de6e:136 Warning: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://reactjs.org/link/invalid-hook-call for tips about how to debug and fix this problem.
+printWarning @ chunk-QCHXOAYK.js?v=5bf8de6e:136Understand this error
+chunk-QCHXOAYK.js?v=5bf8de6e:1066 Uncaught TypeError: Cannot read properties of null (reading 'useState')
+    at Object.useState (chunk-QCHXOAYK.js?v=5bf8de6e:1066:29)
+    at useToast (use-toast.ts:172:35)
+    at AuthProvider (use-auth.tsx:43:21)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=f3e18717:11548:26)
+    at mountIndeterminateComponent (chunk-RPCDYKBN.js?v=f3e18717:14926:21)
+    at beginWork (chunk-RPCDYKBN.js?v=f3e18717:15914:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=f3e18717:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=f3e18717:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=f3e18717:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=f3e18717:19765:15)Understand this error
+chunk-RPCDYKBN.js?v=f3e18717:14032 The above error occurred in the <AuthProvider> component:
+
+    at AuthProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/hooks/use-auth.tsx:26:32)
+    at NamedBoundary (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/components/NamedBoundary.tsx:7:5)
+    at QueryClientProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=f3e18717:2933:3)
+    at NamedBoundary (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/components/NamedBoundary.tsx:7:5)
+    at App (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?v=VUD_zimIzTtcX0gMNUcSc:607:3)
+
+React will try to recreate this component tree from scratch using the error boundary you provided, NamedBoundary.
+logCapturedError @ chunk-RPCDYKBN.js?v=f3e18717:14032Understand this error
+NamedBoundary.tsx:17 [Boundary:AuthProvider] TypeError: Cannot read properties of null (reading 'useState')
+    at Object.useState (chunk-QCHXOAYK.js?v=5bf8de6e:1066:29)
+    at useToast (use-toast.ts:172:35)
+    at AuthProvider (use-auth.tsx:43:21)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=f3e18717:11548:26)
+    at mountIndeterminateComponent (chunk-RPCDYKBN.js?v=f3e18717:14926:21)
+    at beginWork (chunk-RPCDYKBN.js?v=f3e18717:15914:22)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=f3e18717:19753:22)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=f3e18717:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=f3e18717:19137:13)
+    at renderRootSync (chunk-RPCDYKBN.js?v=f3e18717:19116:15) 
+    at AuthProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/hooks/use-auth.tsx:26:32)
+    at NamedBoundary (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/components/NamedBoundary.tsx:7:5)
+    at QueryClientProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=f3e18717:2933:3)
+    at NamedBoundary (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/components/NamedBoundary.tsx:7:5)
+    at App (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?v=VUD_zimIzTtcX0gMNUcSc:607:3)
+componentDidCatch @ NamedBoundary.tsx:17Understand this error
+unified-tracking.ts:63 🎯 Unified Tracking Initialized: Object
+seo-utils.ts:356 ✅ SEO System Initialized
+programmatic-seo.ts:479 🎯 Programmatic SEO System Initialized
+programmatic-seo.ts:480 📊 Template Coverage: 1 content types
+programmatic-seo.ts:481 🔍 Keyword Targeting: 18 keywords
+unified-tracking.ts:63 🎯 Unified Tracking Initialized: Object
+seo-utils.ts:356 ✅ SEO System Initialized
+programmatic-seo.ts:479 🎯 Programmatic SEO System Initialized
+programmatic-seo.ts:480 📊 Template Coverage: 1 content types
+programmatic-seo.ts:481 🔍 Keyword Targeting: 18 keywords
+client:536 WebSocket connection to 'wss://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/?token=AQxAAheBMZpU' failed: 
+setupWebSocket @ client:536Understand this error
+client:536 Uncaught (in promise) SyntaxError: Failed to construct 'WebSocket': The URL 'wss://localhost:undefined/?token=AQxAAheBMZpU' is invalid.
+    at setupWebSocket (client:536:19)
+    at fallback (client:509:16)
+    at WebSocket.<anonymous> (client:555:7)Understand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+www.google.com/pagead/1p-user-list/835937139/?random=1756916369060&cv=11&fst=1756915200000&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be5920h2v875747112za200xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~104527906~104528500~104684208~104684211~104948811~104948813~105427542~105427544&u_w=1537&u_h=864&url=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2F&ref=https%3A%2F%2Freplit.com%2F&_ng=1&hn=www.googleadservices.com&frm=0&tiba=The%20AM%20Project%20-%20Mental%20Fitness%20App%20for%20Men%20%7C%20Build%20Discipline%20%26%20Purpose&npa=0&pscdl=noapi&auid=280054974.1755635515&uaa=x86&uab=64&uafvl=Not%253BA%253DBrand%3B99.0.0.0%7CGoogle%2520Chrome%3B139.0.7258.155%7CChromium%3B139.0.7258.155&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSjQEA2abss79PQqypBVDo0vy7LkgnhAdzT2y9nPRNjt4ZAYRclCYX8v-NQqQux__7plxraIedwz4DK5jGcohO_VG07b-3ELPi0GmLMBIRb-hv5mKaU65mzaNA7NxX4Z1fSvfaksf9lexZvTN_eP0HRgFZtLNPncW4EH513g39DGvYtqjjRBZyO3pphHwBbpw&random=3690276415&rmt_tld=0&ipr=y:1  Failed to load resource: net::ERR_FAILEDUnderstand this error
+sw.js:393  Uncaught (in promise) TypeError: Failed to fetch
+    at sw.js:393:16
+(anonymous) @ sw.js:393Understand this error
+www.google.com/pagead/1p-user-list/835937139/?random=1756916369081&cv=11&fst=1756915200000&bg=ffffff&guid=ON&async=1&en=gtag.config&gtm=45be5920h2v875747112za200xec&gcd=13l3l3l3l1l1&dma=0&tag_exp=101509157~103116026~103200004~103233427~104527906~104528500~104684208~104684211~104948811~104948813~105427542~105427544&u_w=1537&u_h=864&url=https%3A%2F%2Fbb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev%2F&ref=https%3A%2F%2Freplit.com%2F&_ng=1&hn=www.googleadservices.com&frm=0&tiba=The%20AM%20Project%20-%20Mental%20Fitness%20App%20for%20Men%20%7C%20Build%20Discipline%20%26%20Purpose&npa=0&pscdl=noapi&auid=280054974.1755635515&uaa=x86&uab=64&uafvl=Not%253BA%253DBrand%3B99.0.0.0%7CGoogle%2520Chrome%3B139.0.7258.155%7CChromium%3B139.0.7258.155&uamb=0&uam=&uap=Windows&uapv=19.0.0&uaw=0&data=event%3Dgtag.config&rfmt=3&fmt=3&is_vtc=1&cid=CAQSjQEA2abssyTNwVjNDvKRryvrKsK6WwB8feCtq_8FZc8X-LTVQQIcSxPsBSmi8GQuzBuEla0Ugg9F6HrEzJ8eTe6fpOf0wGic-U30es5sQHU_M8x7lS2HzxWEGbW8uqLuzx69q8Mor5rIjrX46SzN8oj09_AYvIhMYlZzlfE9pn2YH8U2OBxaRUP2RG4_hr4&random=1687907712&rmt_tld=0&ipr=y:1  Failed to load resource: net::ERR_FAILEDUnderstand this error
+(index):1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">Understand this warning
+2ga4-bounce-analysis.ts:51 GA4 Bounce Analysis initialized
