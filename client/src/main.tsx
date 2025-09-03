@@ -11,11 +11,7 @@ console.log(
     .map((r: any) => r?.version ?? 'unknown')
 );
 
-// Auto-clear Replit caches if React conflicts detected
-import { detectAndClearReactConflicts } from '@/lib/replit-cache-clearer';
-setTimeout(() => {
-  detectAndClearReactConflicts();
-}, 1000);
+// Removed auto-cache clearing to prevent reload loops
 
 
 // PWA meta tags and fonts are handled by index.html for better performance
