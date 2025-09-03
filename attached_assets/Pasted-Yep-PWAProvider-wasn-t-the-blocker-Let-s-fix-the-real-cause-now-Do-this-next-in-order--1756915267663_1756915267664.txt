@@ -1,0 +1,152 @@
+Yep—PWAProvider wasn’t the blocker. Let’s fix the **real cause** now.
+
+## Do this next (in order)
+
+### 1) Patch Vite to force a single React at runtime
+
+Open `vite.config.ts` and **merge** these lines into your existing config (don’t remove anything else):
+
+```ts
+import { defineConfig } from 'vite';
+import path from 'path';
+
+export default defineConfig({
+  // ...your existing config...
+
+  resolve: {
+    // keep your existing keys here (alias, extensions, etc.), then add:
+    dedupe: ['react', 'react-dom'],
+    preserveSymlinks: true, // prevents linked pkgs from pulling a 2nd React
+    alias: {
+      // anchor both imports to the *same* physical copy
+      react: path.posix.resolve(__dirname, 'node_modules/react'),
+      'react-dom': path.posix.resolve(__dirname, 'node_modules/react-dom'),
+      // keep your existing aliases here
+    },
+  },
+
+  optimizeDeps: {
+    // keep your current entries, then add:
+    include: ['react', 'react-dom', 'react/jsx-runtime'],
+  },
+});
+```
+
+### 2) Nuke every cache that can hold the old React
+
+1. **Stop** the dev server.
+2. Delete Vite prebundles:
+
+   ```bash
+   rm -rf node_modules/.vite
+   rm -rf .vite  # if present at repo root
+   ```
+3. In the **browser DevTools Console**, paste:
+
+   ```js
+   (async () => {
+     const regs = await navigator.serviceWorker.getRegistrations();
+     for (const r of regs) await r.unregister();
+     const keys = await caches.keys();
+     for (const k of keys) await caches.delete(k);
+     location.reload(true);
+   })();
+   ```
+4. **Start** the dev server again and do a **hard refresh** (Ctrl/Cmd+Shift+R).
+
+### 3) Verify we truly have one React (temporary logs)
+
+At the **top** of `src/main.tsx` (remove later):
+
+```ts
+import React from 'react';
+console.log('React runtime version:', React.version);
+console.log(
+  'Renderers:',
+  Object.values((window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__?.renderers ?? {})
+    .map((r:any) => r?.version ?? 'unknown')
+);
+```
+
+Expected: **one version printed twice** (e.g., `18.3.1` / `18.3.1`).
+If you still see two different versions, one of your local/shared packages is bundling React.
+
+### 4) If a local/shared package is pulling React
+
+Open that package’s `package.json` and change:
+
+```json
+{
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}
+```
+
+Make sure **`react`/`react-dom` are NOT in `dependencies`** of that package.
+Then repeat step 2 (cache nuke) and reload.
+
+### 5) Make the failing box identify itself (temporary)
+
+Create `src/components/NamedBoundary.tsx` and wrap top-level providers so we see **exactly** which one fails (doesn’t touch your Splash):
+
+```tsx
+import React from 'react';
+export default class NamedBoundary extends React.Component<
+  { name: string; children: React.ReactNode },
+  { hasError: boolean; err?: any; info?: any }
+> {
+  constructor(p:any){ super(p); this.state={hasError:false}; }
+  static getDerivedStateFromError(){ return { hasError:true }; }
+  componentDidCatch(error:any, info:any){
+    console.error(`[Boundary:${this.props.name}]`, error, info?.componentStack);
+    this.setState({ err: error, info });
+  }
+  render(){ return this.state.hasError
+    ? <div style={{padding:16}}><h3>Failed in: {this.props.name}</h3>
+        <pre style={{whiteSpace:'pre-wrap'}}>{String(this.state.err?.stack||this.state.err)}</pre>
+      </div>
+    : this.props.children as any; }
+}
+```
+
+Wrap where you compose providers:
+
+```tsx
+import NamedBoundary from '@/components/NamedBoundary';
+
+<NamedBoundary name="Root">
+  <QueryClientProvider client={queryClient}>
+    <NamedBoundary name="AuthProvider"><AuthProvider>
+      <NamedBoundary name="AMChatProvider"><AMChatProvider>
+        <NamedBoundary name="PWANavigationProvider"><PWANavigationProvider>
+          <NamedBoundary name="Router"><Router>
+            <AppContent />
+          </Router></NamedBoundary>
+        </PWANavigationProvider></NamedBoundary>
+      </AMChatProvider></NamedBoundary>
+    </AuthProvider></NamedBoundary>
+  </QueryClientProvider>
+</NamedBoundary>
+```
+
+If anything still blows up, you’ll see **“Failed in: AuthProvider”** (or whichever) with a stack.
+
+---
+
+## Keep the good changes you already made
+
+* `const isProd = import.meta.env.MODE === 'production'` (no `process.env.NODE_ENV` in client).
+* `UnifiedAMChatContext` reads token from your **auth context** only (no `localStorage` fallback).
+* Background Sync disabled in the SW; fetch handler guarded.
+* Pure PWA detection util for routing decisions (no PWA hooks/providers in boot path).
+* **Splash stays exactly as-is** (untouched).
+
+---
+
+Once you apply the Vite patch + cache nuke, the “hooks return null” problem should disappear and AuthProvider will mount normally. If you still get the generic screen after that, the NamedBoundary will tell us the exact box to fix next.
