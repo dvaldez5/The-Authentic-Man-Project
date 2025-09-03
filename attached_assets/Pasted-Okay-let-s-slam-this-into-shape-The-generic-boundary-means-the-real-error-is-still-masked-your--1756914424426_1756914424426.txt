@@ -1,0 +1,149 @@
+Okay, let’s slam this into shape. The generic boundary means the *real* error is still masked; your console trace earlier pinned it on **hooks returning null**, which only happens when **multiple Reacts** are loaded at runtime. We need to (1) force a *single* React in Vite, (2) flush every cache that can hold old chunks, and (3) make the crash pinpoint itself—**without touching your Splash** or changing user flow.
+
+Below is a tight, copy-pasteable plan.
+
+# 1) Vite: force one React (minimal patch)
+
+Add these lines to your existing `vite.config.ts` (merge with existing sections; don’t remove anything else):
+
+```ts
+import { defineConfig } from 'vite';
+import path from 'path';
+
+export default defineConfig({
+  // ...your existing config...
+  resolve: {
+    // keep your existing resolve keys, then add:
+    dedupe: ['react', 'react-dom'],
+    preserveSymlinks: true, // fixes symlinked/local packages duplicating React
+    alias: {
+      // anchor both to the same physical copy
+      react: path.posix.resolve(__dirname, 'node_modules/react'),
+      'react-dom': path.posix.resolve(__dirname, 'node_modules/react-dom'),
+      // leave your other aliases as-is
+    },
+  },
+  optimizeDeps: {
+    // keep existing entries, then add:
+    include: ['react', 'react-dom', 'react/jsx-runtime'],
+  },
+});
+```
+
+Why: `dedupe` + `preserveSymlinks` + alias removes the classic “linked package pulls its own React” issue. This does **not** touch Splash or routes.
+
+# 2) Nuke *all* caches that can pin old React
+
+Do these in order:
+
+1. Stop the dev server.
+2. Delete prebundles: `rm -rf node_modules/.vite` (and top-level `.vite` if present).
+3. Unregister dev service workers *and* clear caches (paste in DevTools console):
+
+   ```js
+   (async () => {
+     const regs = await navigator.serviceWorker.getRegistrations();
+     for (const r of regs) await r.unregister();
+     const keys = await caches.keys();
+     for (const k of keys) await caches.delete(k);
+     location.reload(true);
+   })();
+   ```
+4. Fresh install if you touched deps: `npm i`.
+5. Start dev server; hard refresh (Cmd/Ctrl+Shift+R).
+
+# 3) Prove we now have one React (temporary)
+
+Add *temporarily* near the top of `src/main.tsx`:
+
+```ts
+import React from 'react';
+console.log('React runtime version:', React.version);
+console.log(
+  'Renderers:',
+  Object.values((window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__?.renderers ?? {})
+    .map((r:any) => r?.version ?? 'unknown')
+);
+```
+
+Expected: one version printed twice (e.g., `18.3.1` / `18.3.1`). If you still see two versions, a linked/local package is bundling React—fix by moving `react` and `react-dom` to **peerDependencies** in that package.
+
+# 4) Make the crash tell us exactly *where* (temporary, no Splash edits)
+
+Create `src/components/NamedBoundary.tsx`:
+
+```tsx
+import React from 'react';
+export default class NamedBoundary extends React.Component<
+  { name: string; children: React.ReactNode },
+  { hasError: boolean; err?: any; info?: any }
+> {
+  constructor(p:any){ super(p); this.state={hasError:false}; }
+  static getDerivedStateFromError(){ return { hasError:true }; }
+  componentDidCatch(error:any, info:any){
+    console.error(`[Boundary:${this.props.name}]`, error, info?.componentStack);
+    this.setState({ err: error, info });
+  }
+  render(){ return this.state.hasError
+    ? <div style={{padding:16}}><h3>Failed in: {this.props.name}</h3>
+        <pre style={{whiteSpace:'pre-wrap'}}>{String(this.state.err?.stack||this.state.err)}</pre>
+      </div>
+    : this.props.children as any; }
+}
+```
+
+Wrap top-level providers in `App.tsx` (or wherever you compose them). **Do not** change Splash.
+
+```tsx
+import NamedBoundary from '@/components/NamedBoundary';
+
+<NamedBoundary name="Root">
+  <QueryClientProvider client={queryClient}>
+    <NamedBoundary name="AuthProvider"><AuthProvider>
+      <NamedBoundary name="AMChatProvider"><AMChatProvider>
+        <NamedBoundary name="PWANavigationProvider"><PWANavigationProvider>
+          <NamedBoundary name="Router"><Router>
+            <AppContent />
+          </Router></NamedBoundary>
+        </PWANavigationProvider></NamedBoundary>
+      </AMChatProvider></NamedBoundary>
+    </AuthProvider></NamedBoundary>
+  </QueryClientProvider>
+</NamedBoundary>
+```
+
+Result: if anything still explodes, you’ll see **“Failed in: X”** with a stack, instead of the generic “Something went wrong.”
+
+# 5) Keep the good fixes you already applied
+
+* `const isProd = import.meta.env.MODE === 'production'` in `App.tsx` in place of `process.env.NODE_ENV`.
+* `UnifiedAMChatContext` reads token **only** from your auth context (no `localStorage` fallback).
+* Background Sync disabled in the SW + guarded fetch handler.
+* Pure PWA detection (utility) where routing needs it; **no PWA hooks/providers** in the boot path.
+* Your **Splash** component remains untouched; AuthGate uses it during the brief “checking” phase only.
+
+# 6) Optional “Safe Mode” switch (to unblock, no Splash change)
+
+As a last resort while debugging, allow `?safe` to skip optional providers:
+
+```tsx
+const SAFE = new URLSearchParams(location.search).has('safe');
+
+return SAFE ? (
+  // minimal tree just to verify React is stable
+  <Router><AppContent /></Router>
+) : (
+  // full tree (with NamedBoundary wrappers)
+  /* ...as above... */
+);
+```
+
+---
+
+## What to expect
+
+* After the Vite patch + cache purge, the **Invalid hook call / useState null** should stop.
+* If any component still breaks, the **NamedBoundary** shows the exact provider/component name and stack so we fix *that* and nothing else.
+* None of this touches your Splash or changes user flow.
+
+If you apply the Vite `dedupe + preserveSymlinks + alias`, do the hard reset, and still see two renderer versions in the runtime log, tell me which local/linked package(s) we have for chat or shared code—I’ll give you the 2-line `peerDependencies` patch to stop them from bundling React.
