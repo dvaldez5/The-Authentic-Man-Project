@@ -1,0 +1,327 @@
+Locked. Here’s the single, consolidated “patch pack” to stabilize the app, stop the ErrorBoundary crashes, and keep PWA + Unified AM Chat playing nice. This merges everything we’ve discussed into one path you can apply now.
+
+# What this does (at a glance)
+
+* Replaces all frontend `process.env.*` with Vite-safe `import.meta.env` (centralized).
+* Makes PWA detection a **real Provider + hook** (no duplicate logic; no hook misuse).
+* Ensures **one** source of truth for auth on the client (no localStorage fallbacks in other modules).
+* Fixes protected-route loops (router-based redirect).
+* Tames noisy refetch defaults.
+* Dedupe React in Vite to prevent “two Reacts” hook crashes.
+* Hardens production redirect logic (apex → app subdomain) without breaking PWA.
+
+---
+
+# 1) Drop-in files
+
+## 1.1 `client/src/lib/env.ts`
+
+```ts
+// Centralized, Vite-safe env helpers
+export const MODE = import.meta.env.MODE || 'development';
+export const IS_PROD = MODE === 'production';
+export const IS_DEV = MODE === 'development';
+
+// Public API base for the browser (adjust if you already have one)
+export const API_URL =
+  import.meta.env.VITE_API_URL ?? `${window.location.origin}/api`;
+
+export const ON_APP_SUBDOMAIN = window.location.hostname.startsWith('app.');
+```
+
+## 1.2 `client/src/lib/pwa.tsx`
+
+```tsx
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+
+type PWAContextValue = { isPWA: boolean };
+
+const PWAContext = createContext<PWAContextValue | undefined>(undefined);
+
+export function PWAProvider({ children }: { children: React.ReactNode }) {
+  const [isPWA, setIsPWA] = useState(false);
+
+  useEffect(() => {
+    const standalone =
+      window.matchMedia?.('(display-mode: standalone)').matches ||
+      // iOS Safari
+      (window.navigator as any).standalone === true;
+
+    const qs = new URLSearchParams(window.location.search);
+    const p = (qs.get('pwa') || '').toLowerCase();
+    const hasParam = p === '1' || p === 'true' || (p === '' && qs.has('pwa'));
+
+    setIsPWA(Boolean(standalone || hasParam));
+  }, []);
+
+  const value = useMemo(() => ({ isPWA }), [isPWA]);
+  return <PWAContext.Provider value={value}>{children}</PWAContext.Provider>;
+}
+
+export function usePWA() {
+  const ctx = useContext(PWAContext);
+  if (!ctx) throw new Error('usePWA must be used within <PWAProvider>');
+  return ctx;
+}
+```
+
+## 1.3 `client/src/lib/protected-route.tsx` (wouter-safe)
+
+```tsx
+import React, { useEffect } from 'react';
+import { useLocation } from 'wouter';
+import { useAuth } from '@/hooks/use-auth';
+
+export default function ProtectedRoute({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const { user } = useAuth();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (!user) setLocation('/auth', { replace: true });
+  }, [user, setLocation]);
+
+  return user ? <>{children}</> : null;
+}
+```
+
+## 1.4 `client/src/lib/queryClient.ts` (saner defaults)
+
+```ts
+import { QueryClient } from '@tanstack/react-query';
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60_000,             // 1 min
+      gcTime: 5 * 60_000,            // 5 min
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
+      retry: 1,
+      refetchInterval: false,        // opt-in per-query if needed
+    },
+  },
+});
+```
+
+## 1.5 `client/vite.config.ts` (ensure one React)
+
+```ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+    alias: {
+      '@': '/src',
+    },
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+  },
+});
+```
+
+## 1.6 Root mount (`client/src/main.tsx` or `index.tsx`)
+
+```tsx
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import { PWAProvider } from '@/lib/pwa';
+// If you have AuthProvider / QueryClientProvider, compose them here too
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '@/lib/queryClient';
+import { AuthProvider } from '@/hooks/use-auth'; // your existing provider
+
+createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <PWAProvider>
+          <App />
+        </PWAProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  </React.StrictMode>
+);
+```
+
+## 1.7 Example `client/src/App.tsx` redirect usage
+
+```tsx
+import React from 'react';
+import { Switch, Route } from 'wouter';
+import { IS_PROD, ON_APP_SUBDOMAIN } from '@/lib/env';
+import { usePWA } from '@/lib/pwa';
+import ProtectedRoute from '@/lib/protected-route';
+import Home from '@/pages/Home';
+import AuthPage from '@/pages/Auth';
+import Dashboard from '@/pages/Dashboard';
+// ...other imports
+
+export default function App() {
+  const { isPWA } = usePWA();
+
+  return (
+    <Switch>
+      <Route path="/">
+        <Home />
+      </Route>
+
+      <Route path="/auth">
+        {() => {
+          if (IS_PROD && !ON_APP_SUBDOMAIN && !isPWA) {
+            window.location.assign('https://app.theamproject.com/auth');
+            return <div>Redirecting…</div>;
+          }
+          return <AuthPage />;
+        }}
+      </Route>
+
+      <Route path="/app">
+        <ProtectedRoute>
+          <Dashboard />
+        </ProtectedRoute>
+      </Route>
+
+      {/* ...other routes */}
+      <Route>404</Route>
+    </Switch>
+  );
+}
+```
+
+---
+
+# 2) Small but critical edits in existing modules
+
+## 2.1 **UnifiedAMChatContext.tsx** — stop reading localStorage
+
+Find and replace this pattern:
+
+```ts
+// ❌ remove this fallback entirely
+const authToken = token || localStorage.getItem('auth_token');
+if (authToken) headers['Authorization'] = `Bearer ${authToken}`;
+```
+
+With:
+
+```ts
+import { useAuth } from '@/hooks/use-auth';
+const { accessToken } = useAuth();
+if (accessToken) headers['Authorization'] = `Bearer ${accessToken}`;
+```
+
+## 2.2 **use-auth.tsx** — single source of truth (interim + final)
+
+* **Interim (works today):** Keep *initial* read/write to `localStorage` **inside use-auth only**, so nothing else touches it.
+* **Final (ideal):** Move to httpOnly refresh cookie + in-memory access token. For now, export this minimal, stable shape:
+
+```ts
+export type AuthContextValue = {
+  user: { id: string; email: string } | null;
+  accessToken: string | null;            // in-memory for consumers
+  setAccessToken: (t: string | null) => void;
+  refresh: () => Promise<boolean>;       // rotate token server-side
+  logout: () => Promise<void>;           // clears server cookie + context
+};
+```
+
+Then ensure **no other module** touches auth tokens or localStorage.
+
+## 2.3 **index.html** — remove duplicate PWA logic
+
+Delete any inline `<script>` that sets or reads `localStorage` for PWA detection. The Provider is the only source of truth.
+
+## 2.4 **process.env** on the client — remove entirely
+
+* Replace every `process.env.NODE_ENV` with `import.meta.env.MODE` or, better, `IS_PROD` from `env.ts`.
+* If you have other client-side envs, prefix with **`VITE_`**.
+
+---
+
+# 3) Service worker (optional for v1)
+
+If background sync isn’t mission-critical, disable it for launch to shrink the blast radius. If you keep it:
+
+* Validate items before posting (drop invalid).
+* Version your pre-cache asset list with a build id to avoid stale assets.
+
+---
+
+# 4) Sanity greps (catch the real culprits fast)
+
+Run these and fix any hits:
+
+* Hooks at module scope (bad):
+
+```
+grep -R "useState(" src | grep -v ".test."
+grep -R "useEffect(" src | grep -v ".test."
+```
+
+* Provider invoked as function (bad):
+
+```
+grep -R "PWAProvider(" src | grep -v "<PWAProvider"
+```
+
+* Rogue env usage:
+
+```
+grep -R "process\.env\." src
+```
+
+* Duplicate PWA logic:
+
+```
+grep -R "pwaMode" src client/index.html
+```
+
+* LocalStorage token reads outside use-auth (bad):
+
+```
+grep -R "localStorage.getItem('auth_token')" src | grep -v "use-auth"
+```
+
+---
+
+# 5) Smoke tests (Cypress or manual)
+
+1. **Boot without crash**
+   App loads; ErrorBoundary does not trigger; console clean.
+
+2. **Apex → Auth redirect (prod mode)**
+   Visit `/auth` on apex. If not PWA: redirects to `https://app.theamproject.com/auth`.
+
+3. **Protected route**
+   Visit `/app` signed-out → router navigates to `/auth` **without** redirect loops/flashes.
+
+4. **Chat with auth header**
+   Open AM Chat → network tab shows `Authorization: Bearer …` pulled from **use-auth**, not localStorage.
+
+5. **PWA install/open**
+   Install PWA; open in standalone → `isPWA === true` and redirects are **not** to the app subdomain.
+
+---
+
+# 6) Rollout order (do it in this sequence)
+
+1. Add `env.ts` and refactor all client-side `process.env.*` to `IS_PROD` / `MODE`.
+2. Add `pwa.tsx`, wrap `<App/>` with `<PWAProvider>`, remove any index.html PWA scripts.
+3. Fix **UnifiedAMChatContext** to consume `useAuth()`; stop any localStorage token reads outside use-auth.
+4. Swap in the saner `queryClient` defaults.
+5. Add Vite dedupe config; clean install (`rm -rf node_modules .vite && npm i`).
+6. Verify protected-route and apex redirect logic.
+7. Optional: trim service worker background sync for v1.
+
+---
+
+That’s the whole kit. Apply it exactly as above and the “Something went wrong” hook crash should disappear, PWA will keep working, and Unified AM Chat can orchestrate without stepping on the app’s neck. If you want me to refactor `use-auth.tsx` to the interim single-source pattern using your current code style, paste the file and I’ll return a drop-in version.
