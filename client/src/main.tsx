@@ -8,9 +8,15 @@ import "./index.css";
 
 // PWA meta tags and fonts are handled by index.html for better performance
 
-// Register PWA Service Worker with forced updates
+// Production-gated PWA Service Worker registration
+// This prevents React instance conflicts in dev/preview by only enabling SW on production app domain
 try {
-  if ('serviceWorker' in navigator) {
+  const isProd = import.meta.env.PROD;
+  const host = location.hostname;
+  const isProdAppHost = host === 'app.theamproject.com'; // production app domain only
+  
+  if (isProd && isProdAppHost && 'serviceWorker' in navigator) {
+    // ✅ Production app: Register service worker
     navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
       .then(async (registration) => {
         // Force immediate update for downloaded PWAs
@@ -33,9 +39,22 @@ try {
         console.log('PWA Service Worker registered');
       })
       .catch(err => console.log('PWA Service Worker registration failed:', err));
+  } else {
+    // 🚫 Dev/Preview/Marketing: Ensure no service worker is active and clean up caches
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations()
+        .then(registrations => registrations.forEach(reg => reg.unregister()))
+        .catch(() => {});
+    }
+    if ('caches' in window) {
+      caches.keys()
+        .then(keys => keys.forEach(key => caches.delete(key)))
+        .catch(() => {});
+    }
+    console.log('Service worker disabled in development/preview environment');
   }
 } catch (error) {
-  console.warn('Failed to register service worker:', error);
+  console.warn('Failed to handle service worker registration:', error);
 }
 
 // Safely render React app

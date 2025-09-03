@@ -250,6 +250,22 @@ async function removePendingSync(id) {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+  const request = event.request;
+  
+  // CRITICAL FIX: Never cache or intercept JS/CSS/source maps
+  // This prevents React instance conflicts by ensuring fresh chunks always load
+  const destination = request.destination; // 'script', 'style', 'document', 'image', etc.
+  const isJSOrCSS = destination === 'script' || 
+                    destination === 'style' || 
+                    /\.m?js(\?|$)/.test(url.pathname) ||
+                    /\.css(\?|$)/.test(url.pathname) ||
+                    /\.map(\?|$)/.test(url.pathname) ||
+                    /\/assets\/chunk-/.test(url.pathname);
+  
+  if (isJSOrCSS) {
+    // Let browser handle JS/CSS directly - no cache, no service worker interference
+    return;
+  }
   
   // Handle navigation requests (page loads)
   if (event.request.mode === 'navigate') {
