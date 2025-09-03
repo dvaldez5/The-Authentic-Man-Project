@@ -1,4 +1,4 @@
-import { usePWADetection } from '@/hooks/use-pwa-detection';
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 import { getTopPadding } from '@/utils/responsive-styles';
 
 interface PageContainerProps {
@@ -12,7 +12,7 @@ export function PageContainer({
   maxWidth = "max-w-7xl",
   className = ""
 }: PageContainerProps) {
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   
   const paddingClass = getTopPadding(isPWA, 'default');
   

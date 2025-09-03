@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
-import { usePWADetection } from "@/hooks/use-pwa-detection";
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 import { useMobileDetection } from "@/hooks/use-mobile-detection";
 import { getTopPadding } from "@/utils/responsive-styles";
 import { apiRequest } from "@/lib/queryClient";
@@ -36,7 +36,7 @@ interface SubscriptionDetails {
 
 export default function SubscriptionPage() {
   const { user } = useAuth();
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   const { isMobile } = useMobileDetection();
   const { toast } = useToast();
   const [, navigate] = useLocation();

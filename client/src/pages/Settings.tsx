@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { apiRequest } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/use-auth";
-import { usePWADetection } from "@/hooks/use-pwa-detection";
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 import { getTopPadding } from "@/utils/responsive-styles";
 import { useToast } from "@/hooks/use-toast";
 import { notificationService } from "@/lib/notification-service";
@@ -50,7 +50,7 @@ interface NotificationPermissionStatus {
 
 export default function Settings() {
   const { user } = useAuth();
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [, navigate] = useLocation();

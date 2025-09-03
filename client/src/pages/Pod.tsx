@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useToast } from "@/hooks/use-toast";
-import { usePWADetection } from "@/hooks/use-pwa-detection";
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 import { useMobileDetection } from "@/hooks/use-mobile-detection";
 import { getTopPadding } from "@/utils/responsive-styles";
 import { apiRequest } from "@/lib/queryClient";
@@ -65,7 +65,7 @@ interface MessagesResponse {
 
 export default function Pod() {
   const { user } = useAuth();
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   const { isMobile } = useMobileDetection();
   const { toast } = useToast();
   const queryClient = useQueryClient();

@@ -7,7 +7,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { format } from "date-fns";
 import { Link } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
-import { usePWADetection } from "@/hooks/use-pwa-detection";
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 import { useMobileDetection } from "@/hooks/use-mobile-detection";
 import { getTopPadding } from "@/utils/responsive-styles";
 import {
@@ -54,7 +54,7 @@ export default function Journal() {
   const [expandedEntry, setExpandedEntry] = useState<number | null>(null);
   const queryClient = useQueryClient();
   const { user } = useAuth();
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   const { isMobile } = useMobileDetection();
 
   // Extract prompt and metadata from URL parameters for reflections

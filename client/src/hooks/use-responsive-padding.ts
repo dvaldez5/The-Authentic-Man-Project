@@ -1,7 +1,7 @@
-import { usePWADetection } from '@/hooks/use-pwa-detection';
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 
 export function useResponsivePadding(pageType: 'main' | 'lesson' | 'default' = 'default') {
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   
   if (isPWA) {
     return 'pt-2';

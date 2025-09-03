@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { Link } from "wouter";
-import { usePWADetection } from "@/hooks/use-pwa-detection";
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 import { useMobileDetection } from "@/hooks/use-mobile-detection";
 import { getTopPadding } from "@/utils/responsive-styles";
 import {
@@ -39,7 +39,7 @@ interface JournalEntry {
 }
 
 export default function JournalPinned() {
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   const { isMobile } = useMobileDetection();
 
   const { data: pinnedEntry, isLoading } = useQuery<{ entry: JournalEntry | null }>({

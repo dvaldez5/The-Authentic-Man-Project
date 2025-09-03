@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { usePWADetection } from '@/hooks/use-pwa-detection';
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 import { getTopPadding } from '@/utils/responsive-styles';
 
 interface LearningPageContainerProps {
@@ -13,7 +13,7 @@ export function LearningPageContainer({
   maxWidth = '3xl',
   pageType = 'main'
 }: LearningPageContainerProps) {
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   
   const maxWidthClass = {
     'sm': 'max-w-sm',

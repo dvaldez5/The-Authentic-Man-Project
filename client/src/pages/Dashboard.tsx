@@ -11,7 +11,7 @@ import { DailyChallengeCard } from "@/components/challenges/DailyChallengeCard";
 import { WeeklyScenarioCard } from "@/components/scenarios/WeeklyScenarioCard";
 import { BadgeDisplay } from "@/components/gamification/BadgeDisplay";
 import { DailyPromptCard } from "@/components/gamification/DailyPromptCard";
-import { usePWADetection } from "@/hooks/use-pwa-detection";
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 import { useMobileDetection } from "@/hooks/use-mobile-detection";
 import { getTopPadding } from "@/utils/responsive-styles";
 import InstallPrompt from "@/components/pwa/InstallPrompt";
@@ -79,7 +79,7 @@ interface DashboardStats {
 
 export default function Dashboard() {
   const { user, logoutMutation } = useAuth();
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   const { isMobile } = useMobileDetection();
 
   if (!user) {

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { usePWADetection } from '@/hooks/use-pwa-detection';
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 
 interface PWANavigationContextType {
   isVisible: boolean;
@@ -10,7 +10,7 @@ interface PWANavigationContextType {
 const PWANavigationContext = createContext<PWANavigationContextType | undefined>(undefined);
 
 export function PWANavigationProvider({ children }: { children: ReactNode }) {
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   const [isVisible, setIsVisible] = useState(true);
   const [showMore, setShowMore] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);

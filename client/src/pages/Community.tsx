@@ -5,7 +5,7 @@ import { Redirect, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { usePWADetection } from "@/hooks/use-pwa-detection";
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 import { getTopPadding } from "@/utils/responsive-styles";
 import { CommunityChannelChat } from "@/components/CommunityChannelChat";
 import { 
@@ -46,7 +46,7 @@ interface Channel {
 
 export default function Community() {
   const { user } = useAuth();
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(null);
 

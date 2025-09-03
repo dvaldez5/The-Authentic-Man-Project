@@ -25,7 +25,7 @@ import { apiRequest } from '@/lib/queryClient';
 import WeeklyReflectionCard from '@/components/weekly/WeeklyReflectionCard';
 import AmReflectionBlock from '@/components/weekly/AmReflectionBlock';
 import { useToast } from '@/hooks/use-toast';
-import { usePWADetection } from '@/hooks/use-pwa-detection';
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 import { useMobileDetection } from '@/hooks/use-mobile-detection';
 import { getTopPadding } from '@/utils/responsive-styles';
 import { GOAL_CATEGORIES } from '@/lib/visualization-prompts';
@@ -50,7 +50,7 @@ interface WeeklyReflection {
 
 export default function WeeklyReflections() {
   const { user } = useAuth();
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   const { isMobile } = useMobileDetection();
   const [expandedEntry, setExpandedEntry] = useState<number | null>(null);
   const [expandedAmFeedback, setExpandedAmFeedback] = useState<number | null>(null);

@@ -4,7 +4,7 @@ import { ProgressTracker } from "@/components/challenges/ProgressTracker";
 import { ChallengeHistory } from "@/components/challenges/ChallengeHistory";
 import { Card, CardContent } from "@/components/ui/card";
 import { Target } from "lucide-react";
-import { usePWADetection } from "@/hooks/use-pwa-detection";
+import { detectSimplePWAMode } from '@/lib/simple-pwa';
 import { getTopPadding } from "@/utils/responsive-styles";
 import type { Challenge, UserChallenge } from "@shared/schema";
 
@@ -14,7 +14,7 @@ interface DailyChallengeData {
 }
 
 export default function Challenges() {
-  const { isPWA } = usePWADetection();
+  const isPWA = detectSimplePWAMode();
   const { data: dailyChallenge, isLoading, error } = useQuery<DailyChallengeData>({
     queryKey: ['/api/daily-challenge']
   });
