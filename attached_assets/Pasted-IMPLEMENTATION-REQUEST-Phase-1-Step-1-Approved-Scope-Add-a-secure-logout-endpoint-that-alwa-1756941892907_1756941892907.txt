@@ -1,0 +1,249 @@
+IMPLEMENTATION REQUEST — Phase 1 / Step 1 (Approved)
+
+Scope:
+
+Add a secure logout endpoint that always sends users to the marketing site after logout.
+
+Add production-only security headers (Helmet + CSP with GA/Ads allowed).
+
+Replace current API logging with PII-safe logs (no response bodies).
+
+Do not change anything else.
+
+❌ No schema changes.
+
+❌ No encryption yet.
+
+❌ No auth/token overhaul yet.
+
+❌ No PWA/Vite changes.
+
+✅ Dev/HMR must remain unaffected.
+
+Constants to use:
+
+Marketing domain (exact): https://theamproject.com
+
+Default logout redirect: https://theamproject.com?loggedOut=1
+
+GA/Ads allowlist (CSP): https://www.googletagmanager.com, https://www.google-analytics.com, https://analytics.google.com
+
+1) server/routes.ts — add secure logout route
+
+Add this endpoint (after existing /api/auth/* routes). It must require auth, destroy session if present, clear the cookie on prod, and return an allowlisted redirect:
+
+--- a/server/routes.ts
++++ b/server/routes.ts
+@@
++// Secure, subdomain-aware logout
++import type { Request, Response } from "express";
++import { authenticateToken } from "./auth"; // already used for /api/auth/me
++
++app.post("/api/auth/logout", authenticateToken, async (req: Request, res: Response) => {
++  try {
++    // Destroy session (if any)
++    if (req.session) {
++      req.session.destroy(() => {});
++    }
++
++    // Clear Express session cookie across subdomains in prod
++    res.clearCookie("connect.sid", {
++      domain: process.env.NODE_ENV === "production" ? ".theamproject.com" : undefined,
++      httpOnly: true,
++      sameSite: "lax",
++      secure: process.env.NODE_ENV === "production",
++      path: "/",
++    });
++
++    // Strict allowlist to avoid open redirects
++    const allowed = new Set([
++      "https://theamproject.com",
++      "https://theamproject.com?loggedOut=1",
++    ]);
++    const body = (req.body ?? {}) as { returnTo?: string };
++    const redirect = body.returnTo && allowed.has(body.returnTo)
++      ? body.returnTo
++      : "https://theamproject.com?loggedOut=1";
++
++    return res.status(200).json({ ok: true, redirect });
++  } catch {
++    // Fall back to marketing even on error
++    return res.status(200).json({ ok: true, redirect: "https://theamproject.com?loggedOut=1" });
++  }
++});
+
+
+Notes
+
+Endpoint responds with JSON { ok: true, redirect: <url> }.
+
+We deliberately don’t attempt to clear the client JWT here (it’s in localStorage); the client change below will handle that.
+
+2) client/src/hooks/use-auth.tsx — update logout flow
+
+Change the logout mutation so it calls the server endpoint, clears local state, and then navigates to the server-provided redirect.
+
+--- a/client/src/hooks/use-auth.tsx
++++ b/client/src/hooks/use-auth.tsx
+@@
+-  const logoutMutation = useMutation({
+-    mutationFn: async () => {
+-      // CURRENT ISSUE: Client-only logout, no server endpoint called
+-      localStorage.removeItem('auth_token');
+-      setToken(null);
+-    },
+-    onSuccess: () => {
+-      queryClient.setQueryData(["/api/auth/me"], null);
+-      queryClient.clear(); // Clear all cached data
+-      toast({
+-        title: "Logged out", 
+-        description: "You have been successfully logged out",
+-      });
+-      // CURRENT ISSUE: Always redirects to '/' instead of theamproject.com
+-      window.location.href = '/';
+-    },
+-  });
++  const logoutMutation = useMutation({
++    mutationFn: async () => {
++      // Call server logout (requires Authorization header; apiRequest handles it)
++      const res = await apiRequest("POST", "/api/auth/logout", {});
++      return await res.json(); // { ok, redirect }
++    },
++    onSuccess: (data: { ok?: boolean; redirect?: string }) => {
++      // Clear client auth state
++      localStorage.removeItem("auth_token");
++      setToken(null);
++      queryClient.setQueryData(["/api/auth/me"], null);
++      queryClient.clear();
++      toast({ title: "Logged out", description: "You have been successfully logged out" });
++      // Always go to marketing site after logout
++      const redirect = data?.redirect || "https://theamproject.com?loggedOut=1";
++      window.location.assign(redirect);
++    },
++  });
+
+3) server/index.ts — add prod-only Helmet + CSP and replace API logging with PII-safe logs
+
+Add Helmet (prod only) with CSP that allows GA/Ads. Replace the current logging middleware that prints JSON bodies with a sanitised logger.
+
+--- a/server/index.ts
++++ b/server/index.ts
+@@
+ import express from "express";
+ import compression from "compression";
+ import session from "express-session";
+ import passport from "passport";
++import helmet from "helmet";
+@@
+ const app = express();
+ app.set("trust proxy", true);
++app.use(express.json());
++app.use(express.urlencoded({ extended: true }));
+@@
+-// Request logging middleware (CURRENT - logs sensitive data)
+-app.use((req, res, next) => {
+-  const start = Date.now();
+-  const path = req.path;
+-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
+-  const originalSend = res.send;
+-  res.send = function (body) {
+-    if (res.get('Content-Type')?.includes('application/json')) {
+-      try {
+-        capturedJsonResponse = typeof body === 'string' ? JSON.parse(body) : body;
+-      } catch {
+-        // Not JSON or malformed
+-      }
+-    }
+-    return originalSend.call(this, body);
+-  };
+-  res.on("finish", () => {
+-    const duration = Date.now() - start;
+-    if (path.startsWith("/api")) {
+-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+-      if (capturedJsonResponse) {
+-        logLine += ` :: ${JSON.stringify(capturedJsonResponse).slice(0, 100)}`;
+-      }
+-      log(logLine);
+-    }
+-  });
+-  next();
+-});
++// ✅ PII-safe API logging (no bodies)
++app.use((req, res, next) => {
++  const start = Date.now();
++  res.on("finish", () => {
++    if (req.path.startsWith("/api")) {
++      const ms = Date.now() - start;
++      console.log(`${req.method} ${req.path} ${res.statusCode} in ${ms}ms`);
++    }
++  });
++  next();
++});
+@@
+ // Session configuration with cross-subdomain support
+@@
+ app.use(session({
+@@
+ }));
++
++// ✅ Production-only security headers
++if (process.env.NODE_ENV === "production") {
++  app.use(helmet({
++    contentSecurityPolicy: {
++      useDefaults: false,
++      directives: {
++        defaultSrc: ["'self'"],
++        scriptSrc: ["'self'", "https://www.googletagmanager.com"],
++        styleSrc: ["'self'", "'unsafe-inline'"],
++        imgSrc: ["'self'", "data:", "https:"],
++        connectSrc: ["'self'", "https://www.google-analytics.com", "https://analytics.google.com", "https://www.googletagmanager.com"],
++        fontSrc: ["'self'"],
++        frameSrc: ["'none'"],
++        objectSrc: ["'none'"],
++        baseUri: ["'self'"],
++        formAction: ["'self'"],
++        manifestSrc: ["'self'"],
++        workerSrc: ["'self'"],
++      },
++    },
++    crossOriginEmbedderPolicy: false,
++    hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
++    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
++    frameguard: { action: "deny" },
++  }));
++}
+
+
+Notes
+
+CSP is prod-only so Vite HMR in dev remains unaffected.
+
+We do not inject nonces—allowed GA/Ads hosts are whitelisted via script-src and connect-src.
+
+Logging no longer prints bodies (no PII).
+
+Verification checklist (after you apply the changes)
+
+Logout
+
+From any app page (preview or prod): trigger logout → you land on https://theamproject.com?loggedOut=1.
+
+Back button does not restore app session; authenticated API calls return 401 until re-login.
+
+Headers (prod build)
+
+Responses include Helmet headers; CSP allows GA/Ads; no console CSP errors for GA/Ads.
+
+Dev build remains unchanged; HMR works.
+
+Logs
+
+API logs: METHOD PATH STATUS in Xms only; no response bodies printed.
+
+When done, reply with:
+
+A short “Applied” note, and
+
+Confirmation of the three verification points above (logout, headers, logs).
+
+Do not make any other edits. We’ll move to Step 2 (password policy + rate limiting) only after Step 1 is verified.
