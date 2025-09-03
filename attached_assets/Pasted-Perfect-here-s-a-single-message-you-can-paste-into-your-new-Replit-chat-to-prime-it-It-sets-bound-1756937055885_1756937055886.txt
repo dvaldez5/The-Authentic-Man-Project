@@ -1,0 +1,72 @@
+Perfect—here’s a single message you can paste into your new Replit chat to “prime” it. It sets boundaries, scope, and what we want back before any code changes.
+
+---
+
+**Paste this in Replit chat:**
+
+> **Context & Rules (read fully before doing anything)**
+>
+> * We’re working in phases. **Only Phase 1 is in scope now.** Do not propose or touch anything from later phases.
+> * **No code or config changes yet.** First, review, audit, and propose a plan. Wait for my approval before editing files, installing deps, restarting servers, clearing caches, or triggering builds.
+> * Review **all relevant documentation/files** in this repo (README, /docs, env samples, scripts, CI, app/marketing dirs, server, DB, SW/PWA, analytics, email). Include any linked or embedded docs in the repo.
+>
+> **What Phase 1 is about (directional, not prescriptive)**
+> Goal: **Security & Auth Hardening + Correct Logout Redirect**—safely prepare for store/live without breaking current behavior.
+>
+> 1. **User data protection:** Assess how sensitive data is handled (in transit, at rest, and on device). Propose an approach that fits *this* stack (DB, hosting, secrets). If encryption at rest is applicable, suggest options (e.g., per-field or per-record) appropriate to our DB/infra; if not, explain why and propose alternatives (e.g., column-level, app-layer crypto, secrets management).
+> 2. **Session & token handling:** Confirm how auth currently works (cookies vs localStorage, refresh flows, CSRF/XSS posture). Recommend the **best approach for this environment** (Replit hosting + our app), with trade-offs.
+> 3. **Logout redirect:** From the **app subdomain** (e.g., `app.theamproject.com`) a logout must end on the **marketing site** (`https://theamproject.com/?loggedOut=1`), not an app route. Include safe allow-listing (no open redirect), clearing session/cookies, and wiping any local caches/storage if used.
+> 4. **Out of scope for Phase 1:** PWA/Service Worker behavior (already addressed), AI/chat UX, SEO/Ads/Email, and any marketing-site content changes beyond the logout landing parameter.
+>
+> **What I want from you first (no edits yet)**
+>
+> 1. **Architecture Recon (current state):**
+>
+>    * Framework/build: Vite/React versions, prebundling settings, dev/prod differences.
+>    * App vs Marketing: directory layout, build/deploy boundaries, routing (SPA/SSR), domain/subdomain assumptions.
+>    * Auth: where login/logout lives; token storage; cookie attributes; refresh strategy; CSRF protections.
+>    * Data: DB type/ORM; which models/fields are sensitive (e.g., journal, chat, profile); backups/exports.
+>    * Client storage: any use of localStorage/IndexedDB; what’s stored.
+>    * Networking/security: CORS, HSTS, TLS assumptions, reverse proxy.
+>    * Logging/telemetry: Sentry or equivalent; what PII could leak.
+> 2. **File & Endpoint Inventory (paths + short descriptions):**
+>
+>    * Auth/session: providers/hooks, API routes, logout handler(s).
+>    * User models & any sensitive content models.
+>    * Storage/secrets config (.env samples, secret loaders).
+>    * Any existing crypto utils.
+>    * Router & logout UI entry points.
+>      *(List exact file paths and show small, relevant snippets—**do not** modify.)*
+> 3. **Risk & Gap Analysis:**
+>
+>    * Where could plaintext sensitive data exist (DB, logs, caches, analytics)?
+>    * Where tokens/identifiers might be exposed (client storage, URLs, 3rd-party scripts)?
+>    * Any cross-domain/logout edge cases (e.g., back button revives session)?
+> 4. **Proposed Plan (Phase 1 only):**
+>
+>    * **Options** (2–3 viable approaches) for:
+>      a) protecting sensitive data at rest (fit to our DB/infra),
+>      b) session/token strategy (fit to our hosting),
+>      c) logout redirect flow (sequence and endpoints, safe allow-list).
+>    * **Pros/cons, impact, and required dependencies** for each option.
+>    * **Exact files you would change**, what you’d add/remove, and why (still no edits).
+>    * **Migration/compatibility** (e.g., how to handle existing data/users).
+> 5. **Test/Acceptance Plan (Phase 1):**
+>
+>    * Unit/integration tests you’d add.
+>    * Manual acceptance steps (checklist) for: data handling, session behavior, logout redirect, back-button behavior.
+>    * Rollback plan.
+>
+> **Important constraints**
+>
+> * Keep marketing and app domains cleanly separated.
+> * Don’t re-open the Service Worker topic in this phase.
+> * Don’t enable analytics or 3rd-party scripts in dev/preview as part of this phase.
+>
+> **Deliverables now:** A single report containing:
+> Architecture Recon → File/Endpoint Inventory → Risks/Gaps → Proposed Plan (options & trade-offs) → Test/Acceptance Plan → Rollback.
+> After I approve the plan, I’ll green-light implementation. Until then: **no code changes.**
+
+---
+
+When Replit replies with its report, paste it here and I’ll help you choose the best option and tighten the acceptance criteria before any code lands.
