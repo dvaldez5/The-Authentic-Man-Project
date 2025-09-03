@@ -1,0 +1,21 @@
+wait something happened now it's not working
+
+Something went wrong
+The app encountered an error. Please try refreshing the page.
+
+Error Details:
+Error Name: TypeError
+Error Message: Cannot read properties of null (reading 'useState')
+
+Stack Trace:
+TypeError: Cannot read properties of null (reading 'useState')
+    at Object.useState (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QCHXOAYK.js?v=0fad10b2:1066:29)
+    at useToast (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/hooks/use-toast.ts:108:35)
+    at AuthProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/hooks/use-auth.tsx:28:21)
+    at renderWithHooks (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=f3e18717:11548:26)
+    at mountIndeterminateComponent (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=f3e18717:14926:21)
+    at beginWork (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=f3e18717:15914:22)
+    at beginWork$1 (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=f3e18717:19753:22)
+    at performUnitOfWork (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=f3e18717:19198:20)
+    at workLoopSync (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=f3e18717:19137:13)
+    at renderRootSync (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=f3e18717:19116:15)
