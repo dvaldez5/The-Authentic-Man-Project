@@ -1,0 +1,227 @@
+Step 1 — Secure Logout + Prod Security Headers (No schema changes)
+Goals (what to deliver)
+
+Secure, subdomain-aware logout
+
+When a user logs out from any app page, they are redirected to https://theamproject.com?loggedOut=1.
+
+Works even if the access token is missing/expired.
+
+Production security headers with Helmet (CSP, HSTS, etc.)
+
+Dev/HMR unaffected.
+
+CSP allowlists Google Analytics/Ads used by the app.
+
+Safer API logging
+
+Keep route/time/status logging, but don’t log response bodies/PII.
+
+Out of scope for Step 1: password rules, CSRF, token strategy changes, encryption, schema updates.
+
+One dependency to install
+npm i helmet
+
+
+Helmet v7+ includes TS types, no extra @types needed.
+
+Files to change (only these three)
+1) server/routes.ts — add a server logout endpoint (subdomain-aware)
+
+Add this route near other /api/auth/* routes:
+
+// --- Secure Logout (subdomain-aware; no open redirect) ---
+app.post('/api/auth/logout', async (req: Request, res: Response) => {
+  try {
+    // Best-effort session cleanup (even if not used for auth)
+    if (req.session) {
+      req.session.destroy(() => {});
+    }
+
+    // Always clear the common session cookie key if present
+    res.clearCookie('connect.sid', {
+      domain: process.env.NODE_ENV === 'production' ? '.theamproject.com' : undefined,
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    });
+
+    // Business rule: logout must return to marketing site
+    const redirect = 'https://theamproject.com?loggedOut=1';
+
+    // Do NOT leak auth state in the response.
+    return res.status(200).json({ ok: true, redirect });
+  } catch (err) {
+    // Even on error, return a safe redirect (logout must be idempotent)
+    return res.status(200).json({
+      ok: true,
+      redirect: 'https://theamproject.com?loggedOut=1',
+    });
+  }
+});
+
+
+Notes
+• We don’t require a valid bearer token for logout here—this keeps logout idempotent and avoids trapping the user if the token is missing/expired.
+• No open redirects: we don’t accept returnTo from the client.
+
+2) client/src/hooks/use-auth.tsx — update logout mutation (with token-missing fallback)
+
+Replace your current logoutMutation with this one:
+
+const logoutMutation = useMutation({
+  mutationFn: async () => {
+    try {
+      // Will include Authorization header if token exists (apiRequest handles this).
+      const res = await apiRequest("POST", "/api/auth/logout", {});
+      return await res.json(); // { ok?: boolean; redirect?: string }
+    } catch {
+      // If logged-out already (401 or network hiccup), still proceed to marketing site.
+      return { ok: true, redirect: "https://theamproject.com?loggedOut=1" };
+    }
+  },
+  onSuccess: (data: { ok?: boolean; redirect?: string }) => {
+    try {
+      localStorage.removeItem("auth_token");
+    } catch {}
+    setToken(null);
+    queryClient.setQueryData(["/api/auth/me"], null);
+    queryClient.clear();
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out",
+    });
+    // Always land on marketing site after logout
+    window.location.assign(data?.redirect || "https://theamproject.com?loggedOut=1");
+  },
+});
+
+
+This guarantees logout always completes and redirects off the app subdomain—even if the token is already gone.
+
+3) server/index.ts — add Helmet (prod-only) + tighten API logging
+
+A) Import and install Helmet (production only):
+Add near your other imports:
+
+import helmet from "helmet";
+
+
+After const app = express(); and before your routes, add:
+
+// Only enable strict headers in production so dev/HMR isn't affected
+if (process.env.NODE_ENV === "production") {
+  app.use(helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        // Only allow our origin by default
+        defaultSrc: ["'self'"],
+        // Allow inline styles for Tailwind-generated classes; keep tight elsewhere
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        // Allow our scripts + Google Tag Manager loader
+        scriptSrc: ["'self'", "https://www.googletagmanager.com"],
+        // Allow GA/Ads beacons and GTM/GA endpoints
+        connectSrc: [
+          "'self'",
+          "https://www.google-analytics.com",
+          "https://analytics.google.com",
+          "https://www.googletagmanager.com",
+        ],
+        // Allow images from self, https, and data URLs (favicons/base64)
+        imgSrc: ["'self'", "data:", "https:"],
+        fontSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        frameSrc: ["'none'"],
+        // If using workers for anything, consider:
+        // workerSrc: ["'self'"],
+      },
+    },
+    // COEP can break third-party scripts; leave disabled unless we control all deps
+    crossOriginEmbedderPolicy: false,
+    hsts: {
+      maxAge: 31536000, // 1 year
+      includeSubDomains: true,
+      preload: true,
+    },
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+    // DNS prefetching off by default; enable if you rely on it
+    dnsPrefetchControl: { allow: false },
+    frameguard: { action: "deny" },
+    xssFilter: true,
+    noSniff: true,
+  }));
+}
+
+
+CSP domains above are exactly what the app uses now:
+https://www.googletagmanager.com, https://www.google-analytics.com, https://analytics.google.com.
+
+B) Keep API logs but drop response-body/PII logging:
+Replace your current request logging middleware with this:
+
+// --- API request logging (sanitized) ---
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on("finish", () => {
+    if (req.path.startsWith("/api")) {
+      const duration = Date.now() - start;
+      // Log method, path, status, and duration only
+      console.log(`${req.method} ${req.path} ${res.statusCode} in ${duration}ms`);
+    }
+  });
+  next();
+});
+
+
+This keeps useful operational logs while avoiding accidental PII leakage.
+
+Acceptance checklist (please verify after deploy)
+
+Logout flow
+
+ From any app page (e.g., /dashboard), pressing “Logout” sends you to https://theamproject.com?loggedOut=1.
+
+ Using the browser back button does not restore authenticated content; protected API calls fail until login.
+
+ Logout also succeeds if your token is already missing/expired.
+
+Security headers (prod only)
+
+ Response headers include Helmet defaults plus HSTS and the CSP above.
+
+ No CSP violations in the console; Google Analytics/Ads continue to work.
+
+Logs
+
+ Server logs show lines like POST /api/auth/logout 200 in 12ms with no response bodies.
+
+Dev/HMR
+
+ Dev environment behaves exactly as before (no Helmet/CSP applied in dev).
+
+Rollback plan (simple, isolated)
+
+Revert the new /api/auth/logout route block in server/routes.ts.
+
+Revert the logoutMutation changes in client/src/hooks/use-auth.tsx.
+
+Comment out the helmet import and the app.use(helmet(...)) block in server/index.ts.
+
+No DB/schema/state changes were made in Step 1; rollback is trivial.
+
+Notes / guardrails
+
+Do not modify other files in this step.
+
+Do not introduce password rules, CSRF, token strategy, or encryption here—those are Phase 2+.
+
+Keep express.json() exactly once; if it exists already, don’t add a duplicate.
+
+No service-worker/PWA changes are part of this step.
+
+Optional commit message
+feat(security-step1): secure logout redirect to marketing site + prod Helmet CSP/HSTS + sanitized API logging
+
+
+That’s the complete Step 1 brief Replit can execute without back-and-forth.
