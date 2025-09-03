@@ -1,0 +1,176 @@
+You’re thinking about this exactly right. Dedupe in Vite is a bandaid. The clean fix is to make sure there is only one React instance in the app at runtime by eliminating the source(s) of duplication—and to do it in a way that doesn’t break other stuff. Here’s a safe, surgical plan that respects that goal and keeps your Splash/user flow untouched.
+
+Clean Fix Plan (no Vite changes required)
+0) Confirm the duplicate (quick, temporary)
+
+At the very top of src/main.tsx:
+
+import React from 'react';
+console.log('React runtime version:', React.version);
+console.log(
+  'Renderers:',
+  Object.values((window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__?.renderers ?? {})
+    .map((r:any) => r?.version ?? 'unknown')
+);
+
+
+Healthy: one version printed twice (e.g., 18.3.1 / 18.3.1)
+
+Broken: two different versions/entries → duplicate React at runtime
+
+Keep these logs until we’re green.
+
+1) Make the crash tell us “where” (temporary)
+
+Add a tiny named boundary (no UX change, Splash untouched):
+
+src/components/NamedBoundary.tsx
+
+import React from 'react';
+export default class NamedBoundary extends React.Component<
+  { name: string; children: React.ReactNode },
+  { hasError: boolean; err?: any; info?: any }
+> {
+  constructor(p:any){ super(p); this.state={hasError:false}; }
+  static getDerivedStateFromError(){ return { hasError:true }; }
+  componentDidCatch(error:any, info:any){
+    console.error(`[Boundary:${this.props.name}]`, error, info?.componentStack);
+    this.setState({ err: error, info });
+  }
+  render(){ return this.state.hasError
+    ? <div style={{padding:16}}><h3>Failed in: {this.props.name}</h3>
+        <pre style={{whiteSpace:'pre-wrap'}}>{String(this.state.err?.stack||this.state.err)}</pre>
+      </div>
+    : this.props.children as any; }
+}
+
+
+Wrap the top-level providers (AuthProvider, AMChatProvider, PWANavigationProvider, Router). If anything still blows up we’ll see exactly which provider, so we change only what we must.
+
+2) Find the actual source of the second React
+
+From repo root:
+
+# A) List non-node_modules package.json files (local/workspace/symlinked pkgs)
+find . -maxdepth 3 -name package.json -not -path "./node_modules/*"
+
+# B) Which of those packages declare React incorrectly?
+# (React MUST be a peerDependency in any shared/local UI package)
+grep -R "\"react\":" */**/package.json | grep -E "dependencies|peerDependencies"
+
+# C) Any nested React copies inside local packages?
+find node_modules -type d -name react -maxdepth 3
+
+
+What to fix:
+
+Any local/shared package (e.g., packages/ui, client/libs/*, @am/*) that has:
+
+"dependencies": { "react": "...", "react-dom": "..." }
+
+
+➜ Move both to peerDependencies and keep them in devDependencies only (for building that package locally).
+
+Correct package.json for shared/local packages that use React:
+
+{
+  "name": "@your-scope/ui",
+  "version": "x.y.z",
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}
+
+
+If that package has a build (tsup/rollup): externalize React
+
+tsup: tsup src/index.tsx --external react,react-dom
+or in config: export default { external: ['react','react-dom'] }
+
+rollup: add external: ['react','react-dom'] (or @rollup/plugin-peer-deps-external)
+
+This ensures the host app’s React is the only one bundled.
+
+3) Ensure our code always hits the same React
+
+(Doesn’t change behavior—just removes variability.)
+
+Create a single re-export:
+
+src/vendor/react.ts
+
+export * from 'react';
+export { default } from 'react';
+
+
+Then gradually update imports in your codebase (not third-party) to:
+
+import React, { useState } from '@/vendor/react';
+
+
+This guarantees your code references the same instance everywhere, even before we finish cleaning local packages.
+
+Tip: a simple codemod can do this safely:
+
+npx jscodeshift -t react-to-vendor.cjs "client/src/**/*.tsx"
+
+
+(If you want, I can draft the codemod script.)
+
+4) Kill stale caches that can pin the wrong React
+
+Do these every time you change a package or dependency graph:
+
+Stop dev server
+
+Delete Vite prebundles:
+
+rm -rf node_modules/.vite
+[ -d .vite ] && rm -rf .vite
+
+
+In browser DevTools console:
+
+(async () => {
+  const regs = await navigator.serviceWorker.getRegistrations();
+  for (const r of regs) await r.unregister();
+  const keys = await caches.keys();
+  for (const k of keys) await caches.delete(k);
+  location.reload(true);
+})();
+
+
+Start dev server; hard refresh (Cmd/Ctrl+Shift+R)
+
+5) Validate: one React at runtime
+
+Re-check the logs in main.tsx:
+
+If you now see one renderer version, the useState null/invalid hooks errors will stop and AuthProvider will mount.
+
+If you still see two, there’s another local/shared package bundling React—repeat step 2 for the remaining candidates.
+
+6) Guardrails to minimize breakage while refactoring
+
+Feature flag “safe mode” (query param ?safe) that mounts the app with only the essential providers until we’re green. This lets us verify each provider in isolation.
+
+Leave your Splash and routes untouched (we already ensured the PWA detection is pure utility).
+
+Keep UnifiedAMChatContext reading tokens only from the auth context (no localStorage fallback).
+
+Background Sync stays disabled for now (prevents SW cascades while debugging).
+
+Why this is cleaner than Vite dedupe
+
+It removes the second React instead of masking it.
+
+It prevents regressions later (CI, Play Store build, new devs).
+
+No config drift; your Vite stays as-is per your constraint.
+
+The vendor/react re-export + peerDependencies + externalize is the standard pattern for monorepos/workspaces.
