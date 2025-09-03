@@ -1,0 +1,77 @@
+Phase 1 — “Show me context first, no edits yet”
+
+Before making any changes, please review and list the relevant files, then paste the current contents (redact secrets). Do not modify code yet. After you share these, propose your implementation plan; we’ll approve before you touch code.
+
+Scope reminders (Phase 1 only):
+
+✅ Fix logout redirect so app.theamproject.com → theamproject.com?loggedOut=1 (secure, allowlisted).
+
+✅ Map current auth/session/token handling (no behavior change yet).
+
+✅ Identify data-at-rest targets for encryption (journal, chat, reflections, etc.) and show their schema & read/write points (no encryption implementation yet).
+
+❌ Do not change password rules (weak passwords allowed for now).
+
+❌ Do not refactor unrelated features or marketing site content.
+
+Please paste these (verbatim, redact secrets):
+
+Auth & session (server)
+
+server/index.ts (Express app setup, sessions/cookies, security middleware)
+
+server/auth.ts (JWT utils, bcrypt, auth middlewares)
+
+server/routes.ts (auth routes: login, logout, me, register)
+
+Any passport setup file if separate
+
+Any CORS/CSRF/security-headers middleware if present
+
+Client auth surface
+
+client/src/hooks/use-auth.tsx (AuthProvider, login/logout mutations)
+
+client/src/lib/subdomain.ts (or equivalent domain helper)
+
+client/src/App.tsx and routing file(s) (only the parts that render <AuthProvider> / router and handle /)
+
+client/src/components/* that triggers logout (e.g., NewHeader.tsx or similar)
+
+API helper where tokens are attached (e.g., client/src/lib/queryClient.ts, api.ts, or fetch interceptor)
+
+Data models & where sensitive content is handled
+
+shared/schema.ts (models: users, journalEntries, chatMessages, weeklyReflections, notification settings, etc.)
+
+Server handlers that create/read/update those sensitive records (routes/controllers/services). Paste the functions, not the entire file if huge.
+
+Build/runtime config (read-only)
+
+package.json
+
+vite.config.* (even if we can’t edit here; just for context)
+
+client/public/sw.js (current version)
+
+.env.example or a list of env var names only used for auth/crypto/DB/email (no values)
+
+Optional quick scans (paste outputs, no edits):
+
+grep -RIn "logout" client server | head -n 50
+
+grep -RIn "auth_token" client | head -n 50
+
+grep -RIn "localStorage" client | head -n 50
+
+Then propose your plan (no coding yet):
+
+Logout redirect approach (server-side allowlist vs client-only), exact files to change, and regression risks.
+
+Auth/token strategy mapping only (what we have now: JWT in localStorage, sessions, cookie domains). No changes yet—just call out risks.
+
+Data-at-rest encryption target list (tables/fields + read/write points), your recommended technique (app-layer encryption vs pgcrypto), and minimal migration steps.
+
+After we review/approve your plan, you can proceed with edits limited to Phase 1.
+
+If Replit can’t paste entire files, the key parts inside those files (functions/blocks mentioned) are enough. And if anything sensitive shows up (real secrets, tokens), have them replace with REDACTED.
