@@ -3,6 +3,14 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
+// Step 0: Confirm React duplication (temporary diagnostic)
+console.log('React runtime version:', React.version);
+console.log(
+  'Renderers:',
+  Object.values((window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__?.renderers ?? {})
+    .map((r: any) => r?.version ?? 'unknown')
+);
+
 
 // PWA meta tags and fonts are handled by index.html for better performance
 

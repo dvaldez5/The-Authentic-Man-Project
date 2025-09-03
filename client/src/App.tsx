@@ -53,6 +53,7 @@ import { useNotificationManager } from "@/hooks/use-notification-manager";
 import { ProtectedRoute } from "@/lib/protected-route";
 import UnifiedAMChat from "@/components/UnifiedAMChat";
 import { AMChatProvider } from "@/contexts/UnifiedAMChatContext";
+import NamedBoundary from "@/components/NamedBoundary";
 
 import PWANavigation from "@/components/PWANavigation";
 import { TourTooltip } from "@/components/tour/TourTooltip";
@@ -332,20 +333,30 @@ export default function App() {
   }, []);
 
   return (
-    <ErrorBoundary>
+    <NamedBoundary name="Root">
       <QueryClientProvider client={queryClient}>
+        <NamedBoundary name="AuthProvider">
           <AuthProvider>
-            <AMChatProvider>
-              <PWANavigationProvider>
-                <OnboardingTourProvider>
-                  <Router>
-                    <AppContent />
-                  </Router>
-                </OnboardingTourProvider>
-              </PWANavigationProvider>
-            </AMChatProvider>
+            <NamedBoundary name="AMChatProvider">
+              <AMChatProvider>
+                <NamedBoundary name="PWANavigationProvider">
+                  <PWANavigationProvider>
+                    <NamedBoundary name="OnboardingTourProvider">
+                      <OnboardingTourProvider>
+                        <NamedBoundary name="Router">
+                          <Router>
+                            <AppContent />
+                          </Router>
+                        </NamedBoundary>
+                      </OnboardingTourProvider>
+                    </NamedBoundary>
+                  </PWANavigationProvider>
+                </NamedBoundary>
+              </AMChatProvider>
+            </NamedBoundary>
           </AuthProvider>
+        </NamedBoundary>
       </QueryClientProvider>
-    </ErrorBoundary>
+    </NamedBoundary>
   );
 }
