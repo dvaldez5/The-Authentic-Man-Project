@@ -1,0 +1,403 @@
+Development environment - Google tracking disabled
+dashboard:239 PWA MODE ACTIVE (server injection)
+chunk-RPCDYKBN.js?v=f3e18717:21551 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+notification-service.ts:22 Notification support check: {hasNotification: true, hasServiceWorker: true, userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Sa'}
+main.tsx:54 Service worker disabled in development/preview environment
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928025853}
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928025854}
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: false
+use-notification-manager.tsx:71 - notificationSettings: false
+use-notification-manager.tsx:72 - userActivity: false
+use-notification-manager.tsx:75 No user - skipping notification initialization
+unified-tracking.ts:63 🎯 Unified Tracking Initialized: {ga4: 'G-YYP7EQ64H4', googleAds: 'AW-835937139', environment: 'development', domain: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', note: 'GA4 ID FORMAT CORRECT ✅'}
+seo-utils.ts:356 ✅ SEO System Initialized
+programmatic-seo.ts:479 🎯 Programmatic SEO System Initialized
+programmatic-seo.ts:480 📊 Template Coverage: 1 content types
+programmatic-seo.ts:481 🔍 Keyword Targeting: 18 keywords
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: false
+use-notification-manager.tsx:71 - notificationSettings: false
+use-notification-manager.tsx:72 - userActivity: false
+use-notification-manager.tsx:75 No user - skipping notification initialization
+unified-tracking.ts:63 🎯 Unified Tracking Initialized: {ga4: 'G-YYP7EQ64H4', googleAds: 'AW-835937139', environment: 'development', domain: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', note: 'GA4 ID FORMAT CORRECT ✅'}
+seo-utils.ts:356 ✅ SEO System Initialized
+programmatic-seo.ts:479 🎯 Programmatic SEO System Initialized
+programmatic-seo.ts:480 📊 Template Coverage: 1 content types
+programmatic-seo.ts:481 🔍 Keyword Targeting: 18 keywords
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928025874}
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928025874}
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928026192}
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928026192}
+js?id=AW-835937139&cx=c&gtm=4e5920:855 Warning: Cannot update a component (`Route`) while rendering a different component (`AuthPage`). To locate the bad setState() call inside `AuthPage`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
+    at AuthPage (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/pages/AuthPage.tsx:35:53)
+    at Route (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=f3e18717:206:16)
+    at Switch (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=f3e18717:262:17)
+    at AppRouter (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?v=nRN501MTmoR3UrjUNYq_l:79:20)
+    at main
+    at Provider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=f3e18717:38:15)
+    at TooltipProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=f3e18717:65:5)
+    at AppContent (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?v=nRN501MTmoR3UrjUNYq_l:535:22)
+    at Router (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=f3e18717:161:17)
+    at OnboardingTourProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/contexts/OnboardingTourContext.tsx:21:42)
+    at PWANavigationProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/contexts/PWANavigationContext.tsx:21:41)
+    at AMChatProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/contexts/UnifiedAMChatContext.tsx:21:34)
+    at AuthProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/hooks/use-auth.tsx:26:32)
+    at QueryClientProvider (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=f3e18717:2933:3)
+    at ErrorBoundary (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/components/ErrorBoundary.tsx:7:5)
+    at App (https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/src/App.tsx?v=nRN501MTmoR3UrjUNYq_l:607:3)
+printWarning @ chunk-RPCDYKBN.js?v=f3e18717:521
+error @ chunk-RPCDYKBN.js?v=f3e18717:505
+warnAboutRenderPhaseUpdatesInDEV @ chunk-RPCDYKBN.js?v=f3e18717:19793
+scheduleUpdateOnFiber @ chunk-RPCDYKBN.js?v=f3e18717:18546
+forceStoreRerender @ chunk-RPCDYKBN.js?v=f3e18717:11999
+handleStoreChange @ chunk-RPCDYKBN.js?v=f3e18717:11981
+history.<computed> @ wouter.js?v=f3e18717:92
+c.<computed> @ js?id=AW-835937139&cx=c&gtm=4e5920:855
+navigate @ wouter.js?v=f3e18717:82
+(anonymous) @ wouter.js?v=f3e18717:135
+(anonymous) @ wouter.js?v=f3e18717:46
+AuthPage @ AuthPage.tsx:69
+renderWithHooks @ chunk-RPCDYKBN.js?v=f3e18717:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=f3e18717:14582
+beginWork @ chunk-RPCDYKBN.js?v=f3e18717:15924
+beginWork$1 @ chunk-RPCDYKBN.js?v=f3e18717:19753
+performUnitOfWork @ chunk-RPCDYKBN.js?v=f3e18717:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=f3e18717:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=f3e18717:19116
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=f3e18717:18874
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=f3e18717:9119
+(anonymous) @ chunk-RPCDYKBN.js?v=f3e18717:18627
+setTimeout
+defaultScheduler @ @tanstack_react-query.js?v=f3e18717:565
+flush @ @tanstack_react-query.js?v=f3e18717:589
+batch @ @tanstack_react-query.js?v=f3e18717:607
+dispatch_fn @ @tanstack_react-query.js?v=f3e18717:1040
+setData @ @tanstack_react-query.js?v=f3e18717:718
+onSuccess @ @tanstack_react-query.js?v=f3e18717:940
+resolve @ @tanstack_react-query.js?v=f3e18717:475
+Promise.then
+run @ @tanstack_react-query.js?v=f3e18717:517
+start @ @tanstack_react-query.js?v=f3e18717:555
+fetch @ @tanstack_react-query.js?v=f3e18717:969
+executeFetch_fn @ @tanstack_react-query.js?v=f3e18717:2279
+onSubscribe @ @tanstack_react-query.js?v=f3e18717:1983
+subscribe @ @tanstack_react-query.js?v=f3e18717:24
+(anonymous) @ @tanstack_react-query.js?v=f3e18717:3146
+subscribeToStore @ chunk-RPCDYKBN.js?v=f3e18717:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=f3e18717:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=f3e18717:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=f3e18717:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=f3e18717:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=f3e18717:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=f3e18717:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=f3e18717:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=f3e18717:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=f3e18717:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=f3e18717:19432
+commitRoot @ chunk-RPCDYKBN.js?v=f3e18717:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=f3e18717:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=f3e18717:18718
+workLoop @ chunk-RPCDYKBN.js?v=f3e18717:197
+flushWork @ chunk-RPCDYKBN.js?v=f3e18717:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=f3e18717:384Understand this error
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: true
+use-notification-manager.tsx:71 - notificationSettings: false
+use-notification-manager.tsx:72 - userActivity: false
+use-notification-manager.tsx:80 Missing data - initializing with defaults for new users
+use-notification-manager.tsx:91 === NOTIFICATION MANAGER INITIALIZATION ===
+use-notification-manager.tsx:92 Settings available: false
+use-notification-manager.tsx:93 User activity available: false
+use-notification-manager.tsx:94 Browser notifications enabled: undefined
+notification-service.ts:127 Notification permission request started: {hasNotification: true, hasServiceWorker: true, permission: 'granted', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Sa'}
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928026211}
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928026211}
+use-notification-manager.tsx:98 Permission status: granted
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:887 === NOTIFICATION SCHEDULER INITIALIZATION ===
+notification-scheduler.ts:888 Settings: undefined
+notification-scheduler.ts:889 User Activity: {}
+notification-scheduler.ts:905 Using notification time: 09:00, timezone: America/New_York
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:915 Scheduling daily challenge notifications for 09:00 America/New_York
+notification-scheduler.ts:429 🕐 Scheduling daily challenge for: 9/4/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-09-04T19:00:00.000Z
+notification-scheduler.ts:430 ⏱️  Delay: 1406 minutes from now
+notification-scheduler.ts:431 📍 Timezone debug: {userNow: '2025-09-03T21:33:46.000Z', targetTime: '2025-09-04T15:00:00.000Z', targetUTC: '2025-09-04T19:00:00.000Z', delayMs: 84373763}
+notification-scheduler.ts:926 Scheduling weekly reflection notifications for 09:00 America/New_York
+notification-scheduler.ts:478 Scheduling weekly reflection for: 9/7/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-09-07T19:00:00.000Z
+notification-scheduler.ts:516 Scheduling weekly reflection nudge for: 9/7/2025, 6:00:00 PM (America/New_York)
+notification-scheduler.ts:937 New user detected - scheduling welcome scenario reminder
+notification-scheduler.ts:568 🎯 Scheduling scenario reminder for: 9/4/2025, 9:00:00 AM (America/New_York) -> UTC: 2025-09-04T19:00:00.000Z
+notification-scheduler.ts:569 ⏱️  Delay: 1406 minutes from now
+notification-scheduler.ts:969 New user detected - scheduling welcome habit nudge
+notification-scheduler.ts:607 Scheduling habit nudge check for: 9/4/2025, 10:30:00 AM (America/New_York) -> UTC: 2025-09-04T20:30:00.000Z
+notification-scheduler.ts:608 Delay: 1496 minutes from now
+notification-scheduler.ts:1031 Active notifications scheduled: 5
+notification-scheduler.ts:1032 Scheduled notification types: (5) ['daily-challenge', 'weekly-reflection', 'weekly-reflection-nudge', 'scenario-reminder', 'habit-nudge']
+notification-scheduler.ts:1033 === NOTIFICATION SCHEDULER INITIALIZATION COMPLETE ===
+use-notification-manager.tsx:120 ✅ Notification initialization completed successfully
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928026371}
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928026372}
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: true
+use-notification-manager.tsx:71 - notificationSettings: true
+use-notification-manager.tsx:72 - userActivity: false
+use-notification-manager.tsx:80 Missing data - initializing with defaults for new users
+use-notification-manager.tsx:91 === NOTIFICATION MANAGER INITIALIZATION ===
+use-notification-manager.tsx:92 Settings available: true
+use-notification-manager.tsx:93 User activity available: false
+use-notification-manager.tsx:94 Browser notifications enabled: true
+notification-service.ts:127 Notification permission request started: {hasNotification: true, hasServiceWorker: true, permission: 'granted', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Sa'}
+use-notification-manager.tsx:98 Permission status: granted
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:887 === NOTIFICATION SCHEDULER INITIALIZATION ===
+notification-scheduler.ts:888 Settings: {id: 8, userId: 21, enableBrowserNotifications: true, enableWeeklyReflectionReminders: true, enableDailyChallengeNotifications: true, …}
+notification-scheduler.ts:889 User Activity: {}
+notification-scheduler.ts:905 Using notification time: 09:00, timezone: America/Denver
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:915 Scheduling daily challenge notifications for 09:00 America/Denver
+notification-scheduler.ts:429 🕐 Scheduling daily challenge for: 9/4/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-09-04T21:00:00.000Z
+notification-scheduler.ts:430 ⏱️  Delay: 1526 minutes from now
+notification-scheduler.ts:431 📍 Timezone debug: {userNow: '2025-09-03T19:33:46.000Z', targetTime: '2025-09-04T15:00:00.000Z', targetUTC: '2025-09-04T21:00:00.000Z', delayMs: 91573619}
+notification-scheduler.ts:926 Scheduling weekly reflection notifications for 09:00 America/Denver
+notification-scheduler.ts:478 Scheduling weekly reflection for: 9/7/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-09-07T21:00:00.000Z
+notification-scheduler.ts:516 Scheduling weekly reflection nudge for: 9/7/2025, 6:00:00 PM (America/Denver)
+notification-scheduler.ts:937 New user detected - scheduling welcome scenario reminder
+notification-scheduler.ts:568 🎯 Scheduling scenario reminder for: 9/4/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-09-04T21:00:00.000Z
+notification-scheduler.ts:569 ⏱️  Delay: 1526 minutes from now
+notification-scheduler.ts:969 New user detected - scheduling welcome habit nudge
+notification-scheduler.ts:607 Scheduling habit nudge check for: 9/4/2025, 10:30:00 AM (America/Denver) -> UTC: 2025-09-04T22:30:00.000Z
+notification-scheduler.ts:608 Delay: 1616 minutes from now
+notification-scheduler.ts:1031 Active notifications scheduled: 5
+notification-scheduler.ts:1032 Scheduled notification types: (5) ['daily-challenge', 'weekly-reflection', 'weekly-reflection-nudge', 'scenario-reminder', 'habit-nudge']
+notification-scheduler.ts:1033 === NOTIFICATION SCHEDULER INITIALIZATION COMPLETE ===
+use-notification-manager.tsx:120 ✅ Notification initialization completed successfully
+queryClient.ts:61  GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=f3e18717:881
+run @ @tanstack_react-query.js?v=f3e18717:513
+start @ @tanstack_react-query.js?v=f3e18717:555
+fetch @ @tanstack_react-query.js?v=f3e18717:969
+executeFetch_fn @ @tanstack_react-query.js?v=f3e18717:2279
+onSubscribe @ @tanstack_react-query.js?v=f3e18717:1983
+subscribe @ @tanstack_react-query.js?v=f3e18717:24
+(anonymous) @ @tanstack_react-query.js?v=f3e18717:3146
+subscribeToStore @ chunk-RPCDYKBN.js?v=f3e18717:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=f3e18717:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=f3e18717:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=f3e18717:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=f3e18717:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=f3e18717:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=f3e18717:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=f3e18717:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=f3e18717:19416
+commitRoot @ chunk-RPCDYKBN.js?v=f3e18717:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=f3e18717:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=f3e18717:9119
+(anonymous) @ chunk-RPCDYKBN.js?v=f3e18717:18627
+setTimeout
+defaultScheduler @ @tanstack_react-query.js?v=f3e18717:565
+flush @ @tanstack_react-query.js?v=f3e18717:589
+batch @ @tanstack_react-query.js?v=f3e18717:607
+dispatch_fn @ @tanstack_react-query.js?v=f3e18717:1040
+setData @ @tanstack_react-query.js?v=f3e18717:718
+onSuccess @ @tanstack_react-query.js?v=f3e18717:940
+resolve @ @tanstack_react-query.js?v=f3e18717:475
+Promise.then
+run @ @tanstack_react-query.js?v=f3e18717:517
+start @ @tanstack_react-query.js?v=f3e18717:555
+fetch @ @tanstack_react-query.js?v=f3e18717:969
+executeFetch_fn @ @tanstack_react-query.js?v=f3e18717:2279
+onSubscribe @ @tanstack_react-query.js?v=f3e18717:1983
+subscribe @ @tanstack_react-query.js?v=f3e18717:24
+(anonymous) @ @tanstack_react-query.js?v=f3e18717:3146
+subscribeToStore @ chunk-RPCDYKBN.js?v=f3e18717:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=f3e18717:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=f3e18717:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=f3e18717:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=f3e18717:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=f3e18717:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=f3e18717:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=f3e18717:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=f3e18717:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=f3e18717:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=f3e18717:19432
+commitRoot @ chunk-RPCDYKBN.js?v=f3e18717:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=f3e18717:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=f3e18717:18718
+workLoop @ chunk-RPCDYKBN.js?v=f3e18717:197
+flushWork @ chunk-RPCDYKBN.js?v=f3e18717:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=f3e18717:384Understand this error
+dashboard:1 <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes">Understand this warning
+dashboard:1 Banner not shown: beforeinstallpromptevent.preventDefault() called. The page must call beforeinstallpromptevent.prompt() to show the banner.
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928026868}
+use-pwa-detection.tsx:17 PWA DETECTION DEBUG: {search: '', hasPwaParam: false, stored: true, hostname: 'bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+use-pwa-detection.tsx:50 IN REPLIT IDE, USING STORED: true
+App.tsx:86 FORCED ROUTING DECISION: {shouldUsePWA: true, component: 'Splash', urlSearch: '', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'}
+App.tsx:94 ROUTE RENDER: {path: '/', shouldUsePWA: true, componentChoice: 'Splash', timestamp: 1756928026869}
+use-notification-manager.tsx:69 useNotificationManager useEffect triggered
+use-notification-manager.tsx:70 - user: true
+use-notification-manager.tsx:71 - notificationSettings: true
+use-notification-manager.tsx:72 - userActivity: true
+use-notification-manager.tsx:86 All conditions met - initializing notifications
+use-notification-manager.tsx:91 === NOTIFICATION MANAGER INITIALIZATION ===
+use-notification-manager.tsx:92 Settings available: true
+use-notification-manager.tsx:93 User activity available: true
+use-notification-manager.tsx:94 Browser notifications enabled: true
+notification-service.ts:127 Notification permission request started: {hasNotification: true, hasServiceWorker: true, permission: 'granted', userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Sa'}
+use-notification-manager.tsx:98 Permission status: granted
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:887 === NOTIFICATION SCHEDULER INITIALIZATION ===
+notification-scheduler.ts:888 Settings: {id: 8, userId: 21, enableBrowserNotifications: true, enableWeeklyReflectionReminders: true, enableDailyChallengeNotifications: true, …}
+notification-scheduler.ts:889 User Activity: {lastChallengeDate: null, lastScenarioDate: '2025-08-30T16:16:37.052Z', lastLearningActivity: '2025-06-19T13:48:21.757Z', hasCompletedTodaysChallenge: false, currentStreak: 0, …}
+notification-scheduler.ts:905 Using notification time: 09:00, timezone: America/Denver
+notification-scheduler.ts:702 All notifications canceled
+notification-scheduler.ts:915 Scheduling daily challenge notifications for 09:00 America/Denver
+notification-scheduler.ts:429 🕐 Scheduling daily challenge for: 9/4/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-09-04T21:00:00.000Z
+notification-scheduler.ts:430 ⏱️  Delay: 1526 minutes from now
+notification-scheduler.ts:431 📍 Timezone debug: {userNow: '2025-09-03T19:33:46.000Z', targetTime: '2025-09-04T15:00:00.000Z', targetUTC: '2025-09-04T21:00:00.000Z', delayMs: 91573113}
+notification-scheduler.ts:926 Scheduling weekly reflection notifications for 09:00 America/Denver
+notification-scheduler.ts:478 Scheduling weekly reflection for: 9/7/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-09-07T21:00:00.000Z
+notification-scheduler.ts:516 Scheduling weekly reflection nudge for: 9/7/2025, 6:00:00 PM (America/Denver)
+notification-scheduler.ts:946 Scheduling scenario reminder (4 days inactive, 0/2 this week)
+notification-scheduler.ts:568 🎯 Scheduling scenario reminder for: 9/4/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-09-04T21:00:00.000Z
+notification-scheduler.ts:569 ⏱️  Delay: 1526 minutes from now
+notification-scheduler.ts:972 Habit nudge not needed - no active streak or already completed
+notification-scheduler.ts:981 Scheduling course reminder for stalled course: Tempered Steel (20% complete, 76 days idle)
+notification-scheduler.ts:685 Scheduling course reminder for: 9/8/2025, 9:00:00 AM (America/Denver) -> UTC: 2025-09-08T21:00:00.000Z
+notification-scheduler.ts:1031 Active notifications scheduled: 5
+notification-scheduler.ts:1032 Scheduled notification types: (5) ['daily-challenge', 'weekly-reflection', 'weekly-reflection-nudge', 'scenario-reminder', 'course-reminder']
+notification-scheduler.ts:1033 === NOTIFICATION SCHEDULER INITIALIZATION COMPLETE ===
+use-notification-manager.tsx:120 ✅ Notification initialization completed successfully
+2ga4-bounce-analysis.ts:51 GA4 Bounce Analysis initialized
+queryClient.ts:61  GET https://bb1b08ff-fa1f-49e8-b1ce-157412ee683e-00-3d18d9scwpokx.worf.replit.dev/api/gamification/daily-prompt 404 (Not Found)
+(anonymous) @ queryClient.ts:61
+fetchFn @ @tanstack_react-query.js?v=f3e18717:881
+run @ @tanstack_react-query.js?v=f3e18717:513
+start @ @tanstack_react-query.js?v=f3e18717:555
+fetch @ @tanstack_react-query.js?v=f3e18717:969
+executeFetch_fn @ @tanstack_react-query.js?v=f3e18717:2279
+(anonymous) @ @tanstack_react-query.js?v=f3e18717:2313
+setInterval
+updateRefetchInterval_fn @ @tanstack_react-query.js?v=f3e18717:2311
+updateTimers_fn @ @tanstack_react-query.js?v=f3e18717:2318
+onQueryUpdate @ @tanstack_react-query.js?v=f3e18717:2274
+(anonymous) @ @tanstack_react-query.js?v=f3e18717:1042
+(anonymous) @ @tanstack_react-query.js?v=f3e18717:1041
+batch @ @tanstack_react-query.js?v=f3e18717:603
+dispatch_fn @ @tanstack_react-query.js?v=f3e18717:1040
+onError @ @tanstack_react-query.js?v=f3e18717:904
+reject @ @tanstack_react-query.js?v=f3e18717:484
+(anonymous) @ @tanstack_react-query.js?v=f3e18717:527
+Promise.catch
+run @ @tanstack_react-query.js?v=f3e18717:517
+start @ @tanstack_react-query.js?v=f3e18717:555
+fetch @ @tanstack_react-query.js?v=f3e18717:969
+executeFetch_fn @ @tanstack_react-query.js?v=f3e18717:2279
+onSubscribe @ @tanstack_react-query.js?v=f3e18717:1983
+subscribe @ @tanstack_react-query.js?v=f3e18717:24
+(anonymous) @ @tanstack_react-query.js?v=f3e18717:3146
+subscribeToStore @ chunk-RPCDYKBN.js?v=f3e18717:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=f3e18717:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=f3e18717:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=f3e18717:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=f3e18717:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=f3e18717:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=f3e18717:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=f3e18717:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=f3e18717:19416
+commitRoot @ chunk-RPCDYKBN.js?v=f3e18717:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=f3e18717:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=f3e18717:9119
+(anonymous) @ chunk-RPCDYKBN.js?v=f3e18717:18627
+setTimeout
+defaultScheduler @ @tanstack_react-query.js?v=f3e18717:565
+flush @ @tanstack_react-query.js?v=f3e18717:589
+batch @ @tanstack_react-query.js?v=f3e18717:607
+dispatch_fn @ @tanstack_react-query.js?v=f3e18717:1040
+setData @ @tanstack_react-query.js?v=f3e18717:718
+onSuccess @ @tanstack_react-query.js?v=f3e18717:940
+resolve @ @tanstack_react-query.js?v=f3e18717:475
+Promise.then
+run @ @tanstack_react-query.js?v=f3e18717:517
+start @ @tanstack_react-query.js?v=f3e18717:555
+fetch @ @tanstack_react-query.js?v=f3e18717:969
+executeFetch_fn @ @tanstack_react-query.js?v=f3e18717:2279
+onSubscribe @ @tanstack_react-query.js?v=f3e18717:1983
+subscribe @ @tanstack_react-query.js?v=f3e18717:24
+(anonymous) @ @tanstack_react-query.js?v=f3e18717:3146
+subscribeToStore @ chunk-RPCDYKBN.js?v=f3e18717:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=f3e18717:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=f3e18717:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=f3e18717:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=f3e18717:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=f3e18717:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=f3e18717:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=f3e18717:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=f3e18717:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=f3e18717:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=f3e18717:19432
+commitRoot @ chunk-RPCDYKBN.js?v=f3e18717:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=f3e18717:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=f3e18717:18718
+workLoop @ chunk-RPCDYKBN.js?v=f3e18717:197
+flushWork @ chunk-RPCDYKBN.js?v=f3e18717:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=f3e18717:384Understand this error

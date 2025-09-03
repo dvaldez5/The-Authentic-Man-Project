@@ -52,6 +52,33 @@ try {
         .catch(() => {});
     }
     console.log('Service worker disabled in development/preview environment');
+    
+    // AGGRESSIVE DEV CACHE CLEARING: Prevent dual React chunks
+    // Clear all browser caches that could serve stale React chunks
+    if (!isProd) {
+      try {
+        // Clear all types of browser cache storage
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations()
+            .then(regs => regs.forEach(reg => reg.unregister()));
+        }
+        if ('caches' in window) {
+          caches.keys().then(keys => keys.forEach(key => caches.delete(key)));
+        }
+        // Force reload if we detect stale React chunks
+        const scripts = Array.from(document.querySelectorAll('script[src*="chunk-"]'));
+        const hasOldChunks = scripts.some(script => {
+          const scriptElement = script as HTMLScriptElement;
+          return scriptElement.src && scriptElement.src.includes('0fad10b2');
+        });
+        if (hasOldChunks) {
+          console.warn('Detected stale React chunks - performing hard reload');
+          window.location.reload();
+        }
+      } catch (cacheError) {
+        console.warn('Cache clearing failed:', cacheError);
+      }
+    }
   }
 } catch (error) {
   console.warn('Failed to handle service worker registration:', error);
