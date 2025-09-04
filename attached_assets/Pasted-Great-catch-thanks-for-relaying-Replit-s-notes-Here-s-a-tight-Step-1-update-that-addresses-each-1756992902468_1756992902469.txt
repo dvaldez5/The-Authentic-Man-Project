@@ -1,0 +1,161 @@
+Great catch—thanks for relaying Replit’s notes. Here’s a **tight Step-1 update** that addresses each concern without changing the overall goal. You can paste this back to Replit as the one message to execute.
+
+---
+
+# Step 1 (updated) — Secure Logout + Prod Security Headers + Keep Useful Logs
+
+## Decisions (in plain English)
+
+* **Logout stays public/idempotent.**
+  Reason: users may hit Logout with a missing/expired token (or from another device/tab). A public, side-effect-safe logout lets us always clear cookies and redirect to the marketing site. This does **not** weaken auth—JWTs are stateless; the client still drops the token, and sessions (if any) are destroyed.
+
+* **Helmet placement:** add **after `app.set('trust proxy', true)` and before routes**. This is safe with your current `express.json/urlencoded` ordering and won’t affect dev/HMR (we gate by `NODE_ENV==="production"`).
+
+* **Session cookie name:** we assume the default **`connect.sid`** (you’re not overriding `name` in `express-session`). If you are, replace the cookie name in `res.clearCookie(...)` accordingly.
+
+* **Logging:** keep your **host/subdomain** context and timing, but remove response body capture to avoid PII in logs.
+
+Helmet is now installed ✔️ (thanks). Let’s implement.
+
+---
+
+## Changes (only in these files)
+
+### 1) `server/routes.ts` — add **public, idempotent** logout
+
+```ts
+// --- Secure Logout (public & idempotent) ---
+app.post('/api/auth/logout', async (req: Request, res: Response) => {
+  try {
+    // Best-effort session cleanup
+    if (req.session) {
+      req.session.destroy(() => {});
+    }
+
+    // Clear default express-session cookie across subdomains in prod
+    res.clearCookie('connect.sid', {
+      domain: process.env.NODE_ENV === 'production' ? '.theamproject.com' : undefined,
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    });
+
+    // Business rule: always send users to marketing on logout
+    const redirect = 'https://theamproject.com?loggedOut=1';
+
+    return res.status(200).json({ ok: true, redirect });
+  } catch {
+    // Even if something goes wrong, make logout “succeed” with safe redirect
+    return res.status(200).json({ ok: true, redirect: 'https://theamproject.com?loggedOut=1' });
+  }
+});
+```
+
+> If you **customized** the session cookie name in `express-session` (option `name`), replace `'connect.sid'` above to match.
+
+---
+
+### 2) `client/src/hooks/use-auth.tsx` — update logout mutation (works even w/o token)
+
+```ts
+const logoutMutation = useMutation({
+  mutationFn: async () => {
+    try {
+      const res = await apiRequest("POST", "/api/auth/logout", {}); // sends Authorization if token present
+      return await res.json(); // { ok?: boolean; redirect?: string }
+    } catch {
+      // Token missing/expired or network hiccup: still complete logout UX
+      return { ok: true, redirect: "https://theamproject.com?loggedOut=1" };
+    }
+  },
+  onSuccess: (data: { ok?: boolean; redirect?: string }) => {
+    try { localStorage.removeItem("auth_token"); } catch {}
+    setToken(null);
+    queryClient.setQueryData(["/api/auth/me"], null);
+    queryClient.clear();
+    toast({ title: "Logged out", description: "You have been successfully logged out" });
+    window.location.assign(data?.redirect || "https://theamproject.com?loggedOut=1");
+  },
+});
+```
+
+---
+
+### 3) `server/index.ts` — add **Helmet (prod-only)** and **keep host-aware logs without PII**
+
+**Imports (top):**
+
+```ts
+import helmet from "helmet";
+```
+
+**Helmet (after `app.set('trust proxy', true)` and before routes):**
+
+```ts
+if (process.env.NODE_ENV === "production") {
+  app.use(helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://www.googletagmanager.com"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        connectSrc: [
+          "'self'",
+          "https://www.google-analytics.com",
+          "https://analytics.google.com",
+          "https://www.googletagmanager.com",
+        ],
+        imgSrc: ["'self'", "data:", "https:"],
+        fontSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        frameSrc: ["'none'"],
+      },
+    },
+    crossOriginEmbedderPolicy: false,
+    hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+    dnsPrefetchControl: { allow: false },
+    frameguard: { action: "deny" },
+    xssFilter: true,
+    noSniff: true,
+  }));
+}
+```
+
+**Replace your current logging middleware with a host-aware, PII-safe version:**
+
+```ts
+// --- API request logging (host-aware, no response bodies) ---
+app.use((req, res, next) => {
+  const start = Date.now();
+  const host = req.headers["x-forwarded-host"] || req.hostname;
+  res.on("finish", () => {
+    if (req.path.startsWith("/api")) {
+      const ms = Date.now() - start;
+      console.log(`${host} :: ${req.method} ${req.path} ${res.statusCode} in ${ms}ms`);
+    }
+  });
+  next();
+});
+```
+
+> This preserves subdomain/host context and performance timing while eliminating response-body capture.
+
+---
+
+## Acceptance
+
+* From any **app** page, Logout → lands on **`https://theamproject.com?loggedOut=1`**.
+* Back button doesn’t restore protected content; API calls require re-auth.
+* Works even if token is missing/expired.
+* In **production**, response headers include Helmet (CSP/HSTS/etc.); GA/Ads load without CSP errors.
+* Logs look like: `app.theamproject.com :: POST /api/auth/logout 200 in 12ms` (no response bodies).
+
+## Rollback
+
+* Remove the `/api/auth/logout` block, restore previous `logoutMutation`, and comment out the Helmet block + import. No schema/state changes involved.
+
+---
+
+If this looks good, please proceed exactly as above. After this lands, we’ll move to Step 2 (password policy + rate limiting) and Step 3 (encryption) as separate, contained briefs.
