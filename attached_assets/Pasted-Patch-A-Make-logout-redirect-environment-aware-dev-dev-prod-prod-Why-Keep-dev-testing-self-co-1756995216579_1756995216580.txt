@@ -1,0 +1,92 @@
+Patch A — Make logout redirect environment-aware (dev→dev, prod→prod)
+
+Why: Keep dev testing self-contained; eliminate the flash from jumping cross-origin to prod.
+
+File: server/routes.ts (your new /api/auth/logout block)
+
+ app.post('/api/auth/logout', async (req: Request, res: Response) => {
+   try {
+     if (req.session) {
+       req.session.destroy(() => {});
+     }
+     res.clearCookie('connect.sid', {
+       domain: process.env.NODE_ENV === 'production' ? '.theamproject.com' : undefined,
+       httpOnly: true,
+       sameSite: 'lax',
+       secure: process.env.NODE_ENV === 'production',
+     });
+-    // Business rule: always send users to marketing on logout
+-    const redirect = 'https://theamproject.com?loggedOut=1';
++    // Environment-aware redirect: dev → current origin, prod → marketing domain
++    const isProd = process.env.NODE_ENV === 'production';
++    const host = req.get('host');
++    const proto = req.protocol; // trust proxy is enabled
++    const devRedirect = `${proto}://${host}/?loggedOut=1`;
++    const prodRedirect = 'https://theamproject.com?loggedOut=1';
++    const redirect = isProd ? prodRedirect : devRedirect;
+     return res.status(200).json({ ok: true, redirect });
+   } catch {
+-    return res.status(200).json({ ok: true, redirect: 'https://theamproject.com?loggedOut=1' });
++    const isProd = process.env.NODE_ENV === 'production';
++    const fallback = isProd ? 'https://theamproject.com?loggedOut=1' : '/?loggedOut=1';
++    return res.status(200).json({ ok: true, redirect: fallback });
+   }
+ });
+
+Patch B — Avoid the brief error flash on logout
+
+Why: Ensure we bounce immediately; replace prevents the intermediate history entry and reduces UI flicker.
+
+File: client/src/hooks/use-auth.tsx (logout onSuccess)
+
+   onSuccess: (data: { ok?: boolean; redirect?: string }) => {
+-    try { localStorage.removeItem("auth_token"); } catch {}
+-    setToken(null);
+-    queryClient.setQueryData(["/api/auth/me"], null);
+-    queryClient.clear();
+-    toast({ title: "Logged out", description: "You have been successfully logged out" });
+-    window.location.assign(data?.redirect || "https://theamproject.com?loggedOut=1");
++    try { localStorage.removeItem("auth_token"); } catch {}
++    setToken(null);
++    queryClient.setQueryData(["/api/auth/me"], null);
++    queryClient.clear();
++    // Redirect immediately; skip toast to avoid flicker during unload
++    window.location.replace(data?.redirect || "/?loggedOut=1");
+   },
+
+
+(In prod the server will still return the marketing URL; in dev it’ll be your current origin.)
+
+Patch C — Quiet the service worker console spam (marketing site)
+
+Why: Don’t intercept cross-origin requests (e.g., Google Ads/Analytics). Let the browser handle them so rejections don’t surface from the SW.
+
+File: client/public/sw.js (top of your fetch handler)
+
+ self.addEventListener('fetch', (event) => {
+   const url = new URL(event.request.url);
+   const request = event.request;
++
++  // Don’t intercept cross-origin requests (e.g., analytics pixels, CDNs)
++  if (url.origin !== self.location.origin) {
++    return; // let the browser handle it; no event.respondWith
++  }
+
+
+If your SW sometimes uses event.respondWith(fetch(request)), also wrap your network calls with a catch to avoid unhandled Promise rejections:
+
+- event.respondWith(fetch(request));
++ event.respondWith(
++   fetch(request).catch(() => new Response('', { status: 520 }))
++ );
+
+
+Note: You already coded “don’t cache JS/CSS.” This change is additive—just ignores cross-origin entirely.
+
+What you should see after these patches
+
+In dev, logging out from /dashboard goes to /?loggedOut=1 on the same Replit preview origin. No marketing SW, no cross-origin flash.
+
+In prod, logging out still lands on https://theamproject.com/?loggedOut=1.
+
+Service worker console spam about pagead/... net::ERR_FAILED should disappear (or be greatly reduced) because the SW no longer touches those requests.
