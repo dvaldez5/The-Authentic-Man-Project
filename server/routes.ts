@@ -911,6 +911,32 @@ ${req.userId ? '' : 'CRITICAL: You are on a PUBLIC page. For structured courses/
     }
   });
 
+  // --- Secure Logout (public & idempotent) ---
+  app.post('/api/auth/logout', async (req: Request, res: Response) => {
+    try {
+      // Best-effort session cleanup
+      if (req.session) {
+        req.session.destroy(() => {});
+      }
+
+      // Clear default express-session cookie across subdomains in prod
+      res.clearCookie('connect.sid', {
+        domain: process.env.NODE_ENV === 'production' ? '.theamproject.com' : undefined,
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+      });
+
+      // Business rule: always send users to marketing on logout
+      const redirect = 'https://theamproject.com?loggedOut=1';
+
+      return res.status(200).json({ ok: true, redirect });
+    } catch {
+      // Even if something goes wrong, make logout "succeed" with safe redirect
+      return res.status(200).json({ ok: true, redirect: 'https://theamproject.com?loggedOut=1' });
+    }
+  });
+
   // Onboarding Route
   app.post('/api/onboarding', authenticateToken, async (req: AuthRequest, res: Response) => {
     try {

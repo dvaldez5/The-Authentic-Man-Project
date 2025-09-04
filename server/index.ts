@@ -3,6 +3,7 @@ import express from "express";
 import compression from "compression";
 import session from "express-session";
 import passport from "passport";
+import helmet from "helmet";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
 import { log } from "./vite";
@@ -12,6 +13,37 @@ import { testConnection } from "./db";
 
 const app = express();
 app.set("trust proxy", true);
+
+// Only enable strict headers in production so dev/HMR isn't affected
+if (process.env.NODE_ENV === "production") {
+  app.use(helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://www.googletagmanager.com"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        connectSrc: [
+          "'self'",
+          "https://www.google-analytics.com",
+          "https://analytics.google.com",
+          "https://www.googletagmanager.com",
+        ],
+        imgSrc: ["'self'", "data:", "https:"],
+        fontSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        frameSrc: ["'none'"],
+      },
+    },
+    crossOriginEmbedderPolicy: false,
+    hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+    dnsPrefetchControl: { allow: false },
+    frameguard: { action: "deny" },
+    xssFilter: true,
+    noSniff: true,
+  }));
+}
 
 // Serve static files for PWA
 app.use(express.static("public"));
@@ -92,40 +124,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// Request logging middleware
+// --- API request logging (host-aware, no response bodies) ---
 app.use((req, res, next) => {
   const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
-  const originalSend = res.send;
-  res.send = function (body) {
-    if (res.get('Content-Type')?.includes('application/json')) {
-      try {
-        capturedJsonResponse = typeof body === 'string' ? JSON.parse(body) : body;
-      } catch {
-        // Not JSON or malformed
-      }
-    }
-    return originalSend.call(this, body);
-  };
-
+  const host = req.headers["x-forwarded-host"] || req.hostname;
   res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse).slice(0, 100)}`;
-      }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
+    if (req.path.startsWith("/api")) {
+      const ms = Date.now() - start;
+      console.log(`${host} :: ${req.method} ${req.path} ${res.statusCode} in ${ms}ms`);
     }
   });
-
   next();
 });
 

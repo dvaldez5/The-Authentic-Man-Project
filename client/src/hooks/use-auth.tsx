@@ -32,7 +32,7 @@ type AuthContextType = {
   isLoading: boolean;
   error: Error | null;
   loginMutation: UseMutationResult<any, Error, LoginData>;
-  logoutMutation: UseMutationResult<void, Error, void>;
+  logoutMutation: UseMutationResult<{ ok?: boolean; redirect?: string }, Error, void>;
   registerMutation: UseMutationResult<any, Error, RegisterData>;
   token: string | null;
 };
@@ -135,19 +135,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logoutMutation = useMutation({
     mutationFn: async () => {
-      // Clear local storage and state
-      localStorage.removeItem('auth_token');
-      setToken(null);
+      try {
+        const res = await apiRequest("POST", "/api/auth/logout", {}); // sends Authorization if token present
+        return await res.json(); // { ok?: boolean; redirect?: string }
+      } catch {
+        // Token missing/expired or network hiccup: still complete logout UX
+        return { ok: true, redirect: "https://theamproject.com?loggedOut=1" };
+      }
     },
-    onSuccess: () => {
+    onSuccess: (data: { ok?: boolean; redirect?: string }) => {
+      try { localStorage.removeItem("auth_token"); } catch {}
+      setToken(null);
       queryClient.setQueryData(["/api/auth/me"], null);
-      queryClient.clear(); // Clear all cached data
-      toast({
-        title: "Logged out",
-        description: "You have been successfully logged out",
-      });
-      // Redirect to marketing homepage
-      window.location.href = '/';
+      queryClient.clear();
+      toast({ title: "Logged out", description: "You have been successfully logged out" });
+      window.location.assign(data?.redirect || "https://theamproject.com?loggedOut=1");
     },
   });
 
