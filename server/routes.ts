@@ -927,13 +927,20 @@ ${req.userId ? '' : 'CRITICAL: You are on a PUBLIC page. For structured courses/
         secure: process.env.NODE_ENV === 'production',
       });
 
-      // Business rule: always send users to marketing on logout
-      const redirect = 'https://theamproject.com?loggedOut=1';
+      // Environment-aware redirect: dev → current origin, prod → marketing domain
+      const isProd = process.env.NODE_ENV === 'production';
+      const host = req.get('host');
+      const proto = req.protocol; // trust proxy is enabled
+      const devRedirect = `${proto}://${host}/?loggedOut=1`;
+      const prodRedirect = 'https://theamproject.com?loggedOut=1';
+      const redirect = isProd ? prodRedirect : devRedirect;
 
       return res.status(200).json({ ok: true, redirect });
     } catch {
       // Even if something goes wrong, make logout "succeed" with safe redirect
-      return res.status(200).json({ ok: true, redirect: 'https://theamproject.com?loggedOut=1' });
+      const isProd = process.env.NODE_ENV === 'production';
+      const fallback = isProd ? 'https://theamproject.com?loggedOut=1' : '/?loggedOut=1';
+      return res.status(200).json({ ok: true, redirect: fallback });
     }
   });
 

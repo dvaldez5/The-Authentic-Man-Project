@@ -251,6 +251,11 @@ async function removePendingSync(id) {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   const request = event.request;
+
+  // Don't intercept cross-origin requests (e.g., analytics pixels, CDNs)
+  if (url.origin !== self.location.origin) {
+    return; // let the browser handle it; no event.respondWith
+  }
   
   // CRITICAL FIX: Never cache or intercept JS/CSS/source maps
   // This prevents React instance conflicts by ensuring fresh chunks always load

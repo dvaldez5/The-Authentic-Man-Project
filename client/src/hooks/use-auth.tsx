@@ -140,7 +140,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return await res.json(); // { ok?: boolean; redirect?: string }
       } catch {
         // Token missing/expired or network hiccup: still complete logout UX
-        return { ok: true, redirect: "https://theamproject.com?loggedOut=1" };
+        return { ok: true, redirect: "/?loggedOut=1" };
       }
     },
     onSuccess: (data: { ok?: boolean; redirect?: string }) => {
@@ -148,8 +148,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setToken(null);
       queryClient.setQueryData(["/api/auth/me"], null);
       queryClient.clear();
-      toast({ title: "Logged out", description: "You have been successfully logged out" });
-      window.location.assign(data?.redirect || "https://theamproject.com?loggedOut=1");
+      // Redirect immediately; skip toast to avoid flicker during unload
+      window.location.replace(data?.redirect || "/?loggedOut=1");
     },
   });
 
